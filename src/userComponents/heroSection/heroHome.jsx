@@ -8,9 +8,9 @@ export default function HeroHome() {
         {/* Hero content */}
         <div className="row align-items-center mt-5">
           {/* Section header */}
-          <div className="col-12 col-md-6 text-center text-md-start mt-5 mt-md-0 ">
+          <div className="col-12 col-md-4 text-center text-md-end mt-5 mt-md-0 ">
             <h1
-              className="display-4 fw-bold mb-2 fs-3 mt-5"
+              className="display-4 fw-bold mb-2 fs-3 "
               data-aos="fade-up"
             >
               TRADING STARS ACADEMY
@@ -45,9 +45,9 @@ export default function HeroHome() {
           </div>
 
           {/* Hero image */}
-          <div className="col-12 col-md-6 mb-5 text-center ">
+          <div className="col-12 col-md-8 mb-5 text-center ">
             <img 
-              src="/public/heroImage.svg" 
+              src="/heroImage.svg" 
               alt="Hero Image" 
               className="img-fluid" 
               width="100%" 
