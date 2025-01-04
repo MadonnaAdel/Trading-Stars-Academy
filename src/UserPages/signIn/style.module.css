@@ -1,5 +1,4 @@
 .register {
-
     background-image: url('/—Pngtree—blue wave png abstract element_7361730.png');
     background-size: cover;
     background-position: center;
@@ -12,7 +11,6 @@
     color: white;
 }
 
-
 .register .loginContain .registerForm {
     box-shadow: var(--shadow);
     border: 1px solid #4764f7;
@@ -21,8 +19,6 @@
     width: 70%;
     backdrop-filter: blur(4px),
 }
-
-
 
 .register .loginContain .registerForm .sectionRigth h2 {
     margin-bottom: 100px;
@@ -48,21 +44,12 @@
         align-items: center;
     }
 
-    .register .loginContain .registerForm .sectionLeft {
-        width: 95%;
-    }
 }
 
 @media (max-width: 712px) {
     .register .loginContain .registerForm {
         width: 95%;
     }
-}
-
-.register .loginContain .registerForm .sectionLeft .line {
-    width: 300px;
-    height: 1px;
-    background: rgb(119 119 119 / 24%);
 }
 
 .errorMessage {

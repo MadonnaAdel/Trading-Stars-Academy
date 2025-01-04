@@ -70,15 +70,16 @@ export default function SignUp() {
   return (
     <section className={styles.register}>
       <div className={`container ${styles.loginContain} my-5`}>
-        <div className={`${styles.registerForm}`}>
-          <div
-            className={`${styles.sectionLeft} p-4`}
-            style={{
+        <div className={`${styles.registerForm}`} 
+          style={{
               backdropFilter: "blur(10px)",
               border: "1px solid rgba(0, 123, 255, 0.5)",
               borderRadius: "8px",
               boxShadow: "0 0px 40px 0 rgba(0, 123, 255, 0.4)",
-            }}
+            }}>
+          <div
+            className={`${styles.sectionLeft} p-4`}
+          
           >
             <div className="leftTitle text-center mb-5">
               <h2>انشاء حساب</h2>

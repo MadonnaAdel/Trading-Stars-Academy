@@ -7,10 +7,8 @@ import Info from '../userComponents/info/Info';
 const Home = () => {
   return (
     <div>
-      <Navbar/>
      <HeroHome />
      <Info/>
-      <Footer/>
     </div>
   );
 };
