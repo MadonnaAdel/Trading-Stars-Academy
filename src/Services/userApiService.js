@@ -47,3 +47,35 @@ export const Register = async (values) => {
     console.error("Error in login:", error);
   }
 }
+export const GetCourses = async () => {
+  try {
+    const response = await api.get('Course/GetAllCourses');
+    return response;
+  } catch (error) {
+    console.error("Error in getting courses:", error);
+  }
+}
+export const GetCourseById = async (id) => {
+  try {
+    const response = await api.get(`Course/GetCourseById?${id}`);
+    return response;
+  } catch (error) {
+    console.error("Error in getting course:", error);
+  }
+} 
+export const GetCourseSections = async (id) => {
+  try {
+    const response = await api.get(`Course/GetCourseSections/${id}`);
+    return response;
+  } catch (error) {
+    console.error("Error in getting course sections:", error);
+  }
+} 
+export const GetCourseSectionById = async (id) => {
+  try {
+    const response = await api.get(`Course/GetCourseSectionById/${id}`);
+    return response;
+  } catch (error) {
+    console.error("Error in getting course section:", error);
+  }
+} 

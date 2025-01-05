@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 function Courses() {
   const [query, setQuery] = useState('');
@@ -44,13 +45,11 @@ function Courses() {
       course.instructor.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredData(filtered);
-    setCurrentPage(1); // إعادة الصفحة الأولى عند البحث
+    setCurrentPage(1);
   };
-
   const handlePageChangeFilter = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
@@ -59,16 +58,17 @@ function Courses() {
 
   const handleSearch = () => {
     if (query === "") {
-      setFilteredData(data); 
+      setFilteredData(data);
     } else {
       handleSearchFilter(query);
     }
   };
 
   return (
+    
     <section className='my-5 d-flex justify-content-center'>
       <div className="container">
-        <div className="searcBox mb-3 d-flex justify-content-center align-items-center w-50" style={{ margin: '150px auto' }}>
+        <div className="searcBox mb-3 d-flex justify-content-center align-items-center w-75" style={{ margin: '150px auto' }}>
           <input
             type="text"
             className="form-control"
@@ -94,7 +94,12 @@ function Courses() {
                       <div className="mb-3">
                         <span className="fw-bold">LE {course.price}</span>
                       </div>
-                      <button className="btn btn-primary btn-sm">اشترك</button>
+                      <div className="d-flex align-content-center">
+                        <button className="btn btn-primary btn-sm">اشترك</button>
+                        <Link to={`/course-details/${course.id}`}>
+                        <button className="btn btn-outline-primary btn-sm me-3">عرض التفاصيل</button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>

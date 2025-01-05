@@ -6,11 +6,18 @@
   --gradient03: linear-gradient(#FAFBFA, #cbceeb);
   --shadow:  '0 0px 40px 0 rgba(0, 123, 255, 0.4)';
 }
+
 body {
   color: white !important;
   font-family: "Alexandria", serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+}
 
+.dropdown-item:focus, .dropdown-item:hover,.dropdown-toggle::after {
+  display: none !important;
+}
+*::-webkit-scrollbar {
+  display: none;
 }

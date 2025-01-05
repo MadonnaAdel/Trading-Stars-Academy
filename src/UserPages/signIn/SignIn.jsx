@@ -1,4 +1,3 @@
-// import React from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import styles from "./style.module.css";
@@ -6,35 +5,40 @@ import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Login } from "../../Services/userApiService";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
+
 
 export default function SignIn() {
   const navigate = useNavigate();
-  
+  const { login } = useAuth();
+
   async function signin(val) {
-    console.log("Sign-up data:", val);
     try {
       const response = await Login(val);
-      console.log("response:", response);
+      console.log("Login response:", response);
       if (response.data.isPass) {
-          toast.success(response.data.message);
-          localStorage.setItem("token", response.data.token);
-          localStorage.setItem("role", response.data.role);
-          if (response.data.role === "admin") {
-            navigate("/admin");
-          } else {
-            navigate("/courses");  
-          }
-      } else toast.info(response.data.message);
+        toast.success(response.data.message);
+        localStorage.setItem("t@3okFendD2x-2", response.data.data.token);
+        login();
+
+        if (response.data.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate('/courses');
+        }
+      } else {
+        toast.info(response.data.message);
+      }
     } catch (err) {
-      toast.error(err,"خطأ في تسجيل الدخول");
+      toast.error("خطأ في تسجيل الدخول");
       console.error("Error:", err);
     }
   }
-  
+
   const validationSchema = Yup.object({
     email: Yup.string()
       .required("هذا الحقل مطلوب")
-      .email("ارجو ادخال البريد الالكتروني بشكل صحيح"),   
+      .email("ارجو ادخال البريد الالكتروني بشكل صحيح"),
     password: Yup.string()
       .required(" هذا الحقل مطلوب")
       .min(8, " كلمة المرور يجب ان تكون اكثر من 8 احرف")
@@ -43,7 +47,7 @@ export default function SignIn() {
         " كلمة المرور يجب ان تحتوي علي حرف كبير وحرف صغير ورقم ورمز"
       ),
   });
-  
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -57,13 +61,13 @@ export default function SignIn() {
     <section className={styles.register}>
       <div className={`container ${styles.loginContain} `}>
         <div className={` ${styles.registerForm}`}>
-          <div className={`${styles.sectionLeft} p-4 `} 
+          <div className={`${styles.sectionLeft} p-4 `}
             style={{
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0, 123, 255, 0.5)',
-            borderRadius: '8px',
-            boxShadow: '0 0px 40px 0 rgba(0, 123, 255, 0.4)',
-          }}>
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(0, 123, 255, 0.5)',
+              borderRadius: '8px',
+              boxShadow: '0 0px 40px 0 rgba(0, 123, 255, 0.4)',
+            }}>
             <div className="leftTitle text-center mb-5">
               <h2> تسجيل دخول</h2>
               <p>
