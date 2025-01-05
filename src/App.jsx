@@ -10,7 +10,8 @@ import Layout from './sharedComponents/layout'
 import CourseDetails from './UserPages/courseDetails'
 import { AuthProvider } from './context/authContext' 
 import Settings from './UserPages/Settings'
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 function App() {
   return (
     <AuthProvider> {/* لف المكونات داخل AuthProvider */}

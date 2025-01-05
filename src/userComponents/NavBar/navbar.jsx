@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
-import { Dropdown } from 'bootstrap';
 import { Col, Image, NavDropdown } from 'react-bootstrap';
 import img from '/public/Untitled design.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,7 +8,6 @@ import { faArrowRightFromBracket, faCog } from '@fortawesome/free-solid-svg-icon
 function Navbar() {
   const [user, setUser] = useState({ profilePicture: '/public/Untitled design.pngs', name: 'madonna' });
   const { logout, isLoggedIn } = useAuth();
-
   return (
     <nav
       className="navbar navbar-expand-lg bg-transparent navbar-light text-white"
