@@ -10,13 +10,22 @@ export default function SignUp() {
     console.log("Sign-up data:", values);
     try {
       const response = await Register(values);
-      if (response.data.isPass )toast.success("تم تسجيل الحساب بنجاح, يرجى انتظار موافقة الادمن.");
-      else 
-        toast.error(response.data.message.includes("Username") ? "اسم المستخدم موجود بالفعل" : response.data.message);  
+      console.log("Server response:", response);
+  
+      if (response.data.isPass) {
+        toast.success("تم تسجيل الحساب بنجاح, يرجى انتظار موافقة الادمن.");
+      } else {
+        const errorMessage = response.data.message.includes("Username")
+          ? "اسم المستخدم موجود بالفعل"
+          : response.data.message;
+        toast.error(errorMessage);
+      }
     } catch (err) {
       console.error("Error:", err);
+      toast.error("حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.");
     }
   }
+  
 
   const validationSchema = Yup.object({
     Email: Yup.string()
