@@ -19,7 +19,7 @@ function Navbar() {
         }}
       >
         <div className="container-fluid">
-          <Link className="navbar-brand" href="/">
+          <Link className="navbar-brand" to="/">
             <img src="/logo.svg" alt="logo" width={50} />
           </Link >
           <button
