@@ -16,18 +16,16 @@ export default function SignIn() {
     try {
       const response = await Login(val);
       console.log("Login response:", response);
-      if (response.data.isPass) {
-        toast.success(response.data.message);
-        localStorage.setItem("t@3okFendD2x-2", response.data.data.token);
-        login();
-
-        if (response.data.role === "admin") {
-          navigate("/admin");
+      if (response?.data?.isPass) {
+        toast.success(response?.data?.message);
+        login(response.data.data);
+        if (response?.data?.data?.role === "User") {
+           navigate('/courses');
         } else {
-          navigate('/courses');
+          navigate("/admin");
         }
       } else {
-        toast.info(response.data.message);
+        toast.info(response?.data?.message);
       }
     } catch (err) {
       toast.error("خطأ في تسجيل الدخول");

@@ -86,7 +86,7 @@ function Courses() {
             <div className="row">
               {currentItems.map((course) => (
                 <div key={course.id} className="col-12 col-md-6 col-lg-3 mb-4">
-                  <div className="card border border-1 border-primary">
+                  <div className="card border border-1 border-primary-subtle overflow-hidden">
                     <img src="/Untitled design.png" className="card-img-top" alt="Course Image" />
                     <div className="card-body bg-body-secondary">
                       <h5 className="card-title text-truncate">{course.title}</h5>

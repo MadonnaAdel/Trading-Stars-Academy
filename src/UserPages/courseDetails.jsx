@@ -6,10 +6,25 @@ const CourseDetails = () => {
     return (
         <div className="container my-5">
             <div className="row " style={{ marginTop: "150px" }}>
-                <div className="col-lg-4 contents-section my-4  ">
-                    <h5 className="my-4">محتوي الكورس</h5>
+            <div className="col-lg-8 video-section">
+                    <div className="video-placeholder position-relative rounded-4 border border-1 overflow-hidden border-primary-subtle ">
+                        <div className="w-100 h-100 ">
+                            <img src="../../public/Untitled design.png" alt="cover image course" width="100%" />
+                        </div>
 
-                    <div className="border border-1 rounded-4 overflow-auto" style={{maxHeight: '300px'}}>
+                        <div className="play-btn">
+                            <i className="bi bi-play-fill"></i>
+                        </div>
+                        <p className="text-center text-muted">
+                            Sign in before you view the course to earn a certificate of
+                            completion and access exercise files
+                        </p>
+                    </div>
+                </div>
+                <div className="col-lg-4 contents-section mb-4  ">
+                    <h5 className="mb-4">محتوي الكورس</h5>
+
+                    <div className="border border-1 border-primary-subtle rounded-4 overflow-auto" style={{maxHeight: '300px'}}>
                         <div class="accordion accordion-flush " id="accordionFlushExample">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingOne">
@@ -49,22 +64,8 @@ const CourseDetails = () => {
                             </div>
                         </div>
                     </div>
+                        <button className="btn btn-primary w-100 mt-3">ادفع الآن 300 جنيه للاشتراك</button>
 
-                </div>
-                <div className="col-lg-8 video-section">
-                    <div className="video-placeholder position-relative rounded-4 border border-1 overflow-hidden">
-                        <div className="w-100 h-100 ">
-                            <img src="../../public/Untitled design.png" alt="" width="100%" />
-                        </div>
-
-                        <div className="play-btn">
-                            <i className="bi bi-play-fill"></i>
-                        </div>
-                        <p className="text-center text-muted">
-                            Sign in before you view the course to earn a certificate of
-                            completion and access exercise files
-                        </p>
-                    </div>
                 </div>
             </div>
         </div>

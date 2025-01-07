@@ -79,3 +79,27 @@ export const GetCourseSectionById = async (id) => {
     console.error("Error in getting course section:", error);
   }
 } 
+export const updateAccount = async (values, UserId) => {
+  try {
+    const response = await api.put(`Account/UpdateAccount?UserId=${UserId}`, values);
+    return response;
+  } catch (error) {
+    console.error('Error in update account:', error);
+  }
+};
+export const GenerateResetToken= async (email) =>{
+  try{
+    const res =await api.post(`Account/GenerateResetToken?Email=${email}`);
+    return res
+  }catch(err){
+    console.error(err);
+  }
+}
+export const resetPassword = async ( newPassword)=>{
+  try{
+    const res= await api.post('Account/ResetPassword',newPassword);
+    return res;
+  }catch(err){
+    console.error(err)
+  }
+}

@@ -7,17 +7,15 @@ import { toast } from "react-toastify";
 
 export default function SignUp() {
   async function signUp(values) {
-    console.log("Sign-up data:", values);
+    console.log('first')
     try {
       const response = await Register(values);
-      console.log("Server response:", response);
-  
-      if (response.data.isPass) {
+      if (response?.data?.isPass) {
         toast.success("تم تسجيل الحساب بنجاح, يرجى انتظار موافقة الادمن.");
       } else {
-        const errorMessage = response.data.message.includes("Username")
+        const errorMessage = response?.data?.message.includes("Username")
           ? "اسم المستخدم موجود بالفعل"
-          : response.data.message;
+          : response?.data?.message;
         toast.error(errorMessage);
       }
     } catch (err) {

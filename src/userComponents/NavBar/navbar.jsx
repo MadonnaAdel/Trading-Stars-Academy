@@ -5,9 +5,11 @@ import { Col, Image, NavDropdown } from 'react-bootstrap';
 import img from '/public/Untitled design.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket, faCog } from '@fortawesome/free-solid-svg-icons';
+import defualteUser from '../../../public/DefulteUser.svg'
 function Navbar() {
-  const [user, setUser] = useState({ profilePicture: '/public/Untitled design.pngs', name: 'madonna' });
-  const { logout, isLoggedIn } = useAuth();
+  const { logout, isLoggedIn, user } = useAuth();
+  console.log(user,isLoggedIn);
+
   return (
     <nav
       className="navbar navbar-expand-lg bg-transparent navbar-light text-white"
@@ -63,15 +65,12 @@ function Navbar() {
           </ul>
           <div className="d-flex">
             {isLoggedIn ? (
-              <>
                 <NavDropdown
-
                   title={
-                    <div className="d-flex align-items-center justify-content-center rounded-circle overflow-hidden " style={{ width: "40px", height: "40px" }}>
+                    <div className=" ms-3 d-flex align-items-center justify-content-center rounded-circle overflow-hidden " style={{ width: "40px", height: "40px" }}>
                       <Image
-                        src={
-                          user?.profilePhoto ? user?.profilePhoto : img
-                        }
+                        src={user?.personalImageUrl}
+                        onError={(e) => (e.target.src = defualteUser)}
                         width={100}
                         className="me-3"
                       />
@@ -80,10 +79,6 @@ function Navbar() {
                         style={{ fontSize: "10px" }}
                         xs={3}
                       >
-                        <h6 className="applicantName">
-                          {user?.firstName || user?.lastName ? `${user.firstName} ${user.lastName}` : 'user'}
-                        </h6>
-
                         <span className="salery text-green ">
                         </span>
                       </Col>
@@ -92,14 +87,6 @@ function Navbar() {
                   id="basic-nav-dropdown"
                 >
                   <button
-                    onClick={logout}
-                    className="btn "
-                  >
-                    تسجيل خروج
-                    <FontAwesomeIcon icon={faArrowRightFromBracket} className="me-2" />
-                  </button>
-                  <button
-                    
                     className="btn "
                   >
                     <Link to="/settings" className='text-decoration-none text-white'>
@@ -107,8 +94,14 @@ function Navbar() {
                       <FontAwesomeIcon icon={faCog} className="me-2" />
                     </Link>
                   </button>
+                  <button
+                    onClick={logout}
+                    className="btn "
+                  >
+                    تسجيل خروج
+                    <FontAwesomeIcon icon={faArrowRightFromBracket} className="me-2" />
+                  </button>
                 </NavDropdown>
-              </>
             ) : (
               <>
                 <Link to="/signin">
