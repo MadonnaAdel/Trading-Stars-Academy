@@ -1,22 +1,12 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext';
 
-function PrivateRoute({ component: Component, ...rest }) {
-  const { isAuthenticated } = useAuth();
+function PrivateRoute({ element }) {
+  const { isLoggedIn } = useAuth();
+  console.log('isLoggedIn:', isLoggedIn); // لتتبع الحالة
 
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        isAuthenticated ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to="/signin" />
-        )
-      }
-    />
-  );
+  return isLoggedIn ? element : <Navigate to="/signin" />;
 }
 
 export default PrivateRoute;

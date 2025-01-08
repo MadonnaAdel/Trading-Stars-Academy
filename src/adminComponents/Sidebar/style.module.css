@@ -17,7 +17,7 @@
 .element {
     font-size: 1.1em;
     padding: 15px;
-color: #ffffff !important;
+    color: #ffffff !important;
     cursor: pointer;
     width: 100%;
     text-align: left;
@@ -98,9 +98,10 @@ color: #ffffff !important;
 }
 
 @media (max-width:766px) {
-    .sidebar{
-width: 100px;
+    .sidebar {
+        width: 60px;
     }
+
     .title {
         display: none;
     }

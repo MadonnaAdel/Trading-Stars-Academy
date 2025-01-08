@@ -63,22 +63,7 @@ export const GetCourseById = async (id) => {
     console.error("Error in getting course:", error);
   }
 } 
-export const GetCourseSections = async (id) => {
-  try {
-    const response = await api.get(`Course/GetCourseSections/${id}`);
-    return response;
-  } catch (error) {
-    console.error("Error in getting course sections:", error);
-  }
-} 
-export const GetCourseSectionById = async (id) => {
-  try {
-    const response = await api.get(`Course/GetCourseSectionById/${id}`);
-    return response;
-  } catch (error) {
-    console.error("Error in getting course section:", error);
-  }
-} 
+
 export const updateAccount = async (values, UserId) => {
   try {
     const response = await api.put(`Account/UpdateAccount?UserId=${UserId}`, values);

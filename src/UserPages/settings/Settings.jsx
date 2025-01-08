@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { GenerateResetToken, updateAccount } from "../../Services/userApiService";
+import { GenerateResetToken, resetPassword, updateAccount } from "../../Services/userApiService";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/authContext";
 
 function Settings() {
- 
-  const {user ,login} = useAuth();
+
+  const { user, login } = useAuth();
   const [initialValues, setInitialValues] = useState({
     Email: "",
     Username: "",
@@ -15,17 +15,20 @@ function Settings() {
     Lname: "",
     PhoneNumber: "",
   });
-  
+
   async function changePassword(values) {
     try {
-      const res =await GenerateResetToken(user.email);
+      const res = await GenerateResetToken(user.email);
       console.log(res)
-      // const response = await updatePassword({ Password: values.Password });
-      // if (response?.data?.isPass) {
-      //   toast.success("تم تغيير كلمة المرور بنجاح.");
-      // } else {
-      //   toast.error("حدث خطأ أثناء تغيير كلمة المرور.");
-      // }
+      if (res?.data?.data?.token) {
+        const response = await resetPassword({ "newPassword": values.Password, "token": res?.data?.data?.token, "email": user.email });
+
+        response?.data?.isPass ?
+          toast.success(response?.data?.message)
+          :
+          toast.error(response?.data?.message)
+
+      }
     } catch (err) {
       console.error("Error:", err);
       toast.error("حدث خطأ أثناء تغيير كلمة المرور. يرجى المحاولة مرة أخرى.");
@@ -35,9 +38,8 @@ function Settings() {
   async function updateProfile(values) {
 
     try {
-      const response = await updateAccount(values, "e7a1ac4b-69a6-4183-aeef-5de4fff2c19c" );
-      console.log(response)
-      
+      const response = await updateAccount(values, user.id);
+
       if (response?.data?.isPass) {
         toast.success("تم تحديث البيانات بنجاح.");
         login(response.data.data)
@@ -72,7 +74,7 @@ function Settings() {
     Lname: Yup.string()
       .min(2, "الرجاء إدخال أكثر من حرفين")
       .max(15, "الرجاء إدخال أقل من 15 حرف"),
-    PhoneNumber: Yup.string()      
+    PhoneNumber: Yup.string()
       .matches(/^01[0125][0-9]{8}$/, "الرجاء إدخال رقم هاتف صحيح"),
   });
 
@@ -81,7 +83,7 @@ function Settings() {
     validationSchema: passwordValidationSchema,
     onSubmit: changePassword,
   });
-  
+
 
   useEffect(() => {
     if (user) {
@@ -90,14 +92,14 @@ function Settings() {
         Username: user.userName || "",
         Fname: user.fname || "",
         Lname: user.lname || "",
-        PhoneNumber: user.phoneNumber || "",
+        PhoneNumber: user.phoneNum || "",
       });
     }
   }, [user]);
 
   const profileFormik = useFormik({
     initialValues,
-    enableReinitialize: true, 
+    enableReinitialize: true,
     validationSchema: profileValidationSchema,
     onSubmit: updateProfile,
   });

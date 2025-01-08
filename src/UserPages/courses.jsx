@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { GetCourses } from '../Services/userApiService';
 
 function Courses() {
   const [query, setQuery] = useState('');
@@ -23,6 +24,7 @@ function Courses() {
       { id: 11, title: "Android App Development", price: 300, instructor: "Lucas Harris" },
       { id: 12, title: "Data Analysis with Pandas", price: 270, instructor: "Mia Clark" }
     ]);
+    getCourses()
     setFilteredData([
       { id: 1, title: "Ultimate AWS Certified Cloud Practitioner CLF-C02", price: 300, instructor: "Stephane Maarek" },
       { id: 2, title: "React for Beginners", price: 200, instructor: "John Doe" },
@@ -39,6 +41,14 @@ function Courses() {
     ]);
   }, []);
 
+  const getCourses = async () => {
+    try {
+      const res = GetCourses();
+      console.log(res)
+    } catch (err) {
+      console.error(err)
+    }
+  }
   const handleSearchFilter = (query) => {
     const filtered = data.filter((course) =>
       course.title.toLowerCase().includes(query.toLowerCase()) ||
@@ -65,7 +75,7 @@ function Courses() {
   };
 
   return (
-    
+
     <section className='my-5 d-flex justify-content-center'>
       <div className="container">
         <div className="searcBox mb-3 d-flex justify-content-center align-items-center w-75" style={{ margin: '150px auto' }}>
@@ -97,7 +107,7 @@ function Courses() {
                       <div className="d-flex align-content-center">
                         <button className="btn btn-primary btn-sm">اشترك</button>
                         <Link to={`/course-details/${course.id}`}>
-                        <button className="btn btn-outline-primary btn-sm me-3">عرض التفاصيل</button>
+                          <button className="btn btn-outline-primary btn-sm me-3">عرض التفاصيل</button>
                         </Link>
                       </div>
                     </div>
