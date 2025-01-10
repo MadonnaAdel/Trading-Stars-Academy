@@ -75,9 +75,10 @@ export default function SignUp() {
 
   return (
     <section className={styles.register}>
-      <div className={`container ${styles.loginContain} my-5`}>
+      <div className={`container ${styles.loginContain} `} style={{margin:"200px 0"}}>
         <div className={`${styles.registerForm}`} 
           style={{
+            
               backdropFilter: "blur(10px)",
               border: "1px solid rgba(0, 123, 255, 0.5)",
               borderRadius: "8px",

@@ -67,8 +67,8 @@ export default function Candidate() {
         formik.setFieldValue(fieldName, value);
     };
     return (
-        <section className={styles.register}>
-            <div className={`container ${styles.loginContain} my-5`}>
+        <section className={`${styles.register}`} >
+            <div className={`container ${styles.loginContain}`} style={{margin:'200px 0px'}}>
                 <div
                     className={`${styles.registerForm}`}
                     style={{
