@@ -47,9 +47,9 @@ export const Register = async (values) => {
     console.error("Error in login:", error);
   }
 }
-export const GetCourses = async () => {
+export const GetCourses = async (PageNumber,PageSize) => {
   try {
-    const response = await api.get('Course/GetAllCourses');
+    const response = await api.get(`Course/GetAllCourses?PageNumber=${PageNumber}&PageSize=${PageSize}`);
     return response;
   } catch (error) {
     console.error("Error in getting courses:", error);
@@ -57,13 +57,20 @@ export const GetCourses = async () => {
 }
 export const GetCourseById = async (id) => {
   try {
-    const response = await api.get(`Course/GetCourseById?${id}`);
+    const response = await api.get(`Course/GetCourseById?id=${id}`);
     return response;
   } catch (error) {
     console.error("Error in getting course:", error);
   }
 } 
-
+export const GetCountentCourse = async (id) => {
+  try {
+    const response = await api.get(`Course/GetCourseById?id=${id}`);
+    return response;
+  } catch (error) {
+    console.error("Error in getting course:", error);
+  }
+} 
 export const updateAccount = async (values, UserId) => {
   try {
     const response = await api.put(`Account/UpdateAccount?UserId=${UserId}`, values);
@@ -86,5 +93,31 @@ export const resetPassword = async ( newPassword)=>{
     return res;
   }catch(err){
     console.error(err)
+  }
+}
+export const RegisterAsCandidate = async (values) => {
+  try {
+    const response = await api.post('Candidate/RegisterAsCandidate', values );
+    return response;
+  } catch (error) {
+    console.error("Error in registration:", error);
+   
+  }
+
+}
+export const EnrollCourseRequest = async (userAndCourseIds) => {
+  try {
+  const response = await api.post('EnrollmentRequest/EnrollCourseRequest', userAndCourseIds);
+    return response;
+  } catch (error) {
+    console.error("Error in EnrollmentRequest:", error);
+  }
+}
+export const forgetPass = async (email) => {
+  try {
+  const response = await api.post('Account/ForgetPassword', email);
+    return response;
+  } catch (error) {
+    console.error("Error in ForgetPassword:", error);
   }
 }

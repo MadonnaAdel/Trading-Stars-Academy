@@ -8,7 +8,7 @@ import { faArrowRightFromBracket, faCog } from '@fortawesome/free-solid-svg-icon
 import defualteUser from '../../../public/DefulteUser.svg'
 function Navbar() {
   const { logout, isLoggedIn, user } = useAuth();
-  console.log(user,isLoggedIn);
+  
 
   return (
     <nav

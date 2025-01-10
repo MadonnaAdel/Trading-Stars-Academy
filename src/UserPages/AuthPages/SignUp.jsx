@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 
 export default function SignUp() {
   async function signUp(values) {
-    console.log('first')
     try {
       const response = await Register(values);
       if (response?.data?.isPass) {
@@ -244,6 +243,12 @@ export default function SignUp() {
               هل لديك حساب بالفعل؟{" "}
               <NavLink to="/signin" className="text-primary">
                 تسجيل دخول
+              </NavLink>
+              <span className="mx-2">
+                او
+              </span>
+              <NavLink to="/candidate" className="text-primary">
+                تسجيل كمترشح
               </NavLink>
             </p>
           </div>

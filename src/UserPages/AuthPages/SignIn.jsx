@@ -15,12 +15,11 @@ export default function SignIn() {
   async function signin(val) {
     try {
       const response = await Login(val);
-      console.log("Login response:", response);
       if (response?.data?.isPass) {
         toast.success(response?.data?.message);
         login(response.data.data);
         if (response?.data?.data?.role === "User") {
-           navigate('/courses');
+          navigate('/courses');
         } else {
           navigate("/admin");
         }
@@ -116,12 +115,26 @@ export default function SignIn() {
                 تسجيل دخول
               </button>
             </form>
-            <p className="text-center mt-3">
-              هل انت مستخدم جديد ؟
-              <NavLink to="/signup" className="text-primary">
-                تسجيل حساب
+            <div className="d-flex justify-content-between align-content-center mt-3 flex-wrap">
+              <div className="d-flex align-items-center flex-wrap">
+                 هل انت مستخدم جديد ؟
+                <NavLink to="/signup" className="text-primary">
+                  تسجيل حساب
+                </NavLink>
+                <span className="mx-2">
+                  او
+                </span>
+                <NavLink to="/candidate" className="text-primary">
+                  تسجيل كمترشح
+                </NavLink>
+              </div>
+
+              <NavLink to="/forget" className="text-primary">
+                نسيت كلمه المرور؟
               </NavLink>
-            </p>
+
+            </div>
+
           </div>
         </div>
       </div>

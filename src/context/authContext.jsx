@@ -14,9 +14,6 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem("to@3xUken");
         const storedUser = JSON.parse(localStorage.getItem('user'));
-        console.log('Token from localStorage:', token);
-        console.log('User from localStorage:', storedUser);
-
         if (token && storedUser) {
             setIsLoggedIn(true);
             setToken(token);
