@@ -19,7 +19,7 @@ function Settings() {
   async function changePassword(values) {
     try {
       const res = await GenerateResetToken(user.email);
-      console.log(res)
+
       if (res?.data?.data?.token) {
         const response = await resetPassword({ "newPassword": values.Password, "token": res?.data?.data?.token, "email": user.email });
 
@@ -62,6 +62,9 @@ function Settings() {
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
         "كلمة المرور يجب أن تحتوي على حرف كبير وحرف صغير ورقم ورمز"
       ),
+       confirmPassword: Yup.string()
+            .required("هذا الحقل مطلوب")
+            .oneOf([Yup.ref("Password"), null], "كلمة المرور غير متطابقة"),
   });
 
   const profileValidationSchema = Yup.object({
@@ -79,7 +82,10 @@ function Settings() {
   });
 
   const passwordFormik = useFormik({
-    initialValues: { Password: "" },
+    initialValues: { 
+      Password: "",
+      confirmPassword: ""
+     },
     validationSchema: passwordValidationSchema,
     onSubmit: changePassword,
   });
@@ -130,6 +136,22 @@ function Settings() {
                       <p className="text-danger">{passwordFormik.errors.Password}</p>
                     )}
                   </div>
+                  
+              <div className="form-group position-relative input-component mt-3">
+                <label htmlFor="confirmPassword">تأكيد كلمة المرور</label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  id="confirmPassword"
+                  className="form-control bg-transparent"
+                  onChange={passwordFormik.handleChange}
+                  value={passwordFormik.values.confirmPassword}
+                  onBlur={passwordFormik.handleBlur}
+                />
+                {passwordFormik.errors.confirmPassword && passwordFormik.touched.confirmPassword && (
+                  <p className="text-danger">{passwordFormik.errors.confirmPassword}</p>
+                )}
+              </div>
                   <button type="submit" className="btn btn-primary w-100 mt-4">
                     حفظ التغييرات
                   </button>

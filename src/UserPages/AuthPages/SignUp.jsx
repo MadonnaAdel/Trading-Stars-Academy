@@ -7,8 +7,9 @@ import { toast } from "react-toastify";
 
 export default function SignUp() {
   async function signUp(values) {
+    const { confirmPassword, ...dataToSend } = values;
     try {
-      const response = await Register(values);
+      const response = await Register(dataToSend);
       if (response?.data?.isPass) {
         toast.success("تم تسجيل الحساب بنجاح, يرجى انتظار موافقة الادمن.");
       } else {
@@ -47,6 +48,7 @@ export default function SignUp() {
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
         "كلمة المرور يجب أن تحتوي على حرف كبير وحرف صغير ورقم ورمز"
       ),
+    confirmPassword: Yup.string().oneOf([Yup.ref("Password"), null], "كلمة المرور غير متطابقة"),
     PhoneNumber: Yup.string()
       .required("هذا الحقل مطلوب")
       .matches(/^01[0125][0-9]{8}$/, "الرجاء إدخال رقم هاتف صحيح"),
@@ -62,6 +64,7 @@ export default function SignUp() {
       IdentityImageBackUrl: null,
       PersonalImageUrl: null,
       Password: "",
+      confirmPassword: "",
       PhoneNumber: "",
     },
     validationSchema: validationSchema,
@@ -219,19 +222,19 @@ export default function SignUp() {
                   <p className="text-danger">{formik.errors.Password}</p>
                 )}
               </div>
-              <div className="form-group position-relative input-component mt-4">
-                <label htmlFor="Password">تاكيد كلمة المرور </label>
+              <div className="form-group position-relative input-component mt-3">
+                <label htmlFor="confirmPassword">تأكيد كلمة المرور</label>
                 <input
                   type="password"
-                  name="Password"
-                  id="Password"
+                  name="confirmPassword"
+                  id="confirmPassword"
                   className="form-control bg-transparent"
                   onChange={formik.handleChange}
-                  value={formik.values.Password}
+                  value={formik.values.confirmPassword}
                   onBlur={formik.handleBlur}
                 />
-                {formik.errors.Password && formik.touched.Password && (
-                  <p className="text-danger">{formik.errors.Password}</p>
+                {formik.errors.confirmPassword && formik.touched.confirmPassword && (
+                  <p className="text-danger">{formik.errors.confirmPassword}</p>
                 )}
               </div>
 
