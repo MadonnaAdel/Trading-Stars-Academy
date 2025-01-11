@@ -219,6 +219,21 @@ export default function SignUp() {
                   <p className="text-danger">{formik.errors.Password}</p>
                 )}
               </div>
+              <div className="form-group position-relative input-component mt-4">
+                <label htmlFor="Password">تاكيد كلمة المرور </label>
+                <input
+                  type="password"
+                  name="Password"
+                  id="Password"
+                  className="form-control bg-transparent"
+                  onChange={formik.handleChange}
+                  value={formik.values.Password}
+                  onBlur={formik.handleBlur}
+                />
+                {formik.errors.Password && formik.touched.Password && (
+                  <p className="text-danger">{formik.errors.Password}</p>
+                )}
+              </div>
 
               <div className="form-group position-relative input-component mt-4">
                 <label htmlFor="PhoneNumber">رقم الهاتف</label>
@@ -241,15 +256,9 @@ export default function SignUp() {
               </button>
             </form>
             <p className="text-center mt-3">
-              هل لديك حساب بالفعل؟{" "}
+              هل لديك حساب بالفعل؟
               <NavLink to="/signin" className="text-primary">
                 تسجيل دخول
-              </NavLink>
-              <span className="mx-2">
-                او
-              </span>
-              <NavLink to="/candidate" className="text-primary">
-                تسجيل كمترشح
               </NavLink>
             </p>
           </div>

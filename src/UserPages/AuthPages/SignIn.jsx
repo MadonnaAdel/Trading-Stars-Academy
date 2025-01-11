@@ -116,18 +116,15 @@ export default function SignIn() {
               </button>
             </form>
             <div className="d-flex justify-content-between align-content-center mt-3 flex-wrap">
-              <div className="d-flex align-items-center flex-wrap">
-                 هل انت مستخدم جديد ؟
+              <div className="">
+                  هل انت مستخدم جديد ؟
                 <NavLink to="/signup" className="text-primary">
                   تسجيل حساب
                 </NavLink>
-                <span className="mx-2">
-                  او
-                </span>
-                <NavLink to="/candidate" className="text-primary">
-                  تسجيل كمترشح
-                </NavLink>
               </div>
+               
+                
+       
 
               <NavLink to="/forget" className="text-primary">
                 نسيت كلمه المرور؟

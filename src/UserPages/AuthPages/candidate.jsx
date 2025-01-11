@@ -1,17 +1,24 @@
+import React, { useState } from "react";
+import Modal from "react-modal";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import styles from "./style.module.css";
-import { NavLink } from "react-router-dom";
 import { RegisterAsCandidate } from "../../Services/userApiService";
 import { toast } from "react-toastify";
 
+Modal.setAppElement("#root"); 
+
 export default function Candidate() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     async function candidate(values) {
         try {
             const response = await RegisterAsCandidate(values);
-            response?.data?.isPass ?
-                toast.success(response?.data?.message) :
+            if (response?.data?.isPass) {
+                setIsModalOpen(true);
+            } else {
                 toast.error(response?.data?.message);
+            }
         } catch (err) {
             console.error("Error:", err);
             toast.error("حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.");
@@ -23,9 +30,7 @@ export default function Candidate() {
             .required("هذا الحقل مطلوب")
             .min(2, "الرجاء إدخال أكثر من حرفين")
             .max(15, "الرجاء إدخال أقل من 15 حرف"),
-        age: Yup.number()
-            .required("هذا الحقل مطلوب")
-        ,
+        age: Yup.number().required("هذا الحقل مطلوب"),
         mobileNumber: Yup.string()
             .required("هذا الحقل مطلوب")
             .matches(/^01[0125][0-9]{8}$/, "الرجاء إدخال رقم هاتف صحيح"),
@@ -66,6 +71,7 @@ export default function Candidate() {
 
         formik.setFieldValue(fieldName, value);
     };
+
     return (
         <section className={`${styles.register}`} >
             <div className={`container ${styles.loginContain}`} style={{margin:'200px 0px'}}>
@@ -173,14 +179,14 @@ export default function Candidate() {
                                 <select
                                     name="studyStatus"
                                     id="studyStatus"
-                                    className="form-control bg-transparent"
+                                    className="form-control bg-transparent "
                                     onChange={handleSelectChange("studyStatus")}
                                     value={formik.values.studyStatus}
                                     onBlur={formik.handleBlur}
                                 >
-                                    <option value="">اختر حالة الدراسة</option>
-                                    <option value="0">طالب</option>
-                                    <option value="1">متخرج</option>
+                                    <option value="" className="bg-body-secondary">اختر حالة الدراسة</option>
+                                    <option value="0" className="bg-body-secondary">طالب</option>
+                                    <option value="1" className="bg-body-secondary">متخرج</option>
                                 </select>
                                 {formik.errors.studyStatus && formik.touched.studyStatus && (
                                     <p className="text-danger">{formik.errors.studyStatus}</p>
@@ -197,9 +203,9 @@ export default function Candidate() {
                                     value={formik.values.isHearedAboutTradingBefore}
                                     onBlur={formik.handleBlur}
                                 >
-                                    <option value="">اختر</option>
-                                    <option value="true">نعم</option>
-                                    <option value="false">لا</option>
+                                    <option value="" className="bg-body-secondary">اختر</option>
+                                    <option value="true" className="bg-body-secondary">نعم</option>
+                                    <option value="false" className="bg-body-secondary">لا</option>
                                 </select>
                                 {formik.errors.isHearedAboutTradingBefore && formik.touched.isHearedAboutTradingBefore && (
                                     <p className="text-danger">{formik.errors.isHearedAboutTradingBefore}</p>
@@ -216,9 +222,9 @@ export default function Candidate() {
                                     value={formik.values.isHearedAboutAcademyBefore}
                                     onBlur={formik.handleBlur}
                                 >
-                                    <option value="">اختر</option>
-                                    <option value="true">نعم</option>
-                                    <option value="false">لا</option>
+                                    <option value="" className="bg-body-secondary">اختر</option>
+                                    <option value="true" className="bg-body-secondary">نعم</option>
+                                    <option value="false" className="bg-body-secondary">لا</option>
                                 </select>
                                 {formik.errors.isHearedAboutAcademyBefore && formik.touched.isHearedAboutAcademyBefore && (
                                     <p className="text-danger">{formik.errors.isHearedAboutAcademyBefore}</p>
@@ -261,20 +267,34 @@ export default function Candidate() {
                                 تسجيل كمترشح
                             </button>
                         </form>
-                        <p className="text-center mt-3">
-                            هل لديك حساب بالفعل؟{" "}
-                            <NavLink to="/signin" className="text-primary">
-                                تسجيل دخول
-                            </NavLink>
-                            <span className="mx-2">او</span>
-
-                            <NavLink to="/signup" className="text-primary">
-                                تسجيل حساب جديد
-                            </NavLink>
-                        </p>
                     </div>
                 </div>
             </div>
+            <Modal
+                isOpen={isModalOpen}
+                contentLabel="تسجيل ناجح"
+                style={{
+                    overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)" },
+                    content: {
+                        top: "50%",
+                        left: "50%",
+                        right: "auto",
+                        bottom: "auto",
+                        marginRight: "-50%",
+                        transform: "translate(-50%, -50%)",
+                        backgroundColor: "rgb(36, 36, 44)",
+                        borderRadius: "8px",
+                        padding: "20px",
+                        textAlign: "center",
+                        width: "50%",
+                    },
+                }}
+                shouldCloseOnOverlayClick={false}
+                shouldCloseOnEsc={false}
+            >
+                <h3>تم التسجيل كمترشح بنجاح!</h3>
+                <p>شكرا علي تعاونك مع  Trading Starts Academy</p>
+            </Modal>
         </section>
     );
 }

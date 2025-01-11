@@ -1,17 +1,22 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from '../userComponents/NavBar/navbar';
 import Footer from '../userComponents/footet';
-function Layout() {
+
+
+const Layout = () => {
+  const location = useLocation();
+  const hideNavbarFooter = location.pathname === '/candidate';
+
   return (
     <div>
-      <Navbar />
-      <main style={{ minHeight: '80vh' }}>
+      {!hideNavbarFooter && <Navbar />}
+      <main>
         <Outlet />
       </main>
-      <Footer />
+      {!hideNavbarFooter && <Footer />}
     </div>
   );
-}
+};
 
 export default Layout;

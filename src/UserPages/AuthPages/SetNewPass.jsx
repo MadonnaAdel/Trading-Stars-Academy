@@ -71,7 +71,7 @@ export default function SetNewPass() {
               <div className="form-group position-relative input-component mt-3">
                 <label htmlFor="newPassword">كلمة المرور</label>
                 <input
-                  type="newPassword"
+                  type="password"
                   name="newPassword"
                   id="newPassword"
                   className="form-control bg-transparent"
