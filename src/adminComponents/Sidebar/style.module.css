@@ -1,5 +1,4 @@
 .sidebar {
-    padding-top: 10px;
     position: fixed;
     height: 100vh;
     overflow-y: auto;
@@ -16,14 +15,11 @@
 
 .element {
     font-size: 1.1em;
-    padding: 15px;
     color: #ffffff !important;
     cursor: pointer;
     width: 100%;
-    text-align: left;
-    gap: 2px;
-    padding: 6%;
-    padding-left: 15% !important;
+    padding-block: 1.5rem;
+    padding-inline: 7% ;
     position: relative;
 }
 
@@ -57,16 +53,7 @@
     color: #3326dd;
 }
 
-.element {
-    font-size: 1.1em;
-    padding: 1.5rem;
-    color: #262626;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    padding-left: 20%;
-    position: relative;
-}
+
 
 .activeFlag {
     width: 6px;

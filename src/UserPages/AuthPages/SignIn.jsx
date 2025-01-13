@@ -21,7 +21,7 @@ export default function SignIn() {
         if (response?.data?.data?.role === "User") {
           navigate('/courses');
         } else {
-          navigate("/admin");
+          navigate("/dashboard");
         }
       } else {
         toast.info(response?.data?.message);
@@ -122,10 +122,6 @@ export default function SignIn() {
                   تسجيل حساب
                 </NavLink>
               </div>
-               
-                
-       
-
               <NavLink to="/forget" className="text-primary">
                 نسيت كلمه المرور؟
               </NavLink>

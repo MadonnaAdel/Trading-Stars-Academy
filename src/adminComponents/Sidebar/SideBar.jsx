@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-import { Nav, Navbar } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Nav, Navbar, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from "./style.module.css";
 import {
-  UilFileCheckAlt,
-  UilTachometerFastAlt,
-  UilUser,
-  UilFileLandscape,
-  UilBookmark,
+  UilUserPlus ,
+  UilGraduationCap,
+  UilFileAlt,
+  UilUserCheck,
+  UilUserExclamation,
+  UilUserCircle,
   UilCog,
   UilSignout,
 } from "@iconscout/react-unicons";
 import { useAuth } from "../../context/authContext";
+
 const SideBar = ({ activee }) => {
   const { isLoggedIn, logout } = useAuth();
 
@@ -30,122 +32,178 @@ const SideBar = ({ activee }) => {
 
   return (
     <>
-      <Navbar className={`${styles.sidebar} col-md-3 col-sm-2 col-2 col-lg-3 bg-white`}>
-        <Nav className={`flex-column mt-4 w-100 ${styles.dashboardContainer}`}>
-
-          <div
-            className={`d-flex align-items-center ${styles.element} ${activeItem === "dashboard" ? styles.active : ""
-              }`}
-            onClick={() => handleItemClick("dashboard", "dashboard-info")}
+      <Navbar className={`${styles.sidebar} col-md-3 col-sm-2 col-2 col-lg-3 `}>
+        <Nav className={`flex-column w-100 ${styles.dashboardContainer}`}>
+         
+          <OverlayTrigger
+            placement="right"
+            overlay={<Tooltip>كورساتي</Tooltip>}
           >
-            {activeItem === "dashboard" && (
-              <span className={styles.activeFlag}></span>
-            )}
-            <span className={`${styles.icon}`} >
-              <UilTachometerFastAlt />
-            </span>
-            <span className={`${styles.title}`}>
-              Dashboard
+            <div
+              className={`d-flex align-items-center ${styles.element} ${activeItem === "my-courses" ? styles.active : ""
+                }`}
+              onClick={() => handleItemClick("my-courses", "/dashboard")}
+            >
+              {activeItem === "my-courses" && (
+                <span className={styles.activeFlag}></span>
+              )}
+              <span className={`${styles.icon}`}>
+                <UilGraduationCap />
+              </span>
+              <span className={`${styles.title}`}>
+                كورساتي
+              </span>
+            </div>
+          </OverlayTrigger>
 
-            </span>
-          </div>
 
-          <div
-            className={`d-flex align-items-center ${styles.element} ${activeItem === "profile" ? styles.active : ""
-              }`}
-            onClick={() => handleItemClick("profile", "my-Profile")}
+          <OverlayTrigger
+            placement="right"
+            overlay={<Tooltip>طلبات الاشتراك</Tooltip>}
           >
-            {activeItem === "profile" && (
-              <span className={styles.activeFlag}></span>
-            )}
-            <span className={`${styles.icon}`} >
-              <UilUser />
-            </span>
-            <span className={`${styles.title}`}>
-              My Profile
-            </span>
-          </div>
-          <div
-            className={`d-flex align-items-center ${styles.element} ${activeItem === "manage-cv" ? styles.active : ""
-              }`}
-            onClick={() => handleItemClick("manage-cv", "manage-cv")}
+            <div
+              className={`d-flex align-items-center ${styles.element} ${activeItem === "subscription-requests" ? styles.active : ""
+                }`}
+              onClick={() => handleItemClick("subscription-requests", "subscription-requests")}
+            >
+              {activeItem === "subscription-requests" && (
+                <span className={`${styles.activeFlag} d-none d-sm-block`}></span>
+              )}
+              <span className={`${styles.icon}`}>
+                <UilFileAlt />
+              </span>
+              <span className={`${styles.title} text-left fs-6`}>
+                طلبات الاشتراك
+              </span>
+            </div>
+          </OverlayTrigger>
+
+          <OverlayTrigger
+            placement="right"
+            overlay={<Tooltip>معلومات المرشحين</Tooltip>}
           >
-            {activeItem === "manage-cv" && (
-              <span className={`${styles.activeFlag} d-none d-sm-block`}></span>
-            )}
-            <span className={`${styles.icon}`} >
-              <UilFileLandscape />
-            </span>
-            <span className={`${styles.title}`}>
-              Manage CV
+            <div
+              className={`d-flex align-items-center ${styles.element} ${activeItem === "subscription-requests" ? styles.active : ""
+                }`}
+              onClick={() => handleItemClick("subscription-requests", "subscription-requests")}
+            >
+              {activeItem === "subscription-requests" && (
+                <span className={`${styles.activeFlag} d-none d-sm-block`}></span>
+              )}
+              <span className={`${styles.icon}`}>
+                <UilUserPlus />
+              </span>
+              <span className={`${styles.title} text-left fs-6`}>
+                معلومات المرشحين
+              </span>
+            </div>
+          </OverlayTrigger>
 
-            </span>
-          </div>
-
-          <div
-            className={`d-flex align-items-center ${styles.element} ${activeItem === "applied-jobs" ? styles.active : ""
-              }`}
-            onClick={() => handleItemClick("applied-jobs", "applied-jobs")}
+          <OverlayTrigger
+            placement="right"
+            overlay={<Tooltip>طلبات الانضمام</Tooltip>}
           >
-            {activeItem === "applied-jobs" && (
-              <span className={`${styles.activeFlag}  d-none d-sm-block `}></span>
-            )}
-            <span className={`${styles.icon}`} >
-              <UilFileCheckAlt />
-            </span>
-            <span className={`${styles.title}`}>
-              Applied Jobs
+            <div
+              className={`d-flex align-items-center ${styles.element} ${activeItem === "join-requests" ? styles.active : ""
+                }`}
+              onClick={() => handleItemClick("join-requests", "join-requests")}
+            >
+              {activeItem === "join-requests" && (
+                <span className={`${styles.activeFlag}  d-none d-sm-block `}></span>
+              )}
+              <span className={`${styles.icon}`}>
+                
+                <UilUserCircle />
+              </span>
+              <span className={`${styles.title} fs-6`}>
+                طلبات الانضمام
+              </span>
+            </div>
+          </OverlayTrigger>
 
-            </span>
-
-          </div>
-          <div
-            className={`d-flex align-items-center ${styles.element} ${activeItem === "saved-jobs" ? styles.active : ""
-              }`}
-            onClick={() => handleItemClick("saved-jobs", "saved-Jobs")}
+   
+          <OverlayTrigger
+            placement="right"
+            overlay={<Tooltip>المستخدمين المقبولين</Tooltip>}
           >
-            {activeItem === "saved-jobs" && (
-              <span className={styles.activeFlag}></span>
-            )}
-
-            <span className={`${styles.icon}`} >
-              <UilBookmark />
-
-            </span>
-            <span className={`${styles.title}`}>
-              Saved Jobs
-            </span>
-          </div>
-          <div
-            className={`d-flex align-items-center ${styles.element} ${activeItem === "setting" ? styles.active : ""
-              }`}
-            onClick={() => handleItemClick("setting", "settings")}
+            <div
+              className={`d-flex align-items-center ${styles.element} ${activeItem === "approved-users" ? styles.active : ""
+                }`}
+              onClick={() => handleItemClick("approved-users", "approved-users")}
+            >
+              {activeItem === "approved-users" && (
+                <span className={styles.activeFlag}></span>
+              )}
+              <span className={`${styles.icon}`}>
+              <UilUserCheck />
+              </span>
+              <span className={`${styles.title}`} style={{ fontSize: "0.9rem" }}>
+                المستخدمين المقبولين
+              </span>
+            </div>
+          </OverlayTrigger>
+          <OverlayTrigger
+            placement="right"
+            overlay={<Tooltip>المستخدمين المرفوضين</Tooltip>}
           >
-            {activeItem === "setting" && (
-              <span className={styles.activeFlag}></span>
-            )}
-            <span className={`${styles.icon}`} >
-              <UilCog />
-            </span>
-            <span className={`${styles.title}`}>
-              Settings
-            </span>
-          </div>
-          <div
-            className={`d-flex align-items-center ${styles.element} ${activeItem === "log-out" ? styles.active : ""
-              }`}
-            onClick={handleShow}
+            <div
+              className={`d-flex align-items-center ${styles.element} ${activeItem === "rejected-users" ? styles.active : ""
+                }`}
+              onClick={() => handleItemClick("rejected-users", "rejected-users")}
+            >
+              {activeItem === "rejected-users" && (
+                <span className={styles.activeFlag}></span>
+              )}
+              <span className={`${styles.icon}`}>
+                <UilUserExclamation />
+              </span>
+              <span className={`${styles.title}`} style={{ fontSize: "0.88rem" }}>
+                المستخدمين المرفوضين
+              </span>
+            </div>
+          </OverlayTrigger>
+
+          <OverlayTrigger
+            placement="right"
+            overlay={<Tooltip>الإعدادات</Tooltip>}
           >
-            {activeItem === "log-out" && (
-              <span className={styles.activeFlag}></span>
-            )}
-            <span className={`${styles.icon}`} >
-              <UilSignout />
-            </span>
-            <span className={`${styles.title}`}>
-              Log Out
-            </span>
-          </div>
+            <div
+              className={`d-flex align-items-center ${styles.element} ${activeItem === "setting" ? styles.active : ""
+                }`}
+              onClick={() => handleItemClick("setting", "settings")}
+            >
+              {activeItem === "setting" && (
+                <span className={styles.activeFlag}></span>
+              )}
+              <span className={`${styles.icon}`}>
+                <UilCog />
+              </span>
+              <span className={`${styles.title}`}>
+                الإعدادات
+              </span>
+            </div>
+          </OverlayTrigger>
+
+          <OverlayTrigger
+            placement="right"
+            overlay={<Tooltip>تسجيل الخروج</Tooltip>}
+          >
+            <div
+              className={`d-flex align-items-center ${styles.element} ${activeItem === "log-out" ? styles.active : ""
+                }`}
+              onClick={handleShow}
+            >
+              {activeItem === "log-out" && (
+                <span className={styles.activeFlag}></span>
+              )}
+              <span className={`${styles.icon}`}>
+                <UilSignout />
+              </span>
+              <span className={`${styles.title}`}>
+                تسجيل الخروج
+              </span>
+            </div>
+          </OverlayTrigger>
         </Nav>
       </Navbar>
     </>
@@ -153,4 +211,3 @@ const SideBar = ({ activee }) => {
 };
 
 export default SideBar;
-

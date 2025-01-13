@@ -121,3 +121,11 @@ export const forgetPass = async (email) => {
     console.error("Error in ForgetPassword:", error);
   }
 }
+export const getCategoriesName=()=>{
+  try{
+    const res= api.get('Category/GetAllCategoriesNames');
+    return res
+  }catch(err){
+    console.error(err)
+  }
+}
