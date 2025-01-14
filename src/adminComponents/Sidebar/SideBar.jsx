@@ -37,21 +37,21 @@ const SideBar = ({ activee }) => {
          
           <OverlayTrigger
             placement="right"
-            overlay={<Tooltip>كورساتي</Tooltip>}
+            overlay={<Tooltip>الفئات</Tooltip>}
           >
             <div
-              className={`d-flex align-items-center ${styles.element} ${activeItem === "my-courses" ? styles.active : ""
+              className={`d-flex align-items-center ${styles.element} ${activeItem === "categories" ? styles.active : ""
                 }`}
-              onClick={() => handleItemClick("my-courses", "/dashboard")}
+              onClick={() => handleItemClick("categories", "/dashboard")}
             >
-              {activeItem === "my-courses" && (
+              {activeItem === "categories" && (
                 <span className={styles.activeFlag}></span>
               )}
               <span className={`${styles.icon}`}>
                 <UilGraduationCap />
               </span>
               <span className={`${styles.title}`}>
-                كورساتي
+                الفئات
               </span>
             </div>
           </OverlayTrigger>
@@ -64,7 +64,7 @@ const SideBar = ({ activee }) => {
             <div
               className={`d-flex align-items-center ${styles.element} ${activeItem === "candidates" ? styles.active : ""
                 }`}
-              onClick={() => handleItemClick("candidates", "/candidates")}
+              onClick={() => handleItemClick("candidates", "candidates")}
             >
               {activeItem === "candidates" && (
                 <span className={`${styles.activeFlag} d-none d-sm-block`}></span>

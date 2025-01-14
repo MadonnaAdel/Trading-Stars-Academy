@@ -6,7 +6,7 @@ function DashboardLayout() {
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <SideBar />
-      <main style={{ flex: 1, padding: '20px' }}>
+      <main style={{ flex: 1, padding: '20px', width:'80%'}}>
         <Outlet />
       </main>
     </div>

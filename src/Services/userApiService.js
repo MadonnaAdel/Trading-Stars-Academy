@@ -55,6 +55,33 @@ export const GetCourses = async (PageNumber,PageSize,categoryId) => {
     console.error("Error in getting courses:", error);
   }
 }
+export const DeleteCourse = async (courseId) => {
+
+  try {
+    const response = await api.delete(`Course/DeleteCourse?courseId=${courseId}`);
+    return response;
+  } catch (error) {
+    console.error("Error in delet courses:", error);
+  }
+}
+export const AddNewCourse = async (values) => {
+  const formData = new FormData();
+  formData.append('Name', values.Name);
+  formData.append('Description', values.Description);
+  formData.append('ImageFile', values.ImageFile);
+  formData.append('Price', values.Price);
+  formData.append('CategoryId', values.CategoryId);
+  try {
+    const response = await api.post(`Course/AddNewCourse`,formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error in add courses:", error);
+  }
+}
 export const GetCourseById = async (id) => {
   try {
     const response = await api.get(`Course/GetCourseById?id=${id}`);
@@ -105,6 +132,16 @@ export const RegisterAsCandidate = async (values) => {
   }
 
 }
+export const GetAllCandidate = async (PageNumber,PageSize) => {
+  try {
+    const response = await api.get(`Candidate/GetAllCandidates?PageNumber=${PageNumber}&PageSize=${PageSize}` );
+    return response;
+  } catch (error) {
+    console.error("Error in get candidate:", error);
+   
+  }
+
+}
 export const EnrollCourseRequest = async (userAndCourseIds) => {
   try {
   const response = await api.post('EnrollmentRequest/EnrollCourseRequest', userAndCourseIds);
@@ -121,9 +158,41 @@ export const forgetPass = async (email) => {
     console.error("Error in ForgetPassword:", error);
   }
 }
-export const getCategoriesName=()=>{
+export const getCategoriesName=async()=>{
   try{
-    const res= api.get('Category/GetAllCategoriesNames');
+    const res=await api.get('Category/GetAllCategoriesNames');
+    return res
+  }catch(err){
+    console.error(err)
+  }
+}
+export const GetAllCategories=async(PageNumber,PageSize )=>{
+  try{
+    const res=await api.get(`Category/GetAllCategories?PageNumber=${PageNumber}&PageSize=${PageSize}`);
+    return res
+  }catch(err){
+    console.error(err)
+  }
+}
+export const AddNewCategory=async(catName)=>{
+  try{
+    const res= await api.post(`Category/AddNewCategory?name=${catName}`);
+    return res
+  }catch(err){
+    console.error(err)
+  }
+}
+export const UpdateCategory=async(body)=>{
+  try{
+    const res= await api.put(`Category/UpdateCategory`,body);
+    return res
+  }catch(err){
+    console.error(err)
+  }
+}
+export const DeleteCategory=async(id)=>{
+  try{
+    const res= await api.delete(`Category/DeleteCategory?Id=${id}`);
     return res
   }catch(err){
     console.error(err)

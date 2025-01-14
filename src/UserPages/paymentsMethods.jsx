@@ -92,8 +92,6 @@ export default function PaymentsMethods() {
                     </li>
                 </ul>
             </div>
-
-
         </section>
 
     );

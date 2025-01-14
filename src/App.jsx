@@ -26,6 +26,9 @@ import AdminSettings from './AdminPages/AdminSettings'
 import JoinRequests from './AdminPages/JoinRequests'
 import PaymentsMethods from './UserPages/paymentsMethods'
 import UserCourses from './UserPages/UserCourses'
+import MangeCategories from './AdminPages/mangeCategories'
+import DisplayCandidates from './AdminPages/displayCandidates'
+
 function App() {
   return (
     <AuthProvider>
@@ -46,10 +49,12 @@ function App() {
             <Route path="/course-details/:id" element={<PrivateRoute element={<CourseDetails />} />} />
           </Route>
           <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<MyCourses />} />
+            <Route index element={<MangeCategories />} />
             <Route path="subscription-requests" element={<SubscriptionRequests />} />
+            <Route path="courses/:id" element={<MyCourses />} />
 
             <Route path="join-requests" element={<JoinRequests />} />
+            <Route path="candidates" element={<DisplayCandidates />} />
 
             <Route path="approved-users" element={<ApprovedUsers />} />
 
