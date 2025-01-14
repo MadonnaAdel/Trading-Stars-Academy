@@ -1,4 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { GetAllCandidate } from '../Services/userApiService';
+import ConfirmModal from '../sharedComponents/comfirmModal';
+import UserForm from '../sharedComponents/useForm';
+import { UilCheckCircle, UilEllipsisV, UilInfoCircle, UilTimesCircle } from '@iconscout/react-unicons';
 
 export default function DisplayCandidates() {
     const [candidates, setCandidates] = useState([]);
@@ -15,11 +19,11 @@ export default function DisplayCandidates() {
   
     const fetchcandidates = async () => {
       try {
-        const response = await getNotApprovedUsers(currentPage, itemsPerPage);
+        const response = await GetAllCandidate(currentPage, itemsPerPage);
         setCandidates(response?.data?.data?.paginatedData || []);
         setTotalPages(response?.data?.data?.numberOfPages || 1);
       } catch (error) {
-        console.error('Error fetching join requests:', error);
+        console.error('Error fetching get candidate:', error);
         toast.error('حدث خطأ أثناء جلب البيانات');
       }
     };
@@ -59,15 +63,18 @@ export default function DisplayCandidates() {
             <thead>
               <tr>
                 <th>#</th>
-                <th>اسم المستخدم</th>
-                <th>البريد الإلكتروني</th>
-                <th>صورة البطاقة الأمامية</th>
-                <th>صورة البطاقة الخلفية</th>
+                <th>اسم المرشح</th>
+                <th>العمر</th>
                 <th>رقم الهاتف</th>
-                <th>العمليات</th>
+                <th>رقم الواتساب</th>
+                <th>المحافظة</th>
+                <th> هل سمعت عن التداول من قبل؟</th>
+                <th>هل سمعت عن الأكاديمية من قبل؟</th>
+                <th>عدد الساعات التي يمكن العمل بها</th>
+                <th>ما الذي ستفعله بعد النجاح؟</th>
               </tr>
             </thead>
-            <tbody>
+            {/* <tbody>
               {candidates.map((user, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
@@ -142,7 +149,7 @@ export default function DisplayCandidates() {
                   </td>
                 </tr>
               ))}
-            </tbody>
+            </tbody> */}
           </table>
   
           <nav aria-label="Page navigation example">
