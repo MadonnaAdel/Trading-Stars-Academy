@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { EnrollCourseRequest, getCategoriesName, GetCourses } from '../Services/userApiService';
+import {  getCategoriesName, GetCourses } from '../Services/userApiService';
 import { ClipLoader } from 'react-spinners';
 import Fuse from 'fuse.js';
 import { useAuth } from '../context/authContext';
@@ -35,8 +35,8 @@ function Courses() {
     }
   };
   useEffect(() => {
+  
     getCourses();
-    console.log(filteredData)
   }, [currentPage, itemsPerPage, categoryId]);
 
   useEffect(() => {
@@ -48,15 +48,7 @@ function Courses() {
     }
   }, [query, data]);
 
-  const EnrollmentRequest = async (id) => {
-    try {
-      const res = await EnrollCourseRequest({ userId: user.id, courseId: id });
-      res?.data?.ispass ? toast.success(res.data.message) : toast.info(res.data.message);
-    } catch (err) {
-      console.error(err);
-      toast.error('حدث خطأ. يرجى المحاولة مرة أخرى.');
-    }
-  };
+
 
   return (
     <section className="my-5 d-flex justify-content-center">
@@ -121,12 +113,6 @@ function Courses() {
                         <span>LE {course?.price}</span>
                         <span>{course?.categoryName}</span>
                       </div>
-
-                      {isLoggedIn && (
-                        <button className="btn btn-primary btn-sm ms-3 w-100" onClick={() => EnrollmentRequest(course?.id)}>
-                          اشترك
-                        </button>
-                      )}
                       <Link to={`/course-details/${course?.id}`}>
                         <button className="btn btn-outline-primary btn-sm w-100 my-2">عرض التفاصيل</button>
                       </Link>
@@ -137,7 +123,6 @@ function Courses() {
             </div>
           )}
         </div>
-
         {filteredData.length > 0 && (
           <nav aria-label="Page navigation example">
             <ul className="pagination d-flex justify-content-center">

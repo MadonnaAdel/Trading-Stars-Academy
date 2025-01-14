@@ -24,6 +24,8 @@ import ApprovedUsers from './AdminPages/ApprovedUsers'
 import RejectedUsers from './AdminPages/RejectedUsers'
 import AdminSettings from './AdminPages/AdminSettings'
 import JoinRequests from './AdminPages/JoinRequests'
+import PaymentsMethods from './UserPages/paymentsMethods'
+import UserCourses from './UserPages/UserCourses'
 function App() {
   return (
     <AuthProvider>
@@ -38,7 +40,9 @@ function App() {
             <Route path="/candidate" element={<Candidate />} />
             <Route path="/forget" element={<SendMailForRestNewPass />} />
             <Route path="/forget-password" element={<SetNewPass />} />
+            <Route path="/payment-methods" element={<PaymentsMethods />} />
             <Route path="/settings" element={<PrivateRoute element={<Settings />} />} />
+            <Route path="/my-courses" element={<PrivateRoute element={<UserCourses />} />} />
             <Route path="/course-details/:id" element={<PrivateRoute element={<CourseDetails />} />} />
           </Route>
           <Route path="/dashboard" element={<DashboardLayout />}>

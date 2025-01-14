@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { EnrollCourseRequest, GetCourseById, getMainVideoByCourseId, getOnlineTrainingVideosByCourseId, GetVideoById } from "../Services/userApiService";
+import { Link, useParams } from "react-router-dom";
+import { EnrollCourseRequest, GetCourseById, GetCourseEnrollmentStatus, getMainVideoByCourseId, getOnlineTrainingVideosByCourseId, GetVideoById } from "../Services/userApiService";
 import { ClipLoader } from "react-spinners";
 import { useAuth } from "../context/authContext";
 import { toast } from "react-toastify";
-import VideoPlayer from "../sharedComponents/videoPlayer";
+
 
 const CourseDetails = () => {
     const { id } = useParams();
@@ -16,10 +16,12 @@ const CourseDetails = () => {
     const [isVideoPlaying, setIsVideoPlaying] = useState(false)
     const [otp, setOtp] = useState(null);
     const [playbackInfo, setplaybackInfo] = useState(null);
+    const [isEnrolled, setIsEnrolled] = useState(false);
 
     useEffect(() => {
         getCoursesDetails();
-    }, []);
+        getCourseEnrollmentStatus();
+    }, [isEnrolled]);
 
     const getCoursesDetails = async () => {
         try {
@@ -50,6 +52,19 @@ const CourseDetails = () => {
             setLoading(false);
         }
     };
+    const getCourseEnrollmentStatus = async () => {
+        try {
+            const res = await GetCourseEnrollmentStatus(user?.id, id);
+            if(res?.data?.isPass){
+                setIsEnrolled(true);
+            }else{
+                toast.info(res?.data?.message)
+            }
+        } catch (err) {
+            toast.error(err)
+            console.error(err)
+        }
+    }
 
     const EnrollmentRequest = async () => {
         try {
@@ -68,12 +83,12 @@ const CourseDetails = () => {
     const videoPlay = async (id) => {
         try {
             const res = await GetVideoById(id);
-            console.log("Response:", res); 
+            console.log("Response:", res);
             if (res?.data?.isPass) {
                 setIsVideoPlaying(true);
                 setOtp(res?.data?.data?.otp);
                 setplaybackInfo(res?.data?.data?.playbackInfo);
-                console.log("OTP:", res?.data?.data?.otp, "PlaybackInfo:", res?.data?.data?.playbackInfo); 
+                console.log("OTP:", res?.data?.data?.otp, "PlaybackInfo:", res?.data?.data?.playbackInfo);
             } else {
                 toast.error(res?.data?.message);
             }
@@ -121,90 +136,93 @@ const CourseDetails = () => {
                         </div>
                     </div>
                     <div className="col-lg-4 contents-section mb-4">
-                        <h5 className="mb-4 mt-2">محتوي الكورس</h5>
-                        <div
-                            className="border border-1 border-primary-subtle rounded-4 overflow-auto"
-                            style={{ maxHeight: "300px" }}
-                        >
-                            <div className="accordion accordion-flush" id="accordionFlushExample">
-                                <div className="accordion-item">
-                                    <h2 className="accordion-header" id="flush-headingOne">
-                                        <button
-                                            className="accordion-button collapsed"
-                                            type="button"
-                                            data-bs-toggle="collapse"
-                                            data-bs-target="#flush-collapseOne"
-                                            aria-expanded="false"
-                                            aria-controls="flush-collapseOne"
-                                        >
-                                            الدروس الاساسية
-                                        </button>
-                                    </h2>
+                        {
+                            isEnrolled ? (
+                                <>  <h5 className="mb-4 mt-2">محتوي الكورس</h5>
                                     <div
-                                        id="flush-collapseOne"
-                                        className="accordion-collapse collapse"
-                                        aria-labelledby="flush-headingOne"
-                                        data-bs-parent="#accordionFlushExample"
+                                        className="border border-1 border-primary-subtle rounded-4 overflow-auto"
+                                        style={{ maxHeight: "300px" }}
                                     >
-                                        {mainVideos.length > 0 ? (
-                                            mainVideos.map((video, index) => (
+                                        <div className="accordion accordion-flush" id="accordionFlushExample">
+                                            <div className="accordion-item">
+                                                <h2 className="accordion-header" id="flush-headingOne">
+                                                    <button
+                                                        className="accordion-button collapsed"
+                                                        type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#flush-collapseOne"
+                                                        aria-expanded="false"
+                                                        aria-controls="flush-collapseOne"
+                                                    >
+                                                        الدروس الاساسية
+                                                    </button>
+                                                </h2>
                                                 <div
-                                                    onClick={() => videoPlay(video.id)}
-                                                    key={index}
-                                                    style={{ cursor: 'pointer' }}
-                                                    className="accordion-body border border-bottom border-1 text-decoration-underline text-primary"
+                                                    id="flush-collapseOne"
+                                                    className="accordion-collapse collapse"
+                                                    aria-labelledby="flush-headingOne"
+                                                    data-bs-parent="#accordionFlushExample"
                                                 >
-                                                    {video.title}
+                                                    {mainVideos.length > 0 ? (
+                                                        mainVideos.map((video, index) => (
+                                                            <div
+                                                                onClick={() => videoPlay(video.id)}
+                                                                key={index}
+                                                                style={{ cursor: 'pointer' }}
+                                                                className="accordion-body border border-bottom border-1 text-decoration-underline text-primary"
+                                                            >
+                                                                {video.title}
+                                                            </div>
+                                                        ))
+                                                    ) : (
+                                                        <p className="p-3">لا يوجد فيديوهات اساسية الي الان</p>
+                                                    )}
                                                 </div>
-                                            ))
-                                        ) : (
-                                            <p className="p-3">لا يوجد فيديوهات اساسية الي الان</p>
-                                        )}
-                                    </div>
-                                </div>
-                                <div className="accordion-item">
-                                    <h2 className="accordion-header" id="flush-headingTwo">
-                                        <button
-                                            className="accordion-button collapsed"
-                                            type="button"
-                                            data-bs-toggle="collapse"
-                                            data-bs-target="#flush-collapseTwo"
-                                            aria-expanded="false"
-                                            aria-controls="flush-collapseTwo"
-                                        >
-                                            تدريبات اونلاين
-                                        </button>
-                                    </h2>
-                                    <div
-                                        id="flush-collapseTwo"
-                                        className="accordion-collapse collapse"
-                                        aria-labelledby="flush-headingTwo"
-                                        data-bs-parent="#accordionFlushExample"
-                                    >
-                                        {traningVideos.length > 0 ? (
-                                            traningVideos.map((video, index) => (
+                                            </div>
+                                            <div className="accordion-item">
+                                                <h2 className="accordion-header" id="flush-headingTwo">
+                                                    <button
+                                                        className="accordion-button collapsed"
+                                                        type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#flush-collapseTwo"
+                                                        aria-expanded="false"
+                                                        aria-controls="flush-collapseTwo"
+                                                    >
+                                                        تدريبات اونلاين
+                                                    </button>
+                                                </h2>
                                                 <div
-                                                    onClick={() => videoPlay(video.id)}
-                                                    key={index}
-                                                    style={{ cursor: 'pointer' }}
-                                                    className="accordion-body border border-bottom border-1 text-decoration-underline text-primary"
+                                                    id="flush-collapseTwo"
+                                                    className="accordion-collapse collapse"
+                                                    aria-labelledby="flush-headingTwo"
+                                                    data-bs-parent="#accordionFlushExample"
                                                 >
-                                                    {video.title}
+                                                    {traningVideos.length > 0 ? (
+                                                        traningVideos.map((video, index) => (
+                                                            <div
+                                                                onClick={() => videoPlay(video.id)}
+                                                                key={index}
+                                                                style={{ cursor: 'pointer' }}
+                                                                className="accordion-body border border-bottom border-1 text-decoration-underline text-primary"
+                                                            >
+                                                                {video.title}
+                                                            </div>
+                                                        ))
+                                                    ) : (
+                                                        <p className="p-3">لا يوجد تدريبات اونلاين الي الان</p>
+                                                    )}
                                                 </div>
-                                            ))
-                                        ) : (
-                                            <p className="p-3">لا يوجد تدريبات اونلاين الي الان</p>
-                                        )}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button
-                            className="btn btn-primary w-100 mt-3"
-                            onClick={EnrollmentRequest}
-                        >
-                            ادفع الآن {course?.price} جنيه للاشتراك
-                        </button>
+                                </>
+                            ) : (
+                              <CourseEnrollment course={course} EnrollmentRequest={EnrollmentRequest} />
+                              )
+                        }
+
+
                     </div>
                 </div>
             ) : (
@@ -215,3 +233,53 @@ const CourseDetails = () => {
 };
 
 export default CourseDetails;
+
+
+function CourseEnrollment({ course, EnrollmentRequest }) {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
+
+  return (
+    <div className="course-enrollment mt-4">
+      <p className="text-center">يمكنك رؤية محتوى الكورس فقط بعد دفع الاشتراك</p>
+
+      <div className="terms-and-conditions mt-3">
+        <h5>الشروط والأحكام:</h5>
+        <ul>
+          <li>شرط 1</li>
+          <li>شرط 2</li>
+          <li>شرط 3</li>
+        </ul>
+        <div className="form-check mt-2">
+          <input
+            type="checkbox"
+            id="terms"
+            className="form-check-input"
+            onChange={handleCheckboxChange}
+          />
+          <label htmlFor="terms" className="form-check-label">
+            موافق
+          </label>
+        </div>
+      </div>
+
+      <div className="payment-method mt-4">
+        <p>
+          اختر طريقة <Link to="/payment-methods">الدفع</Link> ثم اشترك
+        </p>
+      </div>
+
+      <button
+        className="btn btn-primary w-100 mt-3"
+        onClick={EnrollmentRequest}
+        disabled={!isChecked || !course?.price}
+      >
+        {course?.price} جنيه للاشتراك
+      </button>
+    </div>
+  );
+}
+

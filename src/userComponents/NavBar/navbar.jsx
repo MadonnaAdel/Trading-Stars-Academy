@@ -4,6 +4,7 @@ import { useAuth } from '../../context/authContext';
 import { Col, Image, NavDropdown } from 'react-bootstrap';
 import img from '/public/Untitled design.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faReceipt } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRightFromBracket, faCog } from '@fortawesome/free-solid-svg-icons';
 import defualteUser from '/DefulteUser.svg'
 function Navbar() {
@@ -80,6 +81,14 @@ function Navbar() {
                   }
                   id="basic-nav-dropdown"
                 >
+                  <button
+                    className="btn "
+                  >
+                    <Link to="/my-courses" className='text-decoration-none text-white'>
+                      اشتراكاتي
+                      <FontAwesomeIcon icon={faReceipt} className="me-2" />
+                    </Link>
+                  </button>
                   <button
                     className="btn "
                   >

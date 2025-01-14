@@ -158,8 +158,6 @@ export const RejectAccount = async (userId, body) => {
     throw error; 
   }
 };
-
-
 export const DeleteAccount= async (userId )=>{
   try {
     const response = await api.delete(`Account/DeleteAccount?UserId=${userId}`);
@@ -168,7 +166,6 @@ export const DeleteAccount= async (userId )=>{
     console.error("Error in getting DeleteAccount:", error);
   }
 }
-
 export const getMainVideoByCourseId= async (courseId )=>{
   try {
     const response = await api.get(`Video/GetMainVideosByCourseId?Id=${courseId}`);
@@ -191,5 +188,37 @@ export const GetVideoById= async (videoId )=>{
     return response;
   } catch (error) {
     console.error("Error in getting GetVideoById", error);
+  }
+}
+export const GetWalletsNumber= async (Id )=>{
+  try {
+    const response = await api.get(`Contact/GetWalletsNumber?id=${Id}`);
+    return response;
+  } catch (error) {
+    console.error("Error in getting GetWalletsNumber", error);
+  }
+}
+export const UpdateWalletNumber= async (Id ,numbbers)=>{
+  try {
+    const response = await api.put(`Contact/UpdateWalletNumber?id=${Id}`,numbbers);
+    return response;
+  } catch (error) {
+    console.error("Error in getting UpdateWalletNumber", error);
+  }
+}
+export const GetCourseEnrollmentStatus= async (userId ,courseId)=>{
+  try {
+    const response = await api.get(`UserEnrolledCourse/GetCourseEnrollmentStatus?userId=${userId}&courseId=${courseId}`);
+    return response;
+  } catch (error) {
+    console.error("Error in getting GetCourseEnrollmentStatus", error);
+  }
+}
+export const GetUserEnrolledCourses= async (userId )=>{
+  try {
+    const response = await api.get(`UserEnrolledCourse/GetUserEnrolledCourses?UserId=${userId}`);
+    return response;
+  } catch (error) {
+    console.error("Error in getting GetUserEnrolledCourses", error);
   }
 }
