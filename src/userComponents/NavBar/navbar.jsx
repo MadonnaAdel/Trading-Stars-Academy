@@ -5,7 +5,7 @@ import { Col, Image, NavDropdown } from 'react-bootstrap';
 import img from '/public/Untitled design.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket, faCog } from '@fortawesome/free-solid-svg-icons';
-import defualteUser from '../../../public/DefulteUser.svg'
+import defualteUser from '/DefulteUser.svg'
 function Navbar() {
   const { logout, isLoggedIn, user } = useAuth();
   
@@ -70,18 +70,12 @@ function Navbar() {
                     <div className=" ms-3 d-flex align-items-center justify-content-center rounded-circle overflow-hidden " style={{ width: "40px", height: "40px" }}>
                       <Image
                         src={user?.personalImageUrl}
+
                         onError={(e) => (e.target.src = defualteUser)}
-                        width={100}
+                        width={70}
                         className="me-3"
                       />
-                      <Col
-                        className="applicantInfo"
-                        style={{ fontSize: "10px" }}
-                        xs={3}
-                      >
-                        <span className="salery text-green ">
-                        </span>
-                      </Col>
+                      
                     </div>
                   }
                   id="basic-nav-dropdown"

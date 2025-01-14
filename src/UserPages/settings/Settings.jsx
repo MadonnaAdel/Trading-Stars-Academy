@@ -9,8 +9,6 @@ function Settings() {
 
   const { user, login } = useAuth();
   const [initialValues, setInitialValues] = useState({
-    Email: "",
-    Username: "",
     Fname: "",
     Lname: "",
     PhoneNumber: "",
@@ -68,9 +66,7 @@ function Settings() {
   });
 
   const profileValidationSchema = Yup.object({
-    Email: Yup.string()
-      .email("الرجاء إدخال البريد الإلكتروني بشكل صحيح"),
-    Username: Yup.string(),
+   
     Fname: Yup.string()
       .min(2, "الرجاء إدخال أكثر من حرفين")
       .max(15, "الرجاء إدخال أقل من 15 حرف"),
@@ -165,39 +161,6 @@ function Settings() {
               <div className="card-body">
                 <h3 className="card-title fw-bold text-primary">بيانات الملف الشخصي</h3>
                 <form onSubmit={profileFormik.handleSubmit}>
-
-                  <div className="form-group mt-4">
-                    <label htmlFor="Email">البريد الإلكتروني</label>
-                    <input
-                      type="email"
-                      name="Email"
-                      id="Email"
-                      className="form-control bg-transparent"
-                      onChange={profileFormik.handleChange}
-                      value={profileFormik.values.Email}
-                      onBlur={profileFormik.handleBlur}
-                    />
-                    {profileFormik.errors.Email && profileFormik.touched.Email && (
-                      <p className="text-danger">{profileFormik.errors.Email}</p>
-                    )}
-                  </div>
-
-                  <div className="form-group position-relative input-component mt-4">
-                    <label htmlFor="Username">اسم المستخدم</label>
-                    <input
-                      type="text"
-                      name="Username"
-                      id="Username"
-                      className="form-control bg-transparent"
-                      onChange={profileFormik.handleChange}
-                      value={profileFormik.values.Username}
-                      onBlur={profileFormik.handleBlur}
-                    />
-                    {profileFormik.errors.Username && profileFormik.touched.Username && (
-                      <p className="text-danger">{profileFormik.errors.Username}</p>
-                    )}
-                  </div>
-
                   <div className="form-group position-relative input-component mt-4">
                     <label htmlFor="Fname">الاسم الأول</label>
                     <input

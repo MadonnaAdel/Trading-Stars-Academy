@@ -59,28 +59,29 @@ const SideBar = ({ activee }) => {
 
           <OverlayTrigger
             placement="right"
-            overlay={<Tooltip>طلبات الاشتراك</Tooltip>}
+            overlay={<Tooltip>معلومات المرشحين</Tooltip>}
           >
             <div
-              className={`d-flex align-items-center ${styles.element} ${activeItem === "subscription-requests" ? styles.active : ""
+              className={`d-flex align-items-center ${styles.element} ${activeItem === "candidates" ? styles.active : ""
                 }`}
-              onClick={() => handleItemClick("subscription-requests", "subscription-requests")}
+              onClick={() => handleItemClick("candidates", "/candidates")}
             >
-              {activeItem === "subscription-requests" && (
+              {activeItem === "candidates" && (
                 <span className={`${styles.activeFlag} d-none d-sm-block`}></span>
               )}
               <span className={`${styles.icon}`}>
                 <UilFileAlt />
               </span>
               <span className={`${styles.title} text-left fs-6`}>
-                طلبات الاشتراك
+               معلومات المرشحين
+
               </span>
             </div>
           </OverlayTrigger>
 
           <OverlayTrigger
             placement="right"
-            overlay={<Tooltip>معلومات المرشحين</Tooltip>}
+            overlay={<Tooltip> طلبات الاشتراك</Tooltip>}
           >
             <div
               className={`d-flex align-items-center ${styles.element} ${activeItem === "subscription-requests" ? styles.active : ""
@@ -94,7 +95,7 @@ const SideBar = ({ activee }) => {
                 <UilUserPlus />
               </span>
               <span className={`${styles.title} text-left fs-6`}>
-                معلومات المرشحين
+                 طلبات الاشتراك
               </span>
             </div>
           </OverlayTrigger>

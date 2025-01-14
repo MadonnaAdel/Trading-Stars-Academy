@@ -47,9 +47,9 @@ export const Register = async (values) => {
     console.error("Error in login:", error);
   }
 }
-export const GetCourses = async (PageNumber,PageSize) => {
+export const GetCourses = async (PageNumber,PageSize,categoryId) => {
   try {
-    const response = await api.get(`Course/GetAllCourses?PageNumber=${PageNumber}&PageSize=${PageSize}`);
+    const response = await api.get(`Course/GetAllCourses?PageNumber=${PageNumber}&PageSize=${PageSize}&categoryId=${categoryId}`);
     return response;
   } catch (error) {
     console.error("Error in getting courses:", error);
@@ -127,5 +127,69 @@ export const getCategoriesName=()=>{
     return res
   }catch(err){
     console.error(err)
+  }
+}
+export const getNotApprovedUsers= async (PageNumber,PageSize )=>{
+  try {
+    const response = await api.get(`Account/GetNotApprovedUsers?PageNumber=${PageNumber}&PageSize=${PageSize}`);
+    return response;
+  } catch (error) {
+    console.error("Error in getting getNotApprovedUsers:", error);
+  }
+}
+export const ApproveAccount= async (userId)=>{
+  try {
+    const response = await api.put(`Account/ApproveAccount?UserId=${userId}`);
+    return response;
+  } catch (error) {
+    console.error("Error in getting ApproveAccount:", error);
+  }
+}
+export const RejectAccount = async (userId, body) => {
+  try {
+    const response = await api.put(`Account/RejectAccount?UserId=${userId}`, body, {
+      headers: {
+        "Content-Type": 'application/json',
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error in RejectAccount:", error);
+    throw error; 
+  }
+};
+
+
+export const DeleteAccount= async (userId )=>{
+  try {
+    const response = await api.delete(`Account/DeleteAccount?UserId=${userId}`);
+    return response;
+  } catch (error) {
+    console.error("Error in getting DeleteAccount:", error);
+  }
+}
+
+export const getMainVideoByCourseId= async (courseId )=>{
+  try {
+    const response = await api.get(`Video/GetMainVideosByCourseId?Id=${courseId}`);
+    return response;
+  } catch (error) {
+    console.error("Error in getting GetMainVideosByCourseId", error);
+  }
+}
+export const getOnlineTrainingVideosByCourseId= async (courseId )=>{
+  try {
+    const response = await api.get(`Video/GetOnlineTrainingVideosByCourseId?Id=${courseId}`);
+    return response;
+  } catch (error) {
+    console.error("Error in getting GetOnlineTrainingVideosByCourseId", error);
+  }
+}
+export const GetVideoById= async (videoId )=>{
+  try {
+    const response = await api.get(`Video/GetVideoById?videoId=${videoId}`);
+    return response;
+  } catch (error) {
+    console.error("Error in getting GetVideoById", error);
   }
 }

@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 import { EnrollCourseRequest, getCategoriesName, GetCourses } from '../Services/userApiService';
 import { ClipLoader } from 'react-spinners';
 import Fuse from 'fuse.js';
-import defualteImg from '/Untitled design.png';
 import { useAuth } from '../context/authContext';
 import { toast } from 'react-toastify';
 
 function Courses() {
   const [query, setQuery] = useState('');
-  const [category, setCategory] = useState(''); 
+  const [categoryId, setCategoryId] = useState('');
   const [categories, setCategories] = useState([]);
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -20,35 +19,34 @@ function Courses() {
   const { isLoggedIn, user } = useAuth();
 
   const getCourses = async () => {
+    console.log(categoryId)
     try {
       setLoading(true);
-      const res = await GetCourses(currentPage, itemsPerPage);
-      setData(res?.data?.data?.paginatedData || []);
-      setTotalPages(res?.data?.data?.numberOfPages || 1);
-      const categories= await getCategoriesName();
-      setCategories(categories?.data?.data || []); 
+      const res = await GetCourses(currentPage, itemsPerPage, categoryId);
+      console.log(res)
+      setData(res?.data?.data?.paginatedData);
+      setTotalPages(res?.data?.data?.numberOfPages);
+      const categoriesRes = await getCategoriesName();
+      setCategories(categoriesRes?.data?.data);
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    getCourses();
+    console.log(filteredData)
+  }, [currentPage, itemsPerPage, categoryId]);
 
   useEffect(() => {
     if (data?.length > 0) {
       const fuse = new Fuse(data, { keys: ['name', 'description', 'price'] });
       const results = fuse.search(query);
       let filtered = query ? results.map(result => result.item) : data;
-      if (category) {
-        filtered = filtered.filter(course => course.category === category);
-      }
       setFilteredData(filtered);
     }
-  }, [query, category, data]);
-
-  useEffect(() => {
-    getCourses();
-  }, [currentPage, itemsPerPage]);
+  }, [query, data]);
 
   const EnrollmentRequest = async (id) => {
     try {
@@ -73,15 +71,23 @@ function Courses() {
           />
           <select
             className="form-select w-25"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            style={{
+              maxHeight: '150px',
+              overflowY: 'auto',
+            }}
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
           >
-            <option value="">كل التصنيفات</option>
-            {categories.map((cat, index) => (
-              <option key={index} value={cat}>
-                {cat}
-              </option>
-            ))}
+            <option value="">كل الفئات</option>
+            {categories.length === 0 ? (
+              <option disabled>لا توجد فئات حالياً</option>
+            ) : (
+              categories.map((cat, index) => (
+                <option key={index} value={cat?.id}>
+                  {cat?.name}
+                </option>
+              ))
+            )}
           </select>
         </div>
 
@@ -99,13 +105,23 @@ function Courses() {
               {filteredData.map((course) => (
                 <div key={course?.id} className="col-12 col-md-6 col-lg-3 mb-4">
                   <div className="card border border-1 border-primary-subtle overflow-hidden rounded-4">
-                    <img src={course?.imageUrl} className="card-img-top" alt="Course Image" onError={(e) => (e.target.src = defualteImg)} />
+                    <div className="overflow-hidden " style={{ maxHeight: '150px', minHeight: '150px' }}>
+                      <img
+                        src={course?.imageUrl}
+                        className="img-fluid w-100 h-100 object-fit-contain"
+                        alt="Course Image"
+                      />
+                    </div>
                     <div className="card-body bg-body-secondary">
                       <div className="d-flex">
-                        <h4 className="card-title ">{course?.name}</h4>
+                        <h4 className="card-title">{course?.name}</h4>
                       </div>
                       <p className="card-text text-muted text-truncate">{course?.description}</p>
-                      <span className=""> LE {course?.price}</span>
+                      <div className="d-flex justify-content-between my-2">
+                        <span>LE {course?.price}</span>
+                        <span>{course?.categoryName}</span>
+                      </div>
+
                       {isLoggedIn && (
                         <button className="btn btn-primary btn-sm ms-3 w-100" onClick={() => EnrollmentRequest(course?.id)}>
                           اشترك
@@ -121,13 +137,14 @@ function Courses() {
             </div>
           )}
         </div>
+
         {filteredData.length > 0 && (
           <nav aria-label="Page navigation example">
             <ul className="pagination d-flex justify-content-center">
               <li className="page-item">
                 <button
                   className="page-link"
-                  onClick={() => setCurrentPage(currentPage - 1)}
+                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
                 >
                   &laquo;
@@ -143,7 +160,7 @@ function Courses() {
               <li className="page-item">
                 <button
                   className="page-link"
-                  onClick={() => setCurrentPage(currentPage + 1)}
+                  onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                   disabled={currentPage === totalPages}
                 >
                   &raquo;

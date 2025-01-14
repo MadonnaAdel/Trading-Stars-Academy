@@ -19,10 +19,11 @@ import Candidate from './UserPages/AuthPages/candidate'
 import SendMailForRestNewPass from './UserPages/AuthPages/SendMailForRestNewPass'
 import SetNewPass from './UserPages/AuthPages/SetNewPass'
 import SubscriptionRequests from './AdminPages/SubscriptionRequests'
-import JoinRequests from './AdminPages/JoinRequests'
+
 import ApprovedUsers from './AdminPages/ApprovedUsers'
 import RejectedUsers from './AdminPages/RejectedUsers'
 import AdminSettings from './AdminPages/AdminSettings'
+import JoinRequests from './AdminPages/JoinRequests'
 function App() {
   return (
     <AuthProvider>
