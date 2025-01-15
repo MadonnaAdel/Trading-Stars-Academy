@@ -19,11 +19,9 @@ function Courses() {
   const { isLoggedIn, user } = useAuth();
 
   const getCourses = async () => {
-    console.log(categoryId)
     try {
       setLoading(true);
       const res = await GetCourses(currentPage, itemsPerPage, categoryId);
-      console.log(res)
       setData(res?.data?.data?.paginatedData);
       setTotalPages(res?.data?.data?.numberOfPages);
       const categoriesRes = await getCategoriesName();
@@ -106,7 +104,7 @@ function Courses() {
                     </div>
                     <div className="card-body bg-body-secondary">
                       <div className="d-flex">
-                        <h4 className="card-title">{course?.name}</h4>
+                        <h4 className="card-title text-truncate">{course?.name}</h4>
                       </div>
                       <p className="card-text text-muted text-truncate">{course?.description}</p>
                       <div className="d-flex justify-content-between my-2">

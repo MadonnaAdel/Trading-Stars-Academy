@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from "./style.module.css";
 import {
-  UilUserPlus ,
+  UilUserPlus,
   UilGraduationCap,
   UilFileAlt,
   UilUserCheck,
@@ -20,11 +20,10 @@ const SideBar = ({ activee }) => {
 
   const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState(activee);
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
+const Logout=()=>{
+  logout()
+  navigate('/signin')
+}
   const handleItemClick = (item, path) => {
     setActiveItem(item);
     navigate(path);
@@ -34,7 +33,7 @@ const SideBar = ({ activee }) => {
     <>
       <Navbar className={`${styles.sidebar} col-md-3 col-sm-2 col-2 col-lg-3 `}>
         <Nav className={`flex-column w-100 ${styles.dashboardContainer}`}>
-         
+
           <OverlayTrigger
             placement="right"
             overlay={<Tooltip>الفئات</Tooltip>}
@@ -73,7 +72,7 @@ const SideBar = ({ activee }) => {
                 <UilFileAlt />
               </span>
               <span className={`${styles.title} text-left fs-6`}>
-               معلومات المرشحين
+                معلومات المرشحين
 
               </span>
             </div>
@@ -95,7 +94,7 @@ const SideBar = ({ activee }) => {
                 <UilUserPlus />
               </span>
               <span className={`${styles.title} text-left fs-6`}>
-                 طلبات الاشتراك
+                طلبات الاشتراك
               </span>
             </div>
           </OverlayTrigger>
@@ -113,7 +112,7 @@ const SideBar = ({ activee }) => {
                 <span className={`${styles.activeFlag}  d-none d-sm-block `}></span>
               )}
               <span className={`${styles.icon}`}>
-                
+
                 <UilUserCircle />
               </span>
               <span className={`${styles.title} fs-6`}>
@@ -122,7 +121,6 @@ const SideBar = ({ activee }) => {
             </div>
           </OverlayTrigger>
 
-   
           <OverlayTrigger
             placement="right"
             overlay={<Tooltip>المستخدمين المقبولين</Tooltip>}
@@ -136,34 +134,13 @@ const SideBar = ({ activee }) => {
                 <span className={styles.activeFlag}></span>
               )}
               <span className={`${styles.icon}`}>
-              <UilUserCheck />
+                <UilUserCheck />
               </span>
               <span className={`${styles.title}`} style={{ fontSize: "0.9rem" }}>
                 المستخدمين المقبولين
               </span>
             </div>
           </OverlayTrigger>
-          <OverlayTrigger
-            placement="right"
-            overlay={<Tooltip>المستخدمين المرفوضين</Tooltip>}
-          >
-            <div
-              className={`d-flex align-items-center ${styles.element} ${activeItem === "rejected-users" ? styles.active : ""
-                }`}
-              onClick={() => handleItemClick("rejected-users", "rejected-users")}
-            >
-              {activeItem === "rejected-users" && (
-                <span className={styles.activeFlag}></span>
-              )}
-              <span className={`${styles.icon}`}>
-                <UilUserExclamation />
-              </span>
-              <span className={`${styles.title}`} style={{ fontSize: "0.88rem" }}>
-                المستخدمين المرفوضين
-              </span>
-            </div>
-          </OverlayTrigger>
-
           <OverlayTrigger
             placement="right"
             overlay={<Tooltip>الإعدادات</Tooltip>}
@@ -192,7 +169,7 @@ const SideBar = ({ activee }) => {
             <div
               className={`d-flex align-items-center ${styles.element} ${activeItem === "log-out" ? styles.active : ""
                 }`}
-              onClick={handleShow}
+                onClick={() =>Logout()}
             >
               {activeItem === "log-out" && (
                 <span className={styles.activeFlag}></span>

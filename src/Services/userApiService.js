@@ -47,6 +47,42 @@ export const Register = async (values) => {
     console.error("Error in login:", error);
   }
 }
+ export const GetApprovedUsers = async (PageNumber,PageSize) => {
+  
+  try {
+    const response = await api.get(`Account/GetApprovedUsers?PageNumber=${PageNumber}&PageSize=${PageSize}`);
+    return response;
+  } catch (error) {
+    console.error("Error in GetApprovedUsers:", error);
+  }
+}
+ export const UpdateUserAccountForAdmin = async (userId,values) => {
+  const formData = new FormData();
+  formData.append('Fname', values.Fname);
+  formData.append('Lname', values.Lname);
+  formData.append('PhoneNumber', values.PhoneNumber);
+
+  if (values.IdentityImageFront) {
+    formData.append('IdentityImageFront', values.IdentityImageFront);
+  }
+  if (values.IdentityImageBack) {
+    formData.append('IdentityImageBack', values.IdentityImageBack);
+  }
+  if (values.PersonalImage) {
+    formData.append('PersonalImage', values.PersonalImage);
+  }
+  try {
+    const response = await api.put(`Account/UpdateUserAccountForAdmin?UserId=${userId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error in UpdateUserAccountForAdmin:", error);
+  }
+}
+
 export const GetCourses = async (PageNumber,PageSize,categoryId) => {
   try {
     const response = await api.get(`Course/GetAllCourses?PageNumber=${PageNumber}&PageSize=${PageSize}&categoryId=${categoryId}`);
@@ -142,12 +178,44 @@ export const GetAllCandidate = async (PageNumber,PageSize) => {
   }
 
 }
+export const DeleteCandidate = async (id) => {
+  try {
+    const response = await api.delete(`Candidate/DeleteCandidate?Id=${id}` );
+    return response;
+  } catch (error) {
+    console.error("Error in delete candidate:", error);
+  }
+}
 export const EnrollCourseRequest = async (userAndCourseIds) => {
   try {
   const response = await api.post('EnrollmentRequest/EnrollCourseRequest', userAndCourseIds);
     return response;
   } catch (error) {
     console.error("Error in EnrollmentRequest:", error);
+  }
+}
+export const ApproveEnrollmentRequest = async (RequestId) => {
+  try {
+  const response = await api.post(`EnrollmentRequest/ApproveEnrollmentRequest?RequestId=${RequestId}`);
+    return response;
+  } catch (error) {
+    console.error("Error in ApproveEnrollmentRequest:", error);
+  }
+}
+export const RejectEnrollmentRequest = async (RequestId) => {
+  try {
+  const response = await api.post(`EnrollmentRequest/RejectEnrollmentRequest?RequestId=${RequestId}`);
+    return response;
+  } catch (error) {
+    console.error("Error in RejectEnrollmentRequest:", error);
+  }
+}
+export const GetNotApprovedEnrollmentRequests = async () => {
+  try {
+  const response = await api.get(`EnrollmentRequest/GetNotApprovedEnrollmentRequests`);
+    return response;
+  } catch (error) {
+    console.error("Error in GetNotApprovedEnrollmentRequests:", error);
   }
 }
 export const forgetPass = async (email) => {

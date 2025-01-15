@@ -6,6 +6,7 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }) => {
+    
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [token, setToken] = useState('');
     const [user, setUser] = useState(null);
@@ -39,6 +40,7 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         setToken('');
         setIsLoggedIn(false);
+        
     }
 
     return (

@@ -28,6 +28,7 @@ import PaymentsMethods from './UserPages/paymentsMethods'
 import UserCourses from './UserPages/UserCourses'
 import MangeCategories from './AdminPages/mangeCategories'
 import DisplayCandidates from './AdminPages/displayCandidates'
+import ContactUs from './UserPages/contactUs'
 
 function App() {
   return (
@@ -44,9 +45,11 @@ function App() {
             <Route path="/forget" element={<SendMailForRestNewPass />} />
             <Route path="/forget-password" element={<SetNewPass />} />
             <Route path="/payment-methods" element={<PaymentsMethods />} />
+            <Route path="/customer-service" element={<ContactUs />} />
             <Route path="/settings" element={<PrivateRoute element={<Settings />} />} />
-            <Route path="/my-courses" element={<PrivateRoute element={<UserCourses />} />} />
-            <Route path="/course-details/:id" element={<PrivateRoute element={<CourseDetails />} />} />
+<Route path="/my-courses" element={<PrivateRoute element={<UserCourses />} />} />
+<Route path="/course-details/:id" element={<PrivateRoute element={<CourseDetails />} />} />
+
           </Route>
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<MangeCategories />} />

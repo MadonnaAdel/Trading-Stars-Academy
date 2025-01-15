@@ -31,20 +31,13 @@ const CourseDetails = () => {
 
             if (mainVideosResponse?.data?.isPass) {
                 setMainVideos(mainVideosResponse?.data?.data);
-            } else {
-                toast.error(mainVideosResponse?.data?.message);
             }
-
             if (traningVideosResponse?.data?.isPass) {
                 setTraningVideos(traningVideosResponse?.data?.data);
-            } else {
-                toast.error(traningVideosResponse?.data?.message);
             }
 
             if (courseResponse?.data?.isPass) {
                 setCourse(courseResponse?.data?.data);
-            } else {
-                toast.error(courseResponse?.data?.message);
             }
         } catch (err) {
             console.error(err);
@@ -57,8 +50,6 @@ const CourseDetails = () => {
             const res = await GetCourseEnrollmentStatus(user?.id, id);
             if(res?.data?.isPass){
                 setIsEnrolled(true);
-            }else{
-                toast.info(res?.data?.message)
             }
         } catch (err) {
             toast.error(err)

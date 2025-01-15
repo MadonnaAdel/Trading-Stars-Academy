@@ -60,16 +60,17 @@ const JoinRequests = () => {
   return (
     <section style={{ width: "85%" }}>
       <div className="container mt-4">
-        <table className="table table-striped table-hover table-responsive">
+      <div className="overflow-x-auto">
+          <table className="table table-striped table-hover table-responsive">
           <thead>
             <tr>
               <th>#</th>
-              <th>اسم المستخدم</th>
-              <th>البريد الإلكتروني</th>
-              <th>صورة البطاقة الأمامية</th>
-              <th>صورة البطاقة الخلفية</th>
-              <th>رقم الهاتف</th>
-              <th>العمليات</th>
+              <th className='text-nowrap'>اسم المستخدم</th>
+              <th className='text-nowrap'>البريد الإلكتروني</th>
+              <th className='text-nowrap'>صورة البطاقة الأمامية</th>
+              <th className='text-nowrap'>صورة البطاقة الخلفية</th>
+              <th className='text-nowrap'>رقم الهاتف</th>
+              <th className='text-nowrap'>العمليات</th>
             </tr>
           </thead>
           <tbody>
@@ -149,6 +150,8 @@ const JoinRequests = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      
 
         <nav aria-label="Page navigation example">
           <ul className="pagination d-flex justify-content-center">
@@ -205,15 +208,16 @@ const JoinRequests = () => {
                   ></button>
                 </div>
                 <div className="modal-body">
-                  <UserForm
-                    initialValues={{
-                      Email: selectedUser.email || "",
-                      Username: selectedUser.userName || "",
-                      Fname: selectedUser.fname || "",
-                      Lname: selectedUser.lname || "",
-                      PhoneNumber: selectedUser.phoneNum || "",
-                    }}
-                  />
+                  <div className="d-flex justify-content-evenly align-items-center flex-wrap">
+                    <div className=""> <p>البريد الالكتروني:</p> {selectedUser.email}</div>
+                    <div className=""> <p> رقم الهاتف:</p> {selectedUser.phoneNumber}</div>
+                    <div className=""> <p> اسم المستخدم:</p> {selectedUser.userName}</div>
+                  </div> 
+                  <div className="d-flex justify-content-evenly align-items-center mt-5 flex-wrap">
+                    <div className=""> <p>صورة البطاقة الامامية:</p> <img src={selectedUser.identityImageFrontUrl} alt="" width={200}/></div>
+                    <div className=""> <p> صورة البطاقة الخلفية:</p> <img src={selectedUser.identityImageBackUrl} alt="" width={200}/></div>
+                    <div className=""> <p>  الصورة الشخصية:</p> <img src={selectedUser.personalImageUrl} alt="" width={200}/></div>
+                  </div>
                 </div>
               </div>
             </div>

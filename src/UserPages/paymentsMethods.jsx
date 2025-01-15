@@ -6,6 +6,7 @@ import we from '../../public/we.png'
 import { Link } from 'react-router-dom'
 import { GetCountentCourse, GetWalletsNumber } from '../Services/userApiService'
 import { toast } from 'react-toastify'
+import ContentCatd from '../userComponents/ContentCatd'
 
 
 export default function PaymentsMethods() {
@@ -33,7 +34,7 @@ export default function PaymentsMethods() {
             <div className="container my-5">
                 <div className="row mt-5">
                     <div className="col-12 col-md-6 col-lg-3 mb-4">
-                        <PayCard
+                        <ContentCatd
                             imgSrc={vodafone}
                             backgroundColor="rgb(255, 1, 1)"
                             number={nums?.vodavoneNum}
@@ -42,7 +43,7 @@ export default function PaymentsMethods() {
                         />
                     </div>
                     <div className="col-12 col-md-6 col-lg-3 mb-4">
-                        <PayCard
+                        <ContentCatd
                             imgSrc={orange}
                             backgroundColor="rgb(255, 102, 0)"
                             number={nums?.orangeNum}
@@ -51,7 +52,7 @@ export default function PaymentsMethods() {
                         />
                     </div>
                     <div className="col-12 col-md-6 col-lg-3 mb-4">
-                        <PayCard
+                        <ContentCatd
                             imgSrc={Etisalat}
                             backgroundColor="rgb(0, 0, 0)"
                             number={nums?.etisalatNum}
@@ -60,7 +61,7 @@ export default function PaymentsMethods() {
                         />
                     </div>
                     <div className="col-12 col-md-6 col-lg-3 mb-4">
-                        <PayCard
+                        <ContentCatd
                             imgSrc={we}
                             backgroundColor="rgb(91, 47, 145)"
                             number={nums?.weNum}
@@ -97,25 +98,6 @@ export default function PaymentsMethods() {
     );
 }
 
-const PayCard = ({ imgSrc, number, backgroundColor, imgSize, title }) => {
-    return (
-        <div
-            className="payCard rounded-3 overflow-hidden border border-1 border-light p-3 mx-auto"
-            style={{
-                backgroundColor: backgroundColor,
-                width: "100%",
-            }}
-        >
-            <div className="img mb-3 d-flex justify-content-start">
-                <img src={imgSrc} alt="card-logo" style={{ width: imgSize }} />
-            </div>
-            <div className="" dir='ltr'>
-                <p className='ms-2'> {title}:</p>
-                <p className="text-white fw-bold text-center fs-3">{number}</p>
 
-            </div>
-        </div>
-    );
-};
 
 
