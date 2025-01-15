@@ -152,8 +152,8 @@ const JoinRequests = () => {
         </table>
       </div>
       
-
-        <nav aria-label="Page navigation example">
+{totalPages>1 &&
+ <nav aria-label="Page navigation example">
           <ul className="pagination d-flex justify-content-center">
             <li className="page-item">
               <button
@@ -185,6 +185,8 @@ const JoinRequests = () => {
             </li>
           </ul>
         </nav>
+}
+       
 
         {selectedUser && (
           <div

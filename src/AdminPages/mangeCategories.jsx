@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 export default function ManageCategories() {
     const [categories, setCategories] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(10);
+    const [itemsPerPage] = useState(12);
     const [totalPages, setTotalPages] = useState(1);
     const [showModal, setShowModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -20,6 +20,7 @@ export default function ManageCategories() {
             if (res?.data?.isPass) {
                 setCategories(res.data.data.paginatedData);
                 setTotalPages(res.data.data.numberOfPages);
+                console.log(res)
             } else {
                 toast.info(res?.data?.message);
             }
@@ -119,14 +120,14 @@ export default function ManageCategories() {
                                         className="btn btn-outline-danger d-flex align-items-center"
                                         onClick={() => handleDeleteCategory(category.id)}
                                     >
-                                        <UilTrashAlt size="18" className="me-1" />
+                                        
                                         مسح
                                     </button>
                                     <button
                                         className="btn btn-outline-light d-flex align-items-center"
                                         onClick={() => handleEditCategory(category)}
                                     >
-                                        <UilEdit size="18" className="me-1" />
+                                       
                                         تعديل
                                     </button>
                                     <Link to={`courses/${category.id}`} className="btn btn-outline-primary">
@@ -138,7 +139,7 @@ export default function ManageCategories() {
                     </div>
                 ))}
             </div>
-            {categories.length > 0 && (
+            {totalPages > 1 && (
                 <nav aria-label="Page navigation example" className="mt-4">
                     <ul className="pagination justify-content-center">
                         <li className="page-item">
@@ -176,7 +177,7 @@ export default function ManageCategories() {
                 </nav>
             )}
 
-            {/* Add Category Modal */}
+            
             {showModal && (
                 <>
                     <div className="modal-backdrop fade show"></div>
@@ -222,7 +223,7 @@ export default function ManageCategories() {
                 </>
             )}
 
-            {/* Edit Category Modal */}
+        
             {showEditModal && (
                 <>
                     <div className="modal-backdrop fade show"></div>

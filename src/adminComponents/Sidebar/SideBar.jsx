@@ -4,15 +4,17 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from "./style.module.css";
 import {
-  UilUserPlus,
-  UilGraduationCap,
-  UilFileAlt,
-  UilUserCheck,
-  UilUserExclamation,
-  UilUserCircle,
-  UilCog,
-  UilSignout,
-} from "@iconscout/react-unicons";
+  FaUserPlus,
+  FaGraduationCap,
+  FaFileAlt,
+  FaUserCheck,
+  FaUserCircle,
+  FaCog,
+  FaSignOutAlt,
+} from "react-icons/fa";
+
+ 
+
 import { useAuth } from "../../context/authContext";
 
 const SideBar = ({ activee }) => {
@@ -47,14 +49,14 @@ const Logout=()=>{
                 <span className={styles.activeFlag}></span>
               )}
               <span className={`${styles.icon}`}>
-                <UilGraduationCap />
+              <FaGraduationCap />
               </span>
               <span className={`${styles.title}`}>
                 الفئات
               </span>
             </div>
           </OverlayTrigger>
-
+     
 
           <OverlayTrigger
             placement="right"
@@ -69,7 +71,7 @@ const Logout=()=>{
                 <span className={`${styles.activeFlag} d-none d-sm-block`}></span>
               )}
               <span className={`${styles.icon}`}>
-                <UilFileAlt />
+              <FaFileAlt />
               </span>
               <span className={`${styles.title} text-left fs-6`}>
                 معلومات المرشحين
@@ -77,7 +79,7 @@ const Logout=()=>{
               </span>
             </div>
           </OverlayTrigger>
-
+ 
           <OverlayTrigger
             placement="right"
             overlay={<Tooltip> طلبات الاشتراك</Tooltip>}
@@ -91,14 +93,15 @@ const Logout=()=>{
                 <span className={`${styles.activeFlag} d-none d-sm-block`}></span>
               )}
               <span className={`${styles.icon}`}>
-                <UilUserPlus />
+              <FaUserPlus />
               </span>
               <span className={`${styles.title} text-left fs-6`}>
                 طلبات الاشتراك
               </span>
             </div>
           </OverlayTrigger>
-
+   
+    
           <OverlayTrigger
             placement="right"
             overlay={<Tooltip>طلبات الانضمام</Tooltip>}
@@ -113,14 +116,15 @@ const Logout=()=>{
               )}
               <span className={`${styles.icon}`}>
 
-                <UilUserCircle />
+              <FaUserCircle />
               </span>
               <span className={`${styles.title} fs-6`}>
                 طلبات الانضمام
               </span>
             </div>
           </OverlayTrigger>
-
+        
+    
           <OverlayTrigger
             placement="right"
             overlay={<Tooltip>المستخدمين المقبولين</Tooltip>}
@@ -134,13 +138,16 @@ const Logout=()=>{
                 <span className={styles.activeFlag}></span>
               )}
               <span className={`${styles.icon}`}>
-                <UilUserCheck />
+              <FaUserCheck />
               </span>
               <span className={`${styles.title}`} style={{ fontSize: "0.9rem" }}>
                 المستخدمين المقبولين
               </span>
             </div>
           </OverlayTrigger>
+          
+    
+
           <OverlayTrigger
             placement="right"
             overlay={<Tooltip>الإعدادات</Tooltip>}
@@ -154,14 +161,15 @@ const Logout=()=>{
                 <span className={styles.activeFlag}></span>
               )}
               <span className={`${styles.icon}`}>
-                <UilCog />
+              <FaCog />
               </span>
               <span className={`${styles.title}`}>
                 الإعدادات
               </span>
             </div>
           </OverlayTrigger>
-
+          
+        
           <OverlayTrigger
             placement="right"
             overlay={<Tooltip>تسجيل الخروج</Tooltip>}
@@ -175,7 +183,7 @@ const Logout=()=>{
                 <span className={styles.activeFlag}></span>
               )}
               <span className={`${styles.icon}`}>
-                <UilSignout />
+              <FaSignOutAlt />
               </span>
               <span className={`${styles.title}`}>
                 تسجيل الخروج

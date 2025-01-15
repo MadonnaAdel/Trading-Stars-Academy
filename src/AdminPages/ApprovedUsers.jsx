@@ -49,12 +49,12 @@ const ApprovedUsers = () => {
   const updateUser = async (values) => {
     try {
       if (selectedUser) {
-        const res = await UpdateUserAccountForAdmin(selectedUser.id,values );
+        const res = await UpdateUserAccountForAdmin(selectedUser.id, values);
         console.log(selectedUser)
-        if(res?.data?.isPass){
-             toast.success(res?.data?.message);
-        fetchApprovedUsers(); 
-        }else toast.info(res?.data?.message);
+        if (res?.data?.isPass) {
+          toast.success(res?.data?.message);
+          fetchApprovedUsers();
+        } else toast.info(res?.data?.message);
       }
     } catch (err) {
       toast.error('حدث خطأ أثناء تحديث البيانات');
@@ -64,18 +64,18 @@ const ApprovedUsers = () => {
 
   const validationSchema = Yup.object({
     Fname: Yup.string()
-      
+
       .min(2, "الرجاء إدخال أكثر من حرفين")
       .max(15, "الرجاء إدخال أقل من 15 حرف"),
     Lname: Yup.string()
-      
+
       .min(2, "الرجاء إدخال أكثر من حرفين")
       .max(15, "الرجاء إدخال أقل من 15 حرف"),
     IdentityImageFront: Yup.mixed(),
     IdentityImageBack: Yup.mixed(),
     PersonalImage: Yup.mixed(),
     PhoneNumber: Yup.string()
-      
+
       .matches(/^01[0125][0-9]{8}$/, "الرجاء إدخال رقم هاتف صحيح"),
   });
 
@@ -105,8 +105,8 @@ const ApprovedUsers = () => {
         Fname: selectedUser.fname || "",
         Lname: selectedUser.lname || "",
         IdentityImageFront: selectedUser.identityImageFrontUrl || '',
-        IdentityImageBack: selectedUser.identityImageBackUrl || 
-        '',
+        IdentityImageBack: selectedUser.identityImageBackUrl ||
+          '',
         PersonalImage: selectedUser.personalImageUrl || '',
         PhoneNumber: selectedUser.phoneNumber || "",
       });
@@ -196,39 +196,41 @@ const ApprovedUsers = () => {
             </tbody>
           </table>
         </div>
-
-        <nav aria-label="Page navigation example">
-          <ul className="pagination d-flex justify-content-center">
-            <li className="page-item">
-              <button
-                className="page-link"
-                onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-                disabled={currentPage === 1}
-              >
-                &laquo;
-              </button>
-            </li>
-            {Array.from({ length: totalPages }).map((_, index) => (
-              <li
-                key={index}
-                className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
-              >
-                <button className="page-link" onClick={() => setCurrentPage(index + 1)}>
-                  {index + 1}
+        {totalPages > 1 &&
+          <nav aria-label="Page navigation example">
+            <ul className="pagination d-flex justify-content-center">
+              <li className="page-item">
+                <button
+                  className="page-link"
+                  onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                  disabled={currentPage === 1}
+                >
+                  &laquo;
                 </button>
               </li>
-            ))}
-            <li className="page-item">
-              <button
-                className="page-link"
-                onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
-                disabled={currentPage === totalPages}
-              >
-                &raquo;
-              </button>
-            </li>
-          </ul>
-        </nav>
+              {Array.from({ length: totalPages }).map((_, index) => (
+                <li
+                  key={index}
+                  className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
+                >
+                  <button className="page-link" onClick={() => setCurrentPage(index + 1)}>
+                    {index + 1}
+                  </button>
+                </li>
+              ))}
+              <li className="page-item">
+                <button
+                  className="page-link"
+                  onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                  disabled={currentPage === totalPages}
+                >
+                  &raquo;
+                </button>
+              </li>
+            </ul>
+          </nav>
+        }
+
 
         {selectedUser && (
           <div
@@ -295,7 +297,11 @@ const ApprovedUsers = () => {
                         {formik.errors.IdentityImageFront && formik.touched.IdentityImageFront && (
                           <div className="text-danger">{formik.errors.IdentityImageFront}</div>
                         )}
+                        <div className="my-2 w-75">
+                          <img src={formik?.values?.IdentityImageFront} alt="" width="100%" />
+                        </div>
                       </div>
+
                       <div className="col-md-6">
                         <label>صورة البطاقة الخلفية</label>
                         <input
@@ -307,6 +313,9 @@ const ApprovedUsers = () => {
                         {formik.errors.IdentityImageBack && formik.touched.IdentityImageBack && (
                           <div className="text-danger">{formik.errors.IdentityImageBack}</div>
                         )}
+                         <div className="my-2 w-75">
+                          <img src={formik?.values?.IdentityImageBack} alt="" width="100%" />
+                        </div>
                       </div>
                     </div>
                     <div className="row">
@@ -321,6 +330,9 @@ const ApprovedUsers = () => {
                         {formik.errors.PersonalImage && formik.touched.PersonalImage && (
                           <div className="text-danger">{formik.errors.PersonalImage}</div>
                         )}
+                         <div className="my-2 w-75">
+                          <img src={formik?.values?.PersonalImage} alt="" width="100%" />
+                        </div>
                       </div>
                       <div className="col-md-6">
                         <label>رقم الهاتف</label>

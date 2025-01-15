@@ -78,7 +78,7 @@ function MyCourses() {
             className="btn btn-primary d-flex align-items-center"
             onClick={() => setShowModal(true)}
           >
-            <UilPlus className="me-2" /> إضافة دورة تعليمية جديدة
+            + إضافة دورة تعليمية جديدة
           </button>
         </div>
         <div className="result mt-5">

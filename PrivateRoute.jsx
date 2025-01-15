@@ -1,23 +1,14 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-
-import { CircleLoader } from 'react-spinners';
 import { useAuth } from './src/context/authContext';
 
 function PrivateRoute({ element }) {
-  const { isLoggedIn, user, loading } = useAuth();
-  console.log(user?.role,user)
+  const { isLoggedIn, loading } = useAuth();
+
   if (loading) {
-    return <CircleLoader />;
+    return <div>Loading...</div>;
   }
-  if (isLoggedIn) {
-    if (user.role === 'User') {
-      return element; 
-    } else {
-      return <Navigate to="/dashboard" />;
-    }
-  }
-  return <Navigate to="/signin" />;
+  return isLoggedIn ? element : <Navigate to="/signin" />;
 }
 
 export default PrivateRoute;

@@ -311,6 +311,32 @@ export const getMainVideoByCourseId= async (courseId )=>{
     console.error("Error in getting GetMainVideosByCourseId", error);
   }
 }
+export const UploadNewVideo= async (values,courseId )=>{
+  const formData = new FormData();
+  formData.append('Title', values.Title);
+  formData.append('VideoType', values.VideoType);
+  if (values.VideoFile) {
+    formData.append('VideoFile', values.VideoFile);
+}
+  try {
+    const response = await api.post(`Video/UploadNewVideo?courseId=${courseId}`,formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error in getting UploadNewVideo", error);
+  }
+}
+export const DeleteVideo= async (videoId )=>{
+  try {
+    const response = await api.delete(`Video/DeleteVideo?videoId=${videoId}`);
+    return response;
+  } catch (error) {
+    console.error("Error in getting DeleteVideo", error);
+  }
+}
 export const getOnlineTrainingVideosByCourseId= async (courseId )=>{
   try {
     const response = await api.get(`Video/GetOnlineTrainingVideosByCourseId?Id=${courseId}`);

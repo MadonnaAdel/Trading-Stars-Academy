@@ -70,7 +70,7 @@ export default function SubscriptionRequests() {
       </tr>
     </thead>
     <tbody>
-      {subscriptionRequests.map((user, index) => (
+      {Array.isArray(subscriptionRequests)  && subscriptionRequests?.map((user, index) => (
         <tr key={index}>
           <td>{index + 1}</td>
           <td className="text-nowrap">{user.courseName}</td>

@@ -1,37 +1,50 @@
-import { toast } from "react-toastify"
-import { GetUserEnrolledCourses } from "../Services/userApiService"
+import { toast } from "react-toastify";
+import { GetUserEnrolledCourses } from "../Services/userApiService";
 import { useAuth } from "../context/authContext";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
-
+import { Link } from "react-router-dom";
 
 export default function UserCourses() {
-    
-      const [data, setData] = useState([]);
-      const [filteredData, setFilteredData] = useState([]);
-      const [currentPage, setCurrentPage] = useState(1);
-      const [itemsPerPage, setItemsPerPage] = useState(12);
-      const [loading, setLoading] = useState(true);
-      const [totalPages, setTotalPages] = useState(1);
-      const { isLoggedIn, user } = useAuth();
+    const [data, setData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(12);
+    const [loading, setLoading] = useState(true);
+    const [totalPages, setTotalPages] = useState(1);
+    const { isLoggedIn, user } = useAuth();
 
     const getUserEnrolledCourses = async () => {
         try {
-            const res =await GetUserEnrolledCourses(user.id);
-            if(res?.data?.isPass){
+            const res = await GetUserEnrolledCourses(user.id);
+            if (res?.data?.isPass) {
                 setData(res.data.data);
+            } else {
+                toast.info(res?.data?.message);
             }
-            
         } catch (err) {
-            toast.error(err)
-            console.error(err)
-        }finally{
-            setLoading(false)
+            toast.error(err.message || err);
+            console.error(err);
+        } finally {
+            setLoading(false);
         }
-    }
-    useEffect(()=>{
-        getUserEnrolledCourses()
-    },[data])
+    };
+
+    useEffect(() => {
+        if (user && user.id) {
+            setLoading(true);
+            getUserEnrolledCourses();
+        }
+    }, [user]);
+
+    useEffect(() => {
+
+        const endIndex = currentPage * itemsPerPage;
+        const startIndex = endIndex - itemsPerPage;
+        setFilteredData(data.slice(startIndex, endIndex));
+        setTotalPages(Math.ceil(data.length / itemsPerPage));
+    }, [data, currentPage, itemsPerPage]);
+
     return (
         <section className="my-5 d-flex justify-content-center">
             <div className="container">
@@ -49,7 +62,10 @@ export default function UserCourses() {
                             {filteredData.map((course) => (
                                 <div key={course?.id} className="col-12 col-md-6 col-lg-3 mb-4">
                                     <div className="card border border-1 border-primary-subtle overflow-hidden rounded-4">
-                                        <div className="overflow-hidden " style={{ maxHeight: '150px', minHeight: '150px' }}>
+                                        <div
+                                            className="overflow-hidden"
+                                            style={{ maxHeight: "150px", minHeight: "150px" }}
+                                        >
                                             <img
                                                 src={course?.imageUrl}
                                                 className="img-fluid w-100 h-100 object-fit-contain"
@@ -60,13 +76,17 @@ export default function UserCourses() {
                                             <div className="d-flex">
                                                 <h4 className="card-title">{course?.name}</h4>
                                             </div>
-                                            <p className="card-text text-muted text-truncate">{course?.description}</p>
+                                            <p className="card-text text-muted text-truncate">
+                                                {course?.description}
+                                            </p>
                                             <div className="d-flex justify-content-between my-2">
                                                 <span>LE {course?.price}</span>
                                                 <span>{course?.categoryName}</span>
                                             </div>
                                             <Link to={`/course-details/${course?.id}`}>
-                                                <button className="btn btn-outline-primary btn-sm w-100 my-2">عرض التفاصيل</button>
+                                                <button className="btn btn-outline-primary btn-sm w-100 my-2">
+                                                    عرض التفاصيل
+                                                </button>
                                             </Link>
                                         </div>
                                     </div>
@@ -75,6 +95,7 @@ export default function UserCourses() {
                         </div>
                     )}
                 </div>
+
                 {filteredData.length > 0 && (
                     <nav aria-label="Page navigation example">
                         <ul className="pagination d-flex justify-content-center">
@@ -88,7 +109,10 @@ export default function UserCourses() {
                                 </button>
                             </li>
                             {Array.from({ length: totalPages }).map((_, index) => (
-                                <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                                <li
+                                    key={index}
+                                    className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+                                >
                                     <button className="page-link" onClick={() => setCurrentPage(index + 1)}>
                                         {index + 1}
                                     </button>
@@ -108,5 +132,5 @@ export default function UserCourses() {
                 )}
             </div>
         </section>
-    )
+    );
 }

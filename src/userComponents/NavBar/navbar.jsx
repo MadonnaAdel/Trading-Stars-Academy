@@ -9,7 +9,7 @@ import { faArrowRightFromBracket, faCog } from '@fortawesome/free-solid-svg-icon
 import defualteUser from '/DefulteUser.svg'
 function Navbar() {
   const { logout, isLoggedIn, user } = useAuth();
-  
+
 
   return (
     <nav
@@ -59,52 +59,61 @@ function Navbar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="" className="nav-link">
+              <Link to="/customer-service" className="nav-link">
                 تواصل معنا
               </Link>
             </li>
           </ul>
           <div className="d-flex">
             {isLoggedIn ? (
-                <NavDropdown
-                  title={
-                    <div className=" ms-3 d-flex align-items-center justify-content-center rounded-circle overflow-hidden " style={{ width: "40px", height: "40px" }}>
-                      <Image
-                        src={user?.personalImageUrl}
+              <NavDropdown
+                title={
+                  <div className=" ms-3 d-flex align-items-center justify-content-center rounded-circle overflow-hidden " style={{ width: "40px", height: "40px" }}>
+                    <Image
+                      src={user?.personalImageUrl}
 
-                        onError={(e) => (e.target.src = defualteUser)}
-                        width={70}
-                        className="me-3"
-                      />
-                      
-                    </div>
-                  }
-                  id="basic-nav-dropdown"
-                >
-                  <button
-                    className="btn "
-                  >
-                    <Link to="/my-courses" className='text-decoration-none text-white'>
+                      onError={(e) => (e.target.src = defualteUser)}
+                      width={70}
+                      className="me-3"
+                    />
+
+                  </div>
+                }
+                id="basic-nav-dropdown"
+              >
+                <button
+                  className="btn "
+                >{
+                    user.role === "Admin" ? (<Link to="/dashboard" className='text-decoration-none text-white'>
+                      لوحة التحكم
+                      <FontAwesomeIcon icon={faReceipt} className="me-2" />
+                    </Link>) : (<Link to="/my-courses" className='text-decoration-none text-white'>
                       اشتراكاتي
                       <FontAwesomeIcon icon={faReceipt} className="me-2" />
-                    </Link>
-                  </button>
-                  <button
-                    className="btn "
-                  >
-                    <Link to="/settings" className='text-decoration-none text-white'>
-                      الاعدادات
-                      <FontAwesomeIcon icon={faCog} className="me-2" />
-                    </Link>
-                  </button>
-                  <button
-                    onClick={logout}
-                    className="btn "
-                  >
-                    تسجيل خروج
-                    <FontAwesomeIcon icon={faArrowRightFromBracket} className="me-2" />
-                  </button>
-                </NavDropdown>
+                    </Link>)
+                  }
+
+
+                </button>
+                {user.role === "User" && 
+                 <button
+                  className="btn "
+                >
+                  <Link to="/settings" className='text-decoration-none text-white'>
+                    الاعدادات
+                    <FontAwesomeIcon icon={faCog} className="me-2" />
+                  </Link>
+                </button>
+                }
+               
+                <button
+                  onClick={logout}
+                  className="btn "
+                >
+                  تسجيل خروج
+                  <FontAwesomeIcon icon={faArrowRightFromBracket} className="me-2" />
+                </button>
+              </NavDropdown>
             ) : (
               <>
                 <Link to="/signin">

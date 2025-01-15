@@ -67,13 +67,9 @@ function AdminSettings() {
       const response = await updateAccount(values, user.id);
 
       if (response?.data?.isPass) {
-        toast.success("تم تحديث البيانات بنجاح.");
-        login(response.data.data);
+        toast.success(response?.data?.message)
       } else {
-        const errorMessage = response?.data?.message.includes("Username")
-          ? "اسم المستخدم موجود بالفعل"
-          : response?.data?.message;
-        toast.error(errorMessage);
+        toast.error(response?.data?.message);
       }
     } catch (err) {
       console.error("Error:", err);
@@ -86,13 +82,9 @@ function AdminSettings() {
       const response = await UpdateWalletNumber(1, values);
 
       if (response?.data?.isPass) {
-        toast.success("تم تحديث البيانات بنجاح.");
-        login(response.data.data);
+        toast.success(response?.data.message);
       } else {
-        const errorMessage = response?.data?.message.includes("Username")
-          ? "اسم المستخدم موجود بالفعل"
-          : response?.data?.message;
-        toast.error(errorMessage);
+        toast.error( response?.data?.message);
       }
     } catch (err) {
       console.error("Error:", err);
