@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { UilEllipsisV } from '@iconscout/react-unicons';
 import { toast } from 'react-toastify';
-import ConfirmModal from '../sharedComponents/comfirmModal';
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { DeleteAccount, GetApprovedUsers, UpdateUserAccountForAdmin } from '../Services/adminApiService';
@@ -32,14 +31,12 @@ const ApprovedUsers = () => {
 
   const handleAction = async () => {
     const { userId } = confirmModal;
-    console.log(userId)
     try {
       if (userId) {
         const res = await DeleteAccount(userId);
-        console.log(res)
         if(res?.data?.isPass){
           toast.success(res.data.message);
-        }
+        }else  toast.info(res.data.message);
         
         fetchApprovedUsers();
         setConfirmModal({ show: false, userId: null });
@@ -413,7 +410,6 @@ const ApprovedUsers = () => {
     </div>
   </div>
 )}
-
       </div>
     </section>
   );

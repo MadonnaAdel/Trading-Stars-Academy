@@ -28,6 +28,7 @@ import MangeCategories from './AdminPages/mangeCategories'
 import DisplayCandidates from './AdminPages/displayCandidates'
 import ContactUs from './UserPages/contactUs'
 import AdminGuards from './AdminPages/AdminGurds'
+import AboutUsPage from './UserPages/About/abouts'
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
             <Route path="/forget" element={<SendMailForRestNewPass />} />
             <Route path="/forget-password" element={<SetNewPass />} />
             <Route path="/customer-service" element={<ContactUs />} />
+            <Route path="/about-us" element={<AboutUsPage />} />
             {/* Protected Route */}
             <Route path="/payment-methods" element={<PrivateRoute element={<PaymentsMethods />} />} />
             <Route path="/courses" element={<PrivateRoute element={<Courses />}/>} />

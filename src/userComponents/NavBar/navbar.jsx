@@ -43,12 +43,12 @@ function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link to="" className="nav-link active">
+              <Link to="/" className="nav-link active">
                 الصفحة الرئيسية
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="" className="nav-link">
+              <Link to="/about-us" className="nav-link">
                 عن الاكاديمي
               </Link>
             </li>

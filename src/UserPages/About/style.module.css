@@ -1,0 +1,77 @@
+  .fullWidthBackground {
+    background: no-repeat center url("/bg.svg");
+    background-size: cover;
+  }
+
+  .fullWidthText {
+    width: 100%;
+    text-align: center;
+  }
+
+  .header {
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+  }
+
+
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+  .descriptionSection h3 {
+    font-size: 2rem;
+
+    margin-bottom: 20px;
+  }
+  .descriptionSection p {
+    font-size: 1rem;
+    color: #6c6d7d;
+  }
+
+  .caresrs {
+    font-size: 19px;
+  }
+  .achievementsSection {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .achievementItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    font-size: 1.1rem;
+
+  }
+  
+  .icon {
+    font-size: 1.5rem;
+    color: #007bff;
+    flex-shrink: 0;
+  }
+  
+  .channelList {
+    padding-left: 1.5rem;
+    margin: 0;
+  }
+  
+  .channelList li {
+    list-style-type: disc;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+  .heroSection {
+    background-image: url('/31799.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    color: white;
+}  
