@@ -4,13 +4,16 @@ import Info from '../userComponents/info/Info';
 import { Carousel } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CardsHomSec from '../userComponents/cardsHomSec';
+
 const ExampleCarouselIframe = ({ videoSrc, title }) => {
+  const modifiedSrc = `${videoSrc}?autoplay=0`;
+
   return (
     <iframe
       className="d-block w-100"
       width="100%"
       height="400"
-      src={videoSrc}
+      src={modifiedSrc}
       title={title}
       allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen
@@ -22,8 +25,8 @@ const Home = () => {
   return (
     <div>
       <HeroHome />
-     <CardsHomSec/>
-      <section className='my-5'>
+      <CardsHomSec />
+      <section className="my-5">
         <div className="container text-white">
           <Carousel interval={null}>
             <Carousel.Item>
@@ -31,15 +34,14 @@ const Home = () => {
                 <ExampleCarouselIframe videoSrc="/1.mp4" title="First video" />
               </div>
               <Carousel.Caption>
-                <div className="caption bg-white text-dark p-3 mt-3 " style={{ borderRadius: '8px', width: 'contant-fit' }}>
+                <div className="caption bg-white text-dark p-3 mt-3 " style={{ borderRadius: '8px' }}>
                   <h3>الفرق بين التداول والتسويق</h3>
-
                 </div>
               </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
               <div className="video-wrapper" style={{ width: '700px', marginInline: 'auto' }}>
-                <ExampleCarouselIframe videoSrc="../../public/2.mp4" title="Second video" />
+                <ExampleCarouselIframe videoSrc="/2.mp4" title="Second video" />
               </div>
               <Carousel.Caption>
                 <div className="caption text-white text-dark p-3 mt-3" style={{ borderRadius: '8px' }}>
@@ -50,7 +52,7 @@ const Home = () => {
             </Carousel.Item>
             <Carousel.Item>
               <div className="video-wrapper" style={{ width: '700px', marginInline: 'auto' }}>
-                <ExampleCarouselIframe videoSrc="../../public/3.mp4" title="Third video" />
+                <ExampleCarouselIframe videoSrc="/3.mp4" title="Third video" />
               </div>
               <Carousel.Caption>
                 <div className="caption text-white text-dark p-3 mt-3" style={{ borderRadius: '8px' }}>
@@ -72,7 +74,9 @@ const Home = () => {
         }
       `}</style>
       </section>
-      <Info/>
+      <Info />
+
+
       <section className='my-5'>
         <div className="container text-white">
           <Carousel interval={null}>
