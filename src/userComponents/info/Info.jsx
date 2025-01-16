@@ -5,9 +5,9 @@ function Info() {
   return (
     <section className={`py-5 ${style.heroSection}`}>
       <div className="container z-2">
-        {/* Hero content */}
+       
         <div className="text-center">
-          {/* Section header */}
+          
           <div className="mb-5">
             <h1
               className="display-4 fw-bold mb-4"

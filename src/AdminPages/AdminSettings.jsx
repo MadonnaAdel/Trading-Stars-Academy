@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
-
-import { GenerateResetToken, GetWalletsNumber, resetPassword, updateAccount, UpdateWalletNumber } from "../Services/userApiService";
+import { GenerateResetToken, GetWalletsNumber, resetPassword, updateAccount } from "../Services/userApiService";
 import { useAuth } from "../context/authContext";
+import { UpdateWalletNumber } from "../Services/adminApiService";
 
 function AdminSettings() {
-  const { user, login } = useAuth();
+  const { user,login } = useAuth();
   const [initialValues, setInitialValues] = useState({
     Fname: "",
     Lname: "",
@@ -68,6 +68,7 @@ function AdminSettings() {
 
       if (response?.data?.isPass) {
         toast.success(response?.data?.message)
+        login(response.data.data)
       } else {
         toast.error(response?.data?.message);
       }
@@ -83,8 +84,9 @@ function AdminSettings() {
 
       if (response?.data?.isPass) {
         toast.success(response?.data.message);
+
       } else {
-        toast.error( response?.data?.message);
+        toast.error(response?.data?.message);
       }
     } catch (err) {
       console.error("Error:", err);

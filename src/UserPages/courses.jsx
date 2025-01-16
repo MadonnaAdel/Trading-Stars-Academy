@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import {  getCategoriesName, GetCourses } from '../Services/userApiService';
 import { ClipLoader } from 'react-spinners';
 import Fuse from 'fuse.js';
-import { useAuth } from '../context/authContext';
-import { toast } from 'react-toastify';
 
 function Courses() {
   const [query, setQuery] = useState('');
@@ -16,7 +14,6 @@ function Courses() {
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
-  const { isLoggedIn, user } = useAuth();
 
   const getCourses = async () => {
     try {

@@ -4,7 +4,7 @@ import orange from '../../public/orange.png'
 import Etisalat from '../../public/vectorseek.com-Etisalat New Logo Vector.svg'
 import we from '../../public/we.png'
 import { Link } from 'react-router-dom'
-import { GetCountentCourse, GetWalletsNumber } from '../Services/userApiService'
+import {  GetWalletsNumber } from '../Services/userApiService'
 import { toast } from 'react-toastify'
 import ContentCatd from '../userComponents/ContentCatd'
 

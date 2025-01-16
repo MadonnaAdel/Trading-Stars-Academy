@@ -15,7 +15,6 @@ export default function SetNewPass() {
 
   async function setNewPass(val) {
     try {
-      // حذف confirmPassword قبل الإرسال
       const { confirmPassword, ...dataToSend } = val;
       const response = await resetPassword(dataToSend);
       if (response?.data?.isPass) {

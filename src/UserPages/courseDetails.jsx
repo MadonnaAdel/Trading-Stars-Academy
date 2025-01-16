@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { AddNewCategory, DeleteVideo, EnrollCourseRequest, GetCourseById, GetCourseEnrollmentStatus, getMainVideoByCourseId, getOnlineTrainingVideosByCourseId, GetVideoById, UploadNewVideo } from "../Services/userApiService";
+import {   EnrollCourseRequest, GetCourseById, GetCourseEnrollmentStatus, getMainVideoByCourseId, getOnlineTrainingVideosByCourseId, GetVideoById } from "../Services/userApiService";
 import { ClipLoader } from "react-spinners";
 import { useAuth } from "../context/authContext";
 import { toast } from "react-toastify";
-import { Formik, Field, Form, useFormik } from "formik";
+import {  useFormik } from "formik";
 import * as Yup from "yup";
+import { DeleteVideo, UploadNewVideo } from "../Services/adminApiService";
 
 const CourseDetails = () => {
     const { id } = useParams();
@@ -13,7 +14,7 @@ const CourseDetails = () => {
     const [mainVideos, setMainVideos] = useState([]);
     const [traningVideos, setTraningVideos] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [addLoading, setAddLoading] = useState(false); 
+    const [addLoading, setAddLoading] = useState(false);
     const { user } = useAuth();
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
     const [otp, setOtp] = useState(null);
@@ -79,12 +80,12 @@ const CourseDetails = () => {
     const videoPlay = async (id) => {
         try {
             const res = await GetVideoById(id);
-            console.log("Response:", res);
+            
             if (res?.data?.isPass) {
                 setIsVideoPlaying(true);
                 setOtp(res?.data?.data?.otp);
                 setplaybackInfo(res?.data?.data?.playbackInfo);
-                console.log("OTP:", res?.data?.data?.otp, "PlaybackInfo:", res?.data?.data?.playbackInfo);
+             
             } else {
                 toast.error(res?.data?.message);
             }
@@ -93,15 +94,21 @@ const CourseDetails = () => {
             toast.error("خطأ في تحميل الفيديو");
         }
     };
-
     const deleteVideo = async (id) => {
         try {
             const res = await DeleteVideo(id);
-            console.log("Response:", id);
             if (res?.data?.isPass) {
+               
+                mainVideosResponse((prevDetails) => ({
+                    ...prevDetails,
+                    videos: prevDetails.videos.filter((video) => video.id !== id),
+                }));
+                traningVideos((prevDetails) => ({
+                    ...prevDetails,
+                    videos: prevDetails.videos.filter((video) => video.id !== id),
+                }));
                 toast.success(res?.data?.message);
                 getCoursesDetails();
-                console.log(id);
             } else {
                 toast.error(res?.data?.message);
             }
@@ -110,7 +117,7 @@ const CourseDetails = () => {
             toast.error("خطأ في تحميل الفيديو");
         }
     };
-
+    
     const validationSchema = Yup.object().shape({
         Title: Yup.string().required('اسم الفيديو مطلوب'),
         VideoType: Yup.number().required('نوع الفيديو مطلوب'),
@@ -123,26 +130,26 @@ const CourseDetails = () => {
     };
 
     const handleAddVideo = async (values) => {
-    setAddLoading(true);  
-    try {
-        const res = await UploadNewVideo(values, id);
-        if (res?.data?.isPass) {
-            toast.success(res?.data?.message);
-            setShowModal(false);
-            setAddLoading(false);
-            getCoursesDetails();
-        } else {
-            toast.info(res?.data?.message);
-            setAddLoading(false);
+        setAddLoading(true);
+        try {
+            const res = await UploadNewVideo(values, id);
+            if (res?.data?.isPass) {
+                toast.success(res?.data?.message);
+                setShowModal(false);
+                setAddLoading(false);
+                getCoursesDetails();
+            } else {
+                toast.info(res?.data?.message);
+                setAddLoading(false);
+            }
+
+        } catch (err) {
+            toast.error(err.message || "حدث خطأ");
+            console.error(err);
+        } finally {
+            setLoading(false);
         }
-        
-    } catch (err) {
-        toast.error(err.message || "حدث خطأ");
-        console.error(err);
-    } finally {
-        setLoading(false);  // إيقاف حالة التحميل بعد الانتهاء
-    }
-};
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -375,25 +382,21 @@ const CourseDetails = () => {
                                     >
                                         إلغاء
                                     </button>
-                                    <button 
-    type="submit" 
-    className="btn btn-primary" 
-    disabled={addLoading}  
->
-    {addLoading ? (
-        <>
-            <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
-            <span className="visually-hidden" role="status">Loading...</span>
-            جاري تحميل الفيديو...
-        </>
-    ) : "إضافة"}
-</button>
-
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                        disabled={addLoading}
+                                    >
+                                        {addLoading ? (
+                                            <>
+                                                <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                                <span className="visually-hidden" role="status">Loading...</span>
+                                                جاري تحميل الفيديو...
+                                            </>
+                                        ) : "إضافة"}
+                                    </button>
                                 </div>
                             </form>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -453,79 +456,3 @@ function CourseEnrollment({ course, EnrollmentRequest }) {
     );
 }
 
-const AddVideoPopup = ({ show, onClose, onAddVideo }) => {
-    return (
-        show && (
-            <div className="popup-overlay">
-                <div className="popup-content">
-                    <button className="btn-close" onClick={onClose}>
-                        ×
-                    </button>
-                    <h4>إضافة فيديو</h4>
-                    <Formik
-                        initialValues={{
-                            title: "",
-                            videoUrl: "",
-                            videoType: "main", // default to main video
-                        }}
-                        validationSchema={Yup.object({
-                            title: Yup.string().required("الرجاء إدخال عنوان الفيديو"),
-                            videoUrl: Yup.string().required("الرجاء إدخال رابط الفيديو"),
-                        })}
-                        onSubmit={(values, { setSubmitting }) => {
-                            onAddVideo(values);
-                            setSubmitting(false);
-                            onClose(); // Close popup after submitting
-                        }}
-                    >
-                        {({ isSubmitting }) => (
-                            <Form>
-                                <div className="mb-3">
-                                    <label htmlFor="title" className="form-label">
-                                        العنوان
-                                    </label>
-                                    <Field
-                                        type="text"
-                                        id="title"
-                                        name="title"
-                                        className="form-control"
-                                    />
-                                </div>
-
-                                <div className="mb-3">
-                                    <label htmlFor="videoUrl" className="form-label">
-                                        رابط الفيديو
-                                    </label>
-                                    <Field
-                                        type="text"
-                                        id="videoUrl"
-                                        name="videoUrl"
-                                        className="form-control"
-                                    />
-                                </div>
-
-                                <div className="mb-3">
-                                    <label htmlFor="videoType" className="form-label">
-                                        نوع الفيديو
-                                    </label>
-                                    <Field as="select" id="videoType" name="videoType" className="form-select">
-                                        <option value="main">دروس أساسية</option>
-                                        <option value="training">تدريبات أونلاين</option>
-                                    </Field>
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    className="btn btn-primary"
-                                    disabled={isSubmitting}
-                                >
-                                    {isSubmitting ? "إضافة..." : "إضافة الفيديو"}
-                                </button>
-                            </Form>
-                        )}
-                    </Formik>
-                </div>
-            </div>
-        )
-    );
-};

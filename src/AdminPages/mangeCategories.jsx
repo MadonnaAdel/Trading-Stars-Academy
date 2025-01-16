@@ -1,8 +1,9 @@
-import { UilEdit, UilTrashAlt } from '@iconscout/react-unicons';
+
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { AddNewCategory, DeleteCategory, GetAllCategories, UpdateCategory } from '../Services/userApiService';
+import { GetAllCategories } from '../Services/userApiService';
 import { Link } from 'react-router-dom';
+import { AddNewCategory, DeleteCategory, UpdateCategory } from '../Services/adminApiService';
 
 export default function ManageCategories() {
     const [categories, setCategories] = useState([]);
@@ -20,7 +21,7 @@ export default function ManageCategories() {
             if (res?.data?.isPass) {
                 setCategories(res.data.data.paginatedData);
                 setTotalPages(res.data.data.numberOfPages);
-                console.log(res)
+
             } else {
                 toast.info(res?.data?.message);
             }
@@ -120,14 +121,14 @@ export default function ManageCategories() {
                                         className="btn btn-outline-danger d-flex align-items-center"
                                         onClick={() => handleDeleteCategory(category.id)}
                                     >
-                                        
+
                                         مسح
                                     </button>
                                     <button
                                         className="btn btn-outline-light d-flex align-items-center"
                                         onClick={() => handleEditCategory(category)}
                                     >
-                                       
+
                                         تعديل
                                     </button>
                                     <Link to={`courses/${category.id}`} className="btn btn-outline-primary">
@@ -177,7 +178,7 @@ export default function ManageCategories() {
                 </nav>
             )}
 
-            
+
             {showModal && (
                 <>
                     <div className="modal-backdrop fade show"></div>
@@ -223,7 +224,7 @@ export default function ManageCategories() {
                 </>
             )}
 
-        
+
             {showEditModal && (
                 <>
                     <div className="modal-backdrop fade show"></div>

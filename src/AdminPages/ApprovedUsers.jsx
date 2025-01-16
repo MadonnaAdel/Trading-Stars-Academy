@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { UilEllipsisV } from '@iconscout/react-unicons';
-import { DeleteAccount, GetApprovedUsers, UpdateUserAccountForAdmin } from '../Services/userApiService';
 import { toast } from 'react-toastify';
 import ConfirmModal from '../sharedComponents/comfirmModal';
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { DeleteAccount, GetApprovedUsers, UpdateUserAccountForAdmin } from '../Services/adminApiService';
+
 
 const ApprovedUsers = () => {
   const [approvedUsers, setApprovedUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
-  const [confirmModal, setConfirmModal] = useState({ show: false, userId: null, action: null, reason: "" });
+  const [confirmModal, setConfirmModal] = useState({ show: false, userId: null });
   const [selectedUser, setSelectedUser] = useState(null);
 
-  // Fetch approved users
   const fetchApprovedUsers = async () => {
     try {
       const response = await GetApprovedUsers(currentPage, itemsPerPage);
@@ -32,12 +32,17 @@ const ApprovedUsers = () => {
 
   const handleAction = async () => {
     const { userId } = confirmModal;
+    console.log(userId)
     try {
       if (userId) {
-        await DeleteAccount(userId);
-        toast.success('تم حذف المستخدم بنجاح');
+        const res = await DeleteAccount(userId);
+        console.log(res)
+        if(res?.data?.isPass){
+          toast.success(res.data.message);
+        }
+        
         fetchApprovedUsers();
-        setConfirmModal({ show: false, userId: null, action: null, reason: "" });
+        setConfirmModal({ show: false, userId: null });
       }
     } catch (error) {
       console.error(error);
@@ -50,7 +55,7 @@ const ApprovedUsers = () => {
     try {
       if (selectedUser) {
         const res = await UpdateUserAccountForAdmin(selectedUser.id, values);
-        console.log(selectedUser)
+
         if (res?.data?.isPass) {
           toast.success(res?.data?.message);
           fetchApprovedUsers();
@@ -92,12 +97,10 @@ const ApprovedUsers = () => {
     onSubmit: updateUser,
   });
 
-
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     formik.setFieldValue(name, files[0]);
   };
-
 
   useEffect(() => {
     if (selectedUser) {
@@ -170,9 +173,7 @@ const ApprovedUsers = () => {
                         <li>
                           <button
                             className="btn w-100"
-                            onClick={() =>
-                              setConfirmModal({ show: true, userId: user.id, action: 'reject', reason: "" })
-                            }
+                            onClick={() =>{ setConfirmModal({ show: true, userId: user.id})} }
                           >
                             حذف
                           </button>
@@ -313,7 +314,7 @@ const ApprovedUsers = () => {
                         {formik.errors.IdentityImageBack && formik.touched.IdentityImageBack && (
                           <div className="text-danger">{formik.errors.IdentityImageBack}</div>
                         )}
-                         <div className="my-2 w-75">
+                        <div className="my-2 w-75">
                           <img src={formik?.values?.IdentityImageBack} alt="" width="100%" />
                         </div>
                       </div>
@@ -330,7 +331,7 @@ const ApprovedUsers = () => {
                         {formik.errors.PersonalImage && formik.touched.PersonalImage && (
                           <div className="text-danger">{formik.errors.PersonalImage}</div>
                         )}
-                         <div className="my-2 w-75">
+                        <div className="my-2 w-75">
                           <img src={formik?.values?.PersonalImage} alt="" width="100%" />
                         </div>
                       </div>
@@ -368,16 +369,51 @@ const ApprovedUsers = () => {
           </div>
         )}
 
-        {confirmModal.show && (
-          <ConfirmModal
-            action={confirmModal.action}
-            userId={confirmModal.userId}
-            onConfirm={handleAction}
-            onCancel={() => setConfirmModal({ show: false, userId: null })}
-            reason={confirmModal.reason}
-            setReason={(value) => setConfirmModal({ ...confirmModal, reason: value })}
-          />
-        )}
+{confirmModal.show && (
+  <div
+    className="modal fade show"
+    tabIndex="-1"
+    style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+    aria-labelledby="confirmModalLabel"
+    aria-modal="true"
+    role="dialog"
+  >
+    <div className="modal-dialog modal-dialog-centered">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title" id="confirmModalLabel">
+            حذف بيانات المستخدم
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setConfirmModal({ show: false, userId: null })}
+          ></button>
+        </div>
+        <div className="modal-body">
+          هل أنت متأكد من حذف بيانات المستخدم؟
+        </div>
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => setConfirmModal({ show: false, userId: null })}
+          >
+            إغلاق
+          </button>
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={handleAction}
+          >
+            حذف
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
       </div>
     </section>
   );

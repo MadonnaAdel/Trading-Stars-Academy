@@ -13,19 +13,19 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 
- 
+
 
 import { useAuth } from "../../context/authContext";
 
 const SideBar = ({ activee }) => {
-  const { isLoggedIn, logout } = useAuth();
+  const {logout } = useAuth();
 
   const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState(activee);
-const Logout=()=>{
-  logout()
-  navigate('/signin')
-}
+  const Logout = () => {
+    logout()
+    navigate('/signin')
+  }
   const handleItemClick = (item, path) => {
     setActiveItem(item);
     navigate(path);
@@ -49,14 +49,14 @@ const Logout=()=>{
                 <span className={styles.activeFlag}></span>
               )}
               <span className={`${styles.icon}`}>
-              <FaGraduationCap />
+                <FaGraduationCap />
               </span>
               <span className={`${styles.title}`}>
                 الفئات
               </span>
             </div>
           </OverlayTrigger>
-     
+
 
           <OverlayTrigger
             placement="right"
@@ -71,7 +71,7 @@ const Logout=()=>{
                 <span className={`${styles.activeFlag} d-none d-sm-block`}></span>
               )}
               <span className={`${styles.icon}`}>
-              <FaFileAlt />
+                <FaFileAlt />
               </span>
               <span className={`${styles.title} text-left fs-6`}>
                 معلومات المرشحين
@@ -79,7 +79,7 @@ const Logout=()=>{
               </span>
             </div>
           </OverlayTrigger>
- 
+
           <OverlayTrigger
             placement="right"
             overlay={<Tooltip> طلبات الاشتراك</Tooltip>}
@@ -93,15 +93,15 @@ const Logout=()=>{
                 <span className={`${styles.activeFlag} d-none d-sm-block`}></span>
               )}
               <span className={`${styles.icon}`}>
-              <FaUserPlus />
+                <FaUserPlus />
               </span>
               <span className={`${styles.title} text-left fs-6`}>
                 طلبات الاشتراك
               </span>
             </div>
           </OverlayTrigger>
-   
-    
+
+
           <OverlayTrigger
             placement="right"
             overlay={<Tooltip>طلبات الانضمام</Tooltip>}
@@ -116,15 +116,15 @@ const Logout=()=>{
               )}
               <span className={`${styles.icon}`}>
 
-              <FaUserCircle />
+                <FaUserCircle />
               </span>
               <span className={`${styles.title} fs-6`}>
                 طلبات الانضمام
               </span>
             </div>
           </OverlayTrigger>
-        
-    
+
+
           <OverlayTrigger
             placement="right"
             overlay={<Tooltip>المستخدمين المقبولين</Tooltip>}
@@ -138,15 +138,15 @@ const Logout=()=>{
                 <span className={styles.activeFlag}></span>
               )}
               <span className={`${styles.icon}`}>
-              <FaUserCheck />
+                <FaUserCheck />
               </span>
               <span className={`${styles.title}`} style={{ fontSize: "0.9rem" }}>
                 المستخدمين المقبولين
               </span>
             </div>
           </OverlayTrigger>
-          
-    
+
+
 
           <OverlayTrigger
             placement="right"
@@ -161,15 +161,15 @@ const Logout=()=>{
                 <span className={styles.activeFlag}></span>
               )}
               <span className={`${styles.icon}`}>
-              <FaCog />
+                <FaCog />
               </span>
               <span className={`${styles.title}`}>
                 الإعدادات
               </span>
             </div>
           </OverlayTrigger>
-          
-        
+
+
           <OverlayTrigger
             placement="right"
             overlay={<Tooltip>تسجيل الخروج</Tooltip>}
@@ -177,13 +177,13 @@ const Logout=()=>{
             <div
               className={`d-flex align-items-center ${styles.element} ${activeItem === "log-out" ? styles.active : ""
                 }`}
-                onClick={() =>Logout()}
+              onClick={() => Logout()}
             >
               {activeItem === "log-out" && (
                 <span className={styles.activeFlag}></span>
               )}
               <span className={`${styles.icon}`}>
-              <FaSignOutAlt />
+                <FaSignOutAlt />
               </span>
               <span className={`${styles.title}`}>
                 تسجيل الخروج

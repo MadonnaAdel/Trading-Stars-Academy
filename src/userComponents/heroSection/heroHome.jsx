@@ -5,9 +5,9 @@ export default function HeroHome() {
   return (
     <section className={`py-5 ${style.heroSection}`}>
       <div className="container z-2">
-        {/* Hero content */}
+        
         <div className="row align-items-center mt-5">
-          {/* Section header */}
+        
           <div className="col-12 col-md-4 text-center text-md-end mt-5 mt-md-0 ">
             <h1
               className="display-4 fw-bold mb-2 fs-3 "
@@ -44,7 +44,7 @@ export default function HeroHome() {
             </div>
           </div>
 
-          {/* Hero image */}
+       
           <div className="col-12 col-md-8 mb-5 text-center ">
             <img 
               src="/heroImage.svg" 

@@ -12,7 +12,7 @@ export default function UserCourses() {
     const [itemsPerPage, setItemsPerPage] = useState(12);
     const [loading, setLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(1);
-    const { isLoggedIn, user } = useAuth();
+    const {  user } = useAuth();
 
     const getUserEnrolledCourses = async () => {
         try {

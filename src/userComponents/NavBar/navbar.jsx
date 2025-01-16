@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
-import { Col, Image, NavDropdown } from 'react-bootstrap';
-import img from '/public/Untitled design.png'
+import { Image, NavDropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faReceipt } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRightFromBracket, faCog } from '@fortawesome/free-solid-svg-icons';
@@ -95,17 +94,17 @@ function Navbar() {
 
 
                 </button>
-                {user.role === "User" && 
-                 <button
-                  className="btn "
-                >
-                  <Link to="/settings" className='text-decoration-none text-white'>
-                    الاعدادات
-                    <FontAwesomeIcon icon={faCog} className="me-2" />
-                  </Link>
-                </button>
+                {user.role === "User" &&
+                  <button
+                    className="btn "
+                  >
+                    <Link to="/settings" className='text-decoration-none text-white'>
+                      الاعدادات
+                      <FontAwesomeIcon icon={faCog} className="me-2" />
+                    </Link>
+                  </button>
                 }
-               
+
                 <button
                   onClick={logout}
                   className="btn "

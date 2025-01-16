@@ -6,7 +6,7 @@ export default function AdminGuards({ element }) {
   const { isLoggedIn, loading, user } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>; // يمكنك استخدام مكون تحميل هنا
+    return <div>Loading...</div>; 
   }
 
   return isLoggedIn && user?.role === 'Admin' ? element : <Navigate to="/" />;

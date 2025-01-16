@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
     return (
-        <div className="container my-5">
+        <div className="">
             <footer
                 className="text-center text-lg-start text-white bg-secondary-subtle"
-                style={{ boxShadow: "var(--shadow)" }}
+                
             >
                 <div className="container p-4 pb-0">
                     <hr className="my-3" />

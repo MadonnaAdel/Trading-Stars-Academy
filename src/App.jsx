@@ -6,7 +6,7 @@ import SignIn from './UserPages/AuthPages/SignIn'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Courses from './UserPages/courses'
-import Layout from './sharedComponents/layout'
+import Layout from './UserPages/userLayout'
 import CourseDetails from './UserPages/courseDetails'
 import { AuthProvider } from './context/authContext'
 import Settings from './UserPages/settings/Settings'
@@ -19,9 +19,7 @@ import Candidate from './UserPages/AuthPages/candidate'
 import SendMailForRestNewPass from './UserPages/AuthPages/SendMailForRestNewPass'
 import SetNewPass from './UserPages/AuthPages/SetNewPass'
 import SubscriptionRequests from './AdminPages/SubscriptionRequests'
-
 import ApprovedUsers from './AdminPages/ApprovedUsers'
-import RejectedUsers from './AdminPages/RejectedUsers'
 import AdminSettings from './AdminPages/AdminSettings'
 import JoinRequests from './AdminPages/JoinRequests'
 import PaymentsMethods from './UserPages/paymentsMethods'
@@ -52,6 +50,7 @@ function App() {
             <Route path="/my-courses" element={<PrivateRoute element={<UserCourses />} />} />
             <Route path="/course-details/:id" element={<PrivateRoute element={<CourseDetails />} />} />
           </Route>
+
           <Route path="/dashboard" element={<AdminGuards element={<DashboardLayout />} />}>
             <Route index element={<MangeCategories />} />
             <Route path="subscription-requests" element={<SubscriptionRequests />} />
@@ -59,7 +58,6 @@ function App() {
             <Route path="join-requests" element={<JoinRequests />} />
             <Route path="candidates" element={<DisplayCandidates />} />
             <Route path="approved-users" element={<ApprovedUsers />} />
-            <Route path="rejected-users" element={<RejectedUsers />} />
             <Route path="settings" element={<AdminSettings />} />
           </Route>
         </Routes>
