@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faReceipt } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRightFromBracket, faCog } from '@fortawesome/free-solid-svg-icons';
 import defualteUser from '/DefulteUser.svg'
+import styles from './style.module.css'
 function Navbar() {
   const { logout, isLoggedIn, user } = useAuth();
 
@@ -116,12 +117,10 @@ function Navbar() {
             ) : (
               <>
                 <Link to="/signin">
-                  <button className="btn btn-outline-primary" type="button">
-                    تسجيل دخول
-                  </button>
+                <button class={styles.btn}>تسجيل دخول</button>
                 </Link>
                 <Link to="/signup">
-                  <button className="btn btn-primary me-2" type="button">
+                  <button class={`${styles.btn} me-3`} type="button">
                     تسجيل
                   </button>
                 </Link>
