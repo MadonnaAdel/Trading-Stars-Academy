@@ -74,7 +74,7 @@
 }
 @media (max-width:991px)
 {
-  .siteFooter [class^=col-]
+  .siteFooter [className^=col-]
   {
     margin-bottom:30px
   }
@@ -146,11 +146,15 @@
 }
 .socialIcons a.linkedin:hover
 {
-  background-color:#007bb6
+  background-color:#132e3b
 }
 .socialIcons a.dribbble:hover
 {
   background-color:#ea4c89
+}
+.socialIcons a.youtube:hover
+{
+  background-color:#ee1313
 }
 @media (max-width:767px)
 {

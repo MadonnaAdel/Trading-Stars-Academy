@@ -21,10 +21,10 @@ import SetNewPass from './UserPages/AuthPages/SetNewPass'
 import SubscriptionRequests from './AdminPages/SubscriptionRequests'
 import ApprovedUsers from './AdminPages/ApprovedUsers'
 import AdminSettings from './AdminPages/AdminSettings'
-import JoinRequests from './AdminPages/JoinRequests'
+import JoinRequests from './AdminPages/joinRequest/JoinRequests'
 import PaymentsMethods from './UserPages/paymentsMethods'
 import UserCourses from './UserPages/UserCourses'
-import MangeCategories from './AdminPages/mangeCategories'
+import ManageCategories from './AdminPages/Categories/mangeCategories'
 import DisplayCandidates from './AdminPages/displayCandidates'
 import ContactUs from './UserPages/contactUs'
 import AdminGuards from './AdminPages/AdminGurds'
@@ -54,7 +54,7 @@ function App() {
           </Route>
 
           <Route path="/dashboard" element={<AdminGuards element={<DashboardLayout />} />}>
-            <Route index element={<MangeCategories />} />
+            <Route index element={<ManageCategories />} />
             <Route path="subscription-requests" element={<SubscriptionRequests />} />
             <Route path="courses/:id" element={<MyCourses />} />
             <Route path="join-requests" element={<JoinRequests />} />

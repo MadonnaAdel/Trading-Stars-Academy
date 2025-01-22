@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { GenerateResetToken, GetWalletsNumber, resetPassword, updateAccount } from "../Services/userApiService";
 import { useAuth } from "../context/authContext";
 import { UpdateWalletNumber } from "../Services/adminApiService";
+import HeaderDashboard from "../adminComponents/HeaderDashboard";
 
 function AdminSettings() {
   const { user,login } = useAuth();
@@ -162,6 +163,7 @@ function AdminSettings() {
   return (
     <section style={{ width: "85%" }}>
       <div className="container py-4">
+        <HeaderDashboard title="الاعدادات"/>
         <div className="row g-4 mt-5">
           <div className="col-md-4 col-lg-4">
             <div className="card bg-dark-subtle border-primary-subtle">

@@ -4,16 +4,16 @@ import Info from '../userComponents/info/Info';
 import { Carousel } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CardsHomSec from '../userComponents/cardsHomSec';
-const videos1=[
-  {video:"/1.mp4",title:"الفرق بين التداول والتسويق"},
-  {video:"/2.mp4",title:"الفرق بين التداول والتسويق"},
-  {video:"/3.mp4",title:"الفرق بين التداول والتسويق"},
+const videos1 = [
+  { video: "/1.mp4", title: "الفرق بين التداول والتسويق" },
+  { video: "/2.mp4", title: "الفرق بين التداول والتسويق" },
+  { video: "/3.mp4", title: "الفرق بين التداول والتسويق" },
 
 ]
-const videos2=[
-  {video:"/4.mp4",title:"الفرق بين التداول والتسويق"},
-  {video:"/5.mp4",title:"الفرق بين التداول والتسويق"},
-  {video:"/6.mp4",title:"الفرق بين التداول والتسويق"},
+const videos2 = [
+  { video: "/4.mp4", title: "الفرق بين التداول والتسويق" },
+  { video: "/5.mp4", title: "الفرق بين التداول والتسويق" },
+  { video: "/6.mp4", title: "الفرق بين التداول والتسويق" },
 
 ]
 const ExampleCarouselIframe = ({ videoSrc, title }) => {
@@ -41,21 +41,21 @@ const Home = () => {
       <CardsHomSec />
       <section className="my-5">
         <div className="container text-white">
-        <Carousel interval={null}>
-  {videos1 &&
-    videos1.map((video, index) => (
-      <Carousel.Item key={index}>
-        <div className="video-wrapper" style={{ width: '700px', marginInline: 'auto' }}>
-          <ExampleCarouselIframe videoSrc={video.video} title="First video" />
-        </div>
-        <Carousel.Caption>
-          <div className="caption bg-white text-dark p-3 mt-3" style={{ borderRadius: '8px' }}>
-            <h3>{video.title}</h3>
-          </div>
-        </Carousel.Caption>
-      </Carousel.Item>
-    ))}
-</Carousel>
+          <Carousel interval={null}>
+            {videos1 &&
+              videos1.map((video, index) => (
+                <Carousel.Item key={index}>
+                  <div className="video-wrapper" style={{ width: '700px', marginInline: 'auto' }}>
+                    <ExampleCarouselIframe videoSrc={video.video} title="First video" />
+                  </div>
+                  <Carousel.Caption>
+                    <div className="caption bg-white text-dark p-3 mt-3" style={{ borderRadius: '8px' }}>
+                      <h3>{video.title}</h3>
+                    </div>
+                  </Carousel.Caption>
+                </Carousel.Item>
+              ))}
+          </Carousel>
 
         </div>
 
@@ -75,19 +75,19 @@ const Home = () => {
       <section className='my-5'>
         <div className="container text-white">
           <Carousel interval={null}>
-          {videos2 &&
-    videos2.map((video, index) => (
-      <Carousel.Item key={index}>
-        <div className="video-wrapper" style={{ width: '700px', marginInline: 'auto' }}>
-          <ExampleCarouselIframe videoSrc={video.video} title="First video" />
-        </div>
-        <Carousel.Caption>
-          <div className="caption bg-white text-dark p-3 mt-3" style={{ borderRadius: '8px' }}>
-            <h3>{video.title}</h3>
-          </div>
-        </Carousel.Caption>
-      </Carousel.Item>
-    ))}
+            {videos2 &&
+              videos2.map((video, index) => (
+                <Carousel.Item key={index}>
+                  <div className="video-wrapper" style={{ width: '700px', marginInline: 'auto' }}>
+                    <ExampleCarouselIframe videoSrc={video.video} title="First video" />
+                  </div>
+                  <Carousel.Caption>
+                    <div className="caption bg-white text-dark p-3 mt-3" style={{ borderRadius: '8px' }}>
+                      <h3>{video.title}</h3>
+                    </div>
+                  </Carousel.Caption>
+                </Carousel.Item>
+              ))}
           </Carousel>
         </div>
 

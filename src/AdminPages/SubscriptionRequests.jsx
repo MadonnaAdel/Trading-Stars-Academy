@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import ConfirmModal from '../sharedComponents/comfirmModal';
+import ConfirmModal from '../sharedComponents/modal/comfirmModal';
 import { ApproveEnrollmentRequest, GetNotApprovedEnrollmentRequests, RejectEnrollmentRequest } from '../Services/adminApiService';
+import HeaderDashboard from '../adminComponents/HeaderDashboard';
+import Pagination from '../sharedComponents/Pagination';
+import ActionBtn from '../adminComponents/ActionBtn';
+import { FaCheck, FaEllipsisV, FaTimes } from 'react-icons/fa';
 
 export default function SubscriptionRequests() {
   const [subscriptionRequests, setSubscriptionRequests] = useState([]);
@@ -11,13 +15,15 @@ export default function SubscriptionRequests() {
     action: null,
     reason: "",
   });
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
   const fetchSubscriptionRequests = async () => {
     try {
-      const response = await GetNotApprovedEnrollmentRequests();
+      const response = await GetNotApprovedEnrollmentRequests(currentPage,itemsPerPage);
       if (response?.data?.isPass) {
-        setSubscriptionRequests(response?.data?.data);
-
+        setSubscriptionRequests(response?.data?.data?.paginatedData);
+        setTotalPages(response.data.data.numberOfPages)
       } else toast.info(response?.data?.message)
 
 
@@ -32,14 +38,22 @@ export default function SubscriptionRequests() {
   }, []);
 
   const handleAction = async () => {
-    const { reqId, action, reason } = confirmModal;
+    const { reqId, action } = confirmModal;
     try {
       if (action === 'approve') {
-        await ApproveEnrollmentRequest(reqId);
-        toast.success('تم قبول طلب الاشتراك بنجاح');
+        const AppeoveReq= await ApproveEnrollmentRequest(reqId);
+        if(AppeoveReq?.data?.isPass){
+           toast.success(AppeoveReq?.data?.message);
+        fetchSubscriptionRequests()
+        } else toast.info(AppeoveReq?.data?.message)
+       
       } else if (action === 'reject') {
-        await RejectEnrollmentRequest(reqId);
-        toast.success('تم رفض طلب الاشتراك بنجاح');
+        const RejectReq= await RejectEnrollmentRequest(reqId);
+        if(RejectReq?.data?.isPass){
+           toast.success(RejectReq?.data?.message);
+        fetchSubscriptionRequests()
+        } else toast.info(RejectReq?.data?.message)
+       
       }
       setConfirmModal({ show: false, reqId: null, action: null });
       fetchSubscriptionRequests();
@@ -53,6 +67,7 @@ export default function SubscriptionRequests() {
   return (
     <section style={{ width: "85%" }}>
       <div className="container mt-4">
+        <HeaderDashboard title="ادارة طلبات الاشتراك" />
         <div className="table-responsive">
           <table className="table table-striped table-hover">
             <thead>
@@ -63,7 +78,7 @@ export default function SubscriptionRequests() {
                 <th className="text-nowrap">البريد الالكتروني</th>
                 <th className="text-nowrap">اسم المشترك</th>
                 <th className="text-nowrap">اسم المستخدم</th>
-                <th>#</th>
+                <th>العمليات</th>
               </tr>
             </thead>
             <tbody>
@@ -76,48 +91,41 @@ export default function SubscriptionRequests() {
                   <td className="text-nowrap">{`${user.userFirstName} ${user.userLastName}`}</td>
                   <td className="text-nowrap">{user.userName}</td>
                   <td>
+                    
                     <div className="dropdown">
                       <button
-                        className="btn btn-outline-secondary dropdown-toggle"
+                        className="btn text-white dropdown-toggle p-1"
                         type="button"
                         id={`dropdownMenuButton${index}`}
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
-                        <i className="fas fa-ellipsis-v"></i>
+                        <FaEllipsisV size="15" />
                       </button>
                       <ul
                         className="dropdown-menu"
                         aria-labelledby={`dropdownMenuButton${index}`}
                       >
-                        <li>
-                          <button
-                            className="btn w-100"
-                            onClick={() =>
-                              setConfirmModal({
-                                show: true,
-                                reqId: user.id,
-                                action: "approve",
-                              })
-                            }
-                          >
-                            <i className="fas fa-check-circle me-1"></i> قبول
-                          </button>
+                        <li className='w-100 px-4'>
+                          <ActionBtn
+                          btnClass='btn-outline-success mb-3'
+                           onClick={() =>
+                            setConfirmModal({
+                              show: true,
+                              reqId: user.id,
+                              action: "approve",
+                            })
+                          } title='قبول' icon={<FaCheck />} />
                         </li>
-                        <li>
-                          <button
-                            className="btn w-100"
-                            onClick={() =>
-                              setConfirmModal({
-                                show: true,
-                                reqId: user.id,
-                                action: "reject",
-                              })
-                            }
-                          >
-                            <i className="fas fa-times-circle me-1"></i> رفض
-                          </button>
-                        </li>
+                        <li className='w-100 px-4'>
+                          <ActionBtn icon={<FaTimes />} title='رفض' onClick={() =>
+                            setConfirmModal({
+                              show: true,
+                              reqId: user.id,
+                              action: "reject",
+                            })
+                          } />                                  
+                                                        </li>
                       </ul>
                     </div>
                   </td>
@@ -126,6 +134,7 @@ export default function SubscriptionRequests() {
             </tbody>
           </table>
         </div>
+        <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
 
         <ConfirmModal
           show={confirmModal.show}

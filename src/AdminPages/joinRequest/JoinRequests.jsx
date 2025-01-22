@@ -1,8 +1,14 @@
-import { UilCheckCircle, UilEllipsisV, UilInfoCircle, UilTimesCircle } from '@iconscout/react-unicons';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import ConfirmModal from '../sharedComponents/comfirmModal';
-import { ApproveAccount, getNotApprovedUsers, RejectAccount } from '../Services/adminApiService';
+import { ApproveAccount, getNotApprovedUsers, RejectAccount } from '../../Services/adminApiService';
+import HeaderDashboard from '../../adminComponents/HeaderDashboard';
+import Pagination from '../../sharedComponents/Pagination';
+import { FaCheck, FaEllipsisV, FaInfoCircle, FaTimes } from 'react-icons/fa';
+import ActionBtn from '../../adminComponents/ActionBtn';
+import ConfirmModal from '../../sharedComponents/modal/comfirmModal';
+import Modal from 'react-modal';
+import style from './joinRequestStyle.module.css';
+Modal.setAppElement('#root');
 
 const JoinRequests = () => {
   const [joinRequests, setJoinRequests] = useState([]);
@@ -16,6 +22,14 @@ const JoinRequests = () => {
     reason: "",
   });
   const [selectedUser, setSelectedUser] = useState(null);
+
+  const openUserDetails = (user) => {
+    setSelectedUser(user);
+  };
+
+  const closeModal = () => {
+    setSelectedUser(null);
+  };
 
   const fetchJoinRequests = async () => {
     try {
@@ -43,7 +57,6 @@ const JoinRequests = () => {
           toast.error("يجب إدخال سبب الرفض!");
           return;
         }
-
         await RejectAccount(userId, reason);
         toast.success('تم رفض المستخدم بنجاح');
       }
@@ -55,10 +68,11 @@ const JoinRequests = () => {
     }
   };
 
-
   return (
     <section style={{ width: "85%" }}>
       <div className="container mt-4">
+        <HeaderDashboard title="ادارة طلبات الانضمام" />
+
         <div className="overflow-x-auto">
           <table className="table table-striped table-hover table-responsive">
             <thead>
@@ -98,49 +112,37 @@ const JoinRequests = () => {
                   <td>
                     <div className="dropdown">
                       <button
-                        className="btn btn-outline-secondary dropdown-toggle"
+                        className="btn text-white dropdown-toggle p-1"
                         type="button"
                         id={`dropdownMenuButton${index}`}
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
-                        <UilEllipsisV size="20" />
+                        <FaEllipsisV size="15" />
                       </button>
                       <ul
                         className="dropdown-menu"
                         aria-labelledby={`dropdownMenuButton${index}`}
                       >
-                        <li>
-                          <button
-                            className="btn"
+                        <li className='w-100 px-4'>
+                          <ActionBtn
+                            btnClass='btn-outline-success mb-3'
                             onClick={() =>
                               setConfirmModal({ show: true, userId: user.id, action: 'approve' })
                             }
-                          >
-                            <UilCheckCircle size="18" className="ms-1" /> قبول
-                          </button>
+                            title='قبول' icon={<FaCheck />} />
                         </li>
-                        <li>
-                          <button
-                            className="btn"
-                            onClick={() =>
-                              setConfirmModal({ show: true, userId: user.id, action: 'reject', reason: "" })
-                            }
-
-                          >
-                            <UilTimesCircle size="18" className="ms-1" /> رفض
-                          </button>
+                        <li className='w-100 px-4'>
+                          <ActionBtn icon={<FaTimes />} title='رفض' onClick={() =>
+                            setConfirmModal({ show: true, userId: user.id, action: 'reject', reason: "" })
+                          }
+                          />
                         </li>
-
-                        <li>
-                          <button
-                            className="btn"
-                            onClick={() => setSelectedUser(user)}
-                            data-bs-toggle="modal"
-                            data-bs-target="#userDetailsModal"
-                          >
-                            <UilInfoCircle size="18" className="ms-1" /> التفاصيل
-                          </button>
+                        <li className='w-100 px-4'>
+                          <ActionBtn icon={<FaInfoCircle />} title='تفاصيل'
+                            onClick={() => openUserDetails(user)}
+                            btnClass='btn-outline-light mt-3 '
+                          />
                         </li>
                       </ul>
                     </div>
@@ -150,80 +152,59 @@ const JoinRequests = () => {
             </tbody>
           </table>
         </div>
+        <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
 
-        {totalPages > 1 &&
-          <nav aria-label="Page navigation example">
-            <ul className="pagination d-flex justify-content-center">
-              <li className="page-item">
+        <Modal
+          isOpen={!!selectedUser}
+          onRequestClose={closeModal}
+          contentLabel="تفاصيل المستخدم"
+          className={style.modalContent}  // استخدم الكلاس من ملف CSS Module
+          overlayClassName={`${style.modalBackdrop} fade show`}
+        >
+          {selectedUser && (
+            <div>
+              <div className={style.modalHeader}>
+                <h5 className={style.modalTitle} id="userDetailsModalLabel">
+                  تفاصيل المستخدم
+                </h5>
                 <button
-                  className="page-link"
-                  onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-                  disabled={currentPage === 1}
-                >
-                  &laquo;
-                </button>
-              </li>
-              {Array.from({ length: totalPages }).map((_, index) => (
-                <li
-                  key={index}
-                  className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
-                >
-                  <button className="page-link" onClick={() => setCurrentPage(index + 1)}>
-                    {index + 1}
-                  </button>
-                </li>
-              ))}
-              <li className="page-item">
-                <button
-                  className="page-link"
-                  onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
-                  disabled={currentPage === totalPages}
-                >
-                  &raquo;
-                </button>
-              </li>
-            </ul>
-          </nav>
-        }
-
-
-        {selectedUser && (
-          <div
-            className="modal fade"
-            id="userDetailsModal"
-            tabIndex="-1"
-            aria-labelledby="userDetailsModalLabel"
-            aria-hidden="true"
-          >
-            <div className="modal-dialog modal-lg">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="userDetailsModalLabel">
-                    تفاصيل المستخدم
-                  </h5>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div className="modal-body">
-                  <div className="d-flex justify-content-evenly align-items-center flex-wrap">
-                    <div className=""> <p>البريد الالكتروني:</p> {selectedUser.email}</div>
-                    <div className=""> <p> رقم الهاتف:</p> {selectedUser.phoneNumber}</div>
-                    <div className=""> <p> اسم المستخدم:</p> {selectedUser.userName}</div>
+                  type="button"
+                  className="btn-close"
+                  onClick={closeModal}
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className={style.modalBody}>
+                <div className="d-flex">
+                  <div>
+                    <p>البريد الالكتروني:</p> {selectedUser.email}
                   </div>
-                  <div className="d-flex justify-content-evenly align-items-center mt-5 flex-wrap">
-                    <div className=""> <p>صورة البطاقة الامامية:</p> <img src={selectedUser.identityImageFrontUrl} alt="" width={200} /></div>
-                    <div className=""> <p> صورة البطاقة الخلفية:</p> <img src={selectedUser.identityImageBackUrl} alt="" width={200} /></div>
-                    <div className=""> <p>  الصورة الشخصية:</p> <img src={selectedUser.personalImageUrl} alt="" width={200} /></div>
+                  <div className='mx-5'>
+                    <p>رقم الهاتف:</p> {selectedUser.phoneNumber}
+                  </div>
+                  <div>
+                    <p>اسم المستخدم:</p> {selectedUser.userName}
+                  </div>
+                </div>
+                <div className="d-flex mt-5">
+                  <div>
+                    <p>صورة البطاقة الامامية:</p>
+                    <img src={selectedUser.identityImageFrontUrl} alt="Front" width={200} />
+                  </div>
+                  <div className='mx-5'>
+                    <p>صورة البطاقة الخلفية:</p>
+                    <img src={selectedUser.identityImageBackUrl} alt="Back" width={200} />
+                  </div>
+                  <div>
+                    <p>الصورة الشخصية:</p>
+                    <img src={selectedUser.personalImageUrl} alt="Personal" width={200} />
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </Modal>
+
         <ConfirmModal
           show={confirmModal.show}
           onHide={() => setConfirmModal({ show: false, userId: null, action: null, reason: "" })}

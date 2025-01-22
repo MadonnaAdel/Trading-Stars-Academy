@@ -74,7 +74,7 @@ export const UpdateUserAccountForAdmin = async (userId, values) => {
   }
   export const ApproveEnrollmentRequest = async (RequestId) => {
     try {
-      const response = await api.post(`EnrollmentRequest/ApproveEnrollmentRequest?RequestId=${RequestId}`);
+      const response = await api.put(`EnrollmentRequest/ApproveEnrollmentRequest?RequestId=${RequestId}`);
       return response;
     } catch (error) {
       console.error("Error in ApproveEnrollmentRequest:", error);
@@ -82,15 +82,15 @@ export const UpdateUserAccountForAdmin = async (userId, values) => {
   }
   export const RejectEnrollmentRequest = async (RequestId) => {
     try {
-      const response = await api.post(`EnrollmentRequest/RejectEnrollmentRequest?RequestId=${RequestId}`);
+      const response = await api.put(`EnrollmentRequest/RejectEnrollmentRequest?RequestId=${RequestId}`);
       return response;
     } catch (error) {
       console.error("Error in RejectEnrollmentRequest:", error);
     }
   }
-  export const GetNotApprovedEnrollmentRequests = async () => {
+  export const GetNotApprovedEnrollmentRequests = async (PageNumber, PageSize) => {
     try {
-      const response = await api.get(`EnrollmentRequest/GetNotApprovedEnrollmentRequests`);
+      const response = await api.get(`EnrollmentRequest/GetNotApprovedEnrollmentRequests?PageNumber=${PageNumber}&PageSize=${PageSize}`);
       return response;
     } catch (error) {
       console.error("Error in GetNotApprovedEnrollmentRequests:", error);

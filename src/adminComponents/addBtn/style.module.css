@@ -1,0 +1,30 @@
+
+.cssbuttonsIoButton {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 0.7em 1.4em 0.7em 1.1em;
+    background: linear-gradient(
+      0deg,
+     #080351  0%,#4135e4  100%)
+    ;
+    border: none;
+    box-shadow: 0 0.7em 1.5em -0.5em #1414a798;
+    letter-spacing: 0.05em;
+    border-radius: 1em;
+  }
+  
+  .cssbuttonsIoButton svg {
+    margin-right: 6px;
+  }
+  
+  .cssbuttonsIoButton:hover {
+    box-shadow:none;
+  }
+  
+  .cssbuttonsIoButton:active {
+    box-shadow: 0 0.3em 1em -0.5em #1419a798;
+  }
+  

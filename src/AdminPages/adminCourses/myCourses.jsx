@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { GetCourses } from '../../Services/userApiService';
 import { ClipLoader } from 'react-spinners';
-import {  UilTrashAlt } from '@iconscout/react-unicons'; 
-import defualteImg from '/Untitled design.png';
 import style from './style.module.css';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { AddNewCourse, DeleteCourse } from '../../Services/adminApiService';
+import AddBtn from '../../adminComponents/addBtn/AddBtn';
+import BackButton from '../../adminComponents/backBtn';
+import Pagination from '../../sharedComponents/Pagination';
+import CourseCard from '../../sharedComponents/CourseCard';
+import ConfirmModal from '../../sharedComponents/modal/comfirmModal';
+
 
 function MyCourses() {
   const [data, setData] = useState([]);
@@ -16,7 +20,7 @@ function MyCourses() {
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
   const { id } = useParams();
 
   const getCourses = async () => {
@@ -36,33 +40,33 @@ function MyCourses() {
     getCourses();
   }, [currentPage, itemsPerPage]);
 
-  const handleAddCourse = async(values) => {
-   try{
-     const res = await AddNewCourse({...values, 'CategoryId':id})
-    if(res?.data?.isPass){
-      toast.success(res?.data?.message);
-    }else toast.info(res?.data?.message)
-    setShowModal(false);
-    getCourses()
-   }catch(err) {
-    toast.error(err)
-    console.error(err);
-   }
-    
+  const handleAddCourse = async (values) => {
+    try {
+      const res = await AddNewCourse({ ...values, 'CategoryId': id })
+      if (res?.data?.isPass) {
+        toast.success(res?.data?.message);
+      } else toast.info(res?.data?.message)
+      setShowModal(false);
+      getCourses()
+    } catch (err) {
+      toast.error(err)
+      console.error(err);
+    }
+
   };
-  const handleDeleteCourse = async(courseId) => {
-   try{
-     const res = await DeleteCourse(courseId)
-    if(res?.data?.isPass){
-      toast.success(res?.data?.message);
-    }else toast.info(res?.data?.message)
-    getCourses()
-   }catch(err) {
-    toast.error(err)
-    console.error(err);
-   }
+  const handleDeleteCourse = async (courseId) => {
+    try {
+      const res = await DeleteCourse(courseId)
+      if (res?.data?.isPass) {
+        toast.success(res?.data?.message);
+      } else toast.info(res?.data?.message)
+      getCourses()
+    } catch (err) {
+      toast.error(err)
+      console.error(err);
+    }
   };
-  
+
 
   const validationSchema = Yup.object().shape({
     Name: Yup.string().required('اسم الدورة مطلوب'),
@@ -73,14 +77,11 @@ function MyCourses() {
 
   return (
     <section className="my-5">
-      <div className="container">
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <button
-            className="btn btn-primary d-flex align-items-center"
-            onClick={() => setShowModal(true)}
-          >
-            + إضافة دورة تعليمية جديدة
-          </button>
+      <div className="container my-4">
+        <div className="d-flex justify-content-between align-items-center mb-4 " style={{ width: "85%" }} >
+
+          <AddBtn onClick={() => setShowModal(true)} label=' إضافة دورة تعليمية جديدة' />
+          <BackButton />
         </div>
         <div className="result mt-5">
           {loading ? (
@@ -95,28 +96,8 @@ function MyCourses() {
             <div className={`row ${style.cardsCourse}`}>
               {data.map((course, index) => (
                 <div key={index} className="col-12 col-sm-6 col-md-4 col-lg-3">
-                  <div className="card border border-primary-subtle overflow-hidden rounded-4">
-                    <img
-                      src={course?.imageUrl}
-                      className="card-img-top"
-                      alt="Course"
-                      style={{ height: '200px', objectFit: 'cover' }}
-                      onError={(e) => (e.target.src = defualteImg)}
-                    />
-                    <div className="card-body bg-body-secondary">
-                      <div className="d-flex justify-content-between align-items-center">
-                      <h5 className="card-title text-truncate">{course?.name}</h5>
-                      <button className="btn btn-outline-danger rounded-circle p-2 d-flex justify-content-center align-items-center" onClick={(()=>handleDeleteCourse(course?.id))}>   <UilTrashAlt size="18" className="me-1" /></button>
-                      </div>
-                      <p className="card-text text-muted text-truncate">{course?.description}</p>
-                      <span className="fw-bold">LE {course?.price}</span>
-                      <Link to={`/course-details/${course?.id}`}>
-                        <button className="btn btn-outline-primary btn-sm w-100 my-2">
-                          عرض التفاصيل
-                        </button>
-                      </Link>
-                    </div>
-                  </div>
+                  <CourseCard course={course} role='Admin' onDelete={handleDeleteCourse} />
+
                 </div>
               ))}
             </div>
@@ -136,7 +117,7 @@ function MyCourses() {
                   ></button>
                 </div>
                 <Formik
-                  initialValues={{ Name: '', Description: '',  ImageFile: null,Price: '' }}
+                  initialValues={{ Name: '', Description: '', ImageFile: null, Price: '' }}
                   validationSchema={validationSchema}
                   onSubmit={handleAddCourse}
                 >
@@ -198,6 +179,8 @@ function MyCourses() {
           </div>
         )}
       </div>
+      <ConfirmModal />
+      <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
     </section>
   );
 }

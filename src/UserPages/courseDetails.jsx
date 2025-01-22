@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import {   EnrollCourseRequest, GetCourseById, GetCourseEnrollmentStatus, getMainVideoByCourseId, getOnlineTrainingVideosByCourseId, GetVideoById } from "../Services/userApiService";
+import { EnrollCourseRequest, GetCourseById, GetCourseEnrollmentStatus, getMainVideoByCourseId, getOnlineTrainingVideosByCourseId, GetVideoById } from "../Services/userApiService";
 import { ClipLoader } from "react-spinners";
 import { useAuth } from "../context/authContext";
 import { toast } from "react-toastify";
-import {  useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import { DeleteVideo, UploadNewVideo } from "../Services/adminApiService";
+import AddBtn from "../adminComponents/addBtn/AddBtn";
+import ActionBtn from "../adminComponents/ActionBtn";
+import ConfirmModal from "../sharedComponents/modal/comfirmModal";
 
 const CourseDetails = () => {
     const { id } = useParams();
@@ -21,6 +24,9 @@ const CourseDetails = () => {
     const [playbackInfo, setplaybackInfo] = useState(null);
     const [isEnrolled, setIsEnrolled] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [videoDeletedId, setvideoDeletedId] = useState('');
+
 
     useEffect(() => {
         getCoursesDetails();
@@ -32,14 +38,8 @@ const CourseDetails = () => {
             const mainVideosResponse = await getMainVideoByCourseId(id);
             const traningVideosResponse = await getOnlineTrainingVideosByCourseId(id);
             const courseResponse = await GetCourseById(id);
-
-            if (mainVideosResponse?.data?.isPass) {
-                setMainVideos(mainVideosResponse?.data?.data);
-            }
-            if (traningVideosResponse?.data?.isPass) {
-                setTraningVideos(traningVideosResponse?.data?.data);
-            }
-
+            setMainVideos(mainVideosResponse?.data?.data || []);
+            setTraningVideos(traningVideosResponse?.data?.data || [])
             if (courseResponse?.data?.isPass) {
                 setCourse(courseResponse?.data?.data);
             }
@@ -80,12 +80,12 @@ const CourseDetails = () => {
     const videoPlay = async (id) => {
         try {
             const res = await GetVideoById(id);
-            
+
             if (res?.data?.isPass) {
                 setIsVideoPlaying(true);
                 setOtp(res?.data?.data?.otp);
                 setplaybackInfo(res?.data?.data?.playbackInfo);
-             
+
             } else {
                 toast.error(res?.data?.message);
             }
@@ -94,30 +94,27 @@ const CourseDetails = () => {
             toast.error("خطأ في تحميل الفيديو");
         }
     };
-    const deleteVideo = async (id) => {
+    const deleteVideo = async () => {
         try {
-            const res = await DeleteVideo(id);
+            const res = await DeleteVideo(videoDeletedId);
             if (res?.data?.isPass) {
-               
-                mainVideosResponse((prevDetails) => ({
-                    ...prevDetails,
-                    videos: prevDetails.videos.filter((video) => video.id !== id),
-                }));
-                traningVideos((prevDetails) => ({
-                    ...prevDetails,
-                    videos: prevDetails.videos.filter((video) => video.id !== id),
-                }));
+                setShowDeleteConfirm(false)
+                const mainVideosResponse = await getMainVideoByCourseId(id);
+                const traningVideosResponse = await getOnlineTrainingVideosByCourseId(id);
+                setMainVideos(mainVideosResponse?.data?.data || [])
+                setTraningVideos(traningVideosResponse?.data?.data || []);
                 toast.success(res?.data?.message);
                 getCoursesDetails();
             } else {
-                toast.error(res?.data?.message);
+                toast.error(res?.data?.message || "Failed to delete video");
             }
         } catch (err) {
-            console.error(err);
+            console.error("Error deleting video:", err);
             toast.error("خطأ في تحميل الفيديو");
         }
     };
-    
+
+
     const validationSchema = Yup.object().shape({
         Title: Yup.string().required('اسم الفيديو مطلوب'),
         VideoType: Yup.number().required('نوع الفيديو مطلوب'),
@@ -195,6 +192,7 @@ const CourseDetails = () => {
                                     alt="cover image course"
                                     width="100%"
                                     onError={(e) => (e.target.src = "/Untitled design.png")}
+                                    height="80%"
                                 />
                             )}
                             <div className="p-3">
@@ -209,11 +207,8 @@ const CourseDetails = () => {
                                 <div className="d-flex justify-content-between align-content-center mb-3 mt-2">
                                     <h5>محتوي الكورس</h5>
                                     {user.role === "Admin" &&
-                                        <button className="btn btn-outline-primary" onClick={() => setShowModal(true)}>
-                                            إضافة فيديو
-                                        </button>
+                                        <AddBtn onClick={() => setShowModal(true)} />
                                     }
-
                                 </div>
                                 <div
                                     className="border border-1 border-primary-subtle rounded-4 overflow-auto"
@@ -239,7 +234,7 @@ const CourseDetails = () => {
                                                 aria-labelledby="flush-headingOne"
                                                 data-bs-parent="#accordionFlushExample"
                                             >
-                                                {mainVideos.length > 0 ? (
+                                                {mainVideos?.length > 0 ? (
                                                     mainVideos.map((video, index) => (
                                                         <div className="d-flex w-100 align-items-center justify-content-between accordion-body border border-bottom border-1" key={index}>
                                                             <div
@@ -250,8 +245,11 @@ const CourseDetails = () => {
                                                                 {video.title}
                                                             </div>
                                                             {user.role === "Admin" && (
-                                                                <div className="btn btn-outline-danger" onClick={() => deleteVideo(video.id)}>
-                                                                    حذف
+                                                                <div className="w-50">
+                                                                    <ActionBtn onClick={() => {
+                                                                        setShowDeleteConfirm(true)
+                                                                        setvideoDeletedId(video.id)
+                                                                    }} />
                                                                 </div>
                                                             )}
                                                         </div>
@@ -313,7 +311,6 @@ const CourseDetails = () => {
             ) : (
                 <ClipLoader color="#00BFFF" loading={loading} size={50} />
             )}
-            {/* <AddVideoPopup show={showAddVideoPopup} onClose={() => setShowAddVideoPopup(false)} onAddVideo={addVideo} /> */}
             {showModal && (
                 <div className="modal show d-block" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
                     <div className="modal-dialog">
@@ -365,7 +362,7 @@ const CourseDetails = () => {
                                             type="file"
                                             name="VideoFile"
                                             className="form-control"
-                                            onChange={handleFileChange} // هنا
+                                            onChange={handleFileChange}
                                         />
                                         {formik.errors.VideoFile && formik.touched.VideoFile && (
                                             <div className="text-danger">{formik.errors.VideoFile}</div>
@@ -401,6 +398,13 @@ const CourseDetails = () => {
                     </div>
                 </div>
             )}
+            <ConfirmModal
+                show={showDeleteConfirm}
+                onHide={() => setShowDeleteConfirm(false)}
+                onConfirm={deleteVideo}
+                title="تأكيد الحذف"
+                message="هل أنت متأكد أنك تريد حذف هذا الفيديو؟"
+            />
         </div>
     );
 };

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import {  getCategoriesName, GetCourses } from '../Services/userApiService';
+import { getCategoriesName, GetCourses } from '../Services/userApiService';
 import { ClipLoader } from 'react-spinners';
 import Fuse from 'fuse.js';
+import CourseCard from '../sharedComponents/CourseCard';
+import Pagination from '../sharedComponents/Pagination';
 
 function Courses() {
   const [query, setQuery] = useState('');
@@ -30,7 +32,7 @@ function Courses() {
     }
   };
   useEffect(() => {
-  
+
     getCourses();
   }, [currentPage, itemsPerPage, categoryId]);
 
@@ -66,10 +68,10 @@ function Courses() {
             onChange={(e) => setCategoryId(e.target.value)}
           >
             <option value="">كل الفئات</option>
-            {categories.length === 0 ? (
+            {categories?.length === 0 ? (
               <option disabled>لا توجد فئات حالياً</option>
             ) : (
-              categories.map((cat, index) => (
+              categories?.map((cat, index) => (
                 <option key={index} value={cat?.id}>
                   {cat?.name}
                 </option>
@@ -89,66 +91,19 @@ function Courses() {
             </div>
           ) : (
             <div className="row">
-              {filteredData.map((course) => (
+              {filteredData?.map((course) => (
                 <div key={course?.id} className="col-12 col-md-6 col-lg-3 mb-4">
-                  <div className="card border border-1 border-primary-subtle overflow-hidden rounded-4">
-                    <div className="overflow-hidden " style={{ maxHeight: '150px', minHeight: '150px' }}>
-                      <img
-                        src={course?.imageUrl}
-                        className="img-fluid w-100 h-100 object-fit-contain"
-                        alt="Course Image"
-                      />
-                    </div>
-                    <div className="card-body bg-body-secondary">
-                      <div className="d-flex">
-                        <h4 className="card-title text-truncate">{course?.name}</h4>
-                      </div>
-                      <p className="card-text text-muted text-truncate">{course?.description}</p>
-                      <div className="d-flex justify-content-between my-2">
-                        <span>LE {course?.price}</span>
-                        <span>{course?.categoryName}</span>
-                      </div>
-                      <Link to={`/course-details/${course?.id}`}>
-                        <button className="btn btn-outline-primary btn-sm w-100 my-2">عرض التفاصيل</button>
-                      </Link>
-                    </div>
-                  </div>
+                  <Link to={`/course-details/${course?.id}`} className="text-decoration-none">
+                    <CourseCard course={course} />
+                  </Link>
                 </div>
               ))}
             </div>
           )}
         </div>
-        {filteredData.length > 0 && (
-          <nav aria-label="Page navigation example">
-            <ul className="pagination d-flex justify-content-center">
-              <li className="page-item">
-                <button
-                  className="page-link"
-                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                  disabled={currentPage === 1}
-                >
-                  &laquo;
-                </button>
-              </li>
-              {Array.from({ length: totalPages }).map((_, index) => (
-                <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                  <button className="page-link" onClick={() => setCurrentPage(index + 1)}>
-                    {index + 1}
-                  </button>
-                </li>
-              ))}
-              <li className="page-item">
-                <button
-                  className="page-link"
-                  onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                  disabled={currentPage === totalPages}
-                >
-                  &raquo;
-                </button>
-              </li>
-            </ul>
-          </nav>
-        )}
+       
+          <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
+        
       </div>
     </section>
   );

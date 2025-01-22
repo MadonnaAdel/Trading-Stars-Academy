@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import { Image, NavDropdown } from 'react-bootstrap';
@@ -9,8 +9,6 @@ import defualteUser from '/DefulteUser.svg'
 import styles from './style.module.css'
 function Navbar() {
   const { logout, isLoggedIn, user } = useAuth();
-
-
   return (
     <nav
       className="navbar navbar-expand-lg bg-transparent navbar-light text-white"
@@ -48,14 +46,15 @@ function Navbar() {
                 الصفحة الرئيسية
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to="/about-us" className="nav-link">
-                عن الاكاديمي
-              </Link>
-            </li>
+          
             <li className="nav-item">
               <Link to="/courses" className="nav-link">
                 الخدمات التعليمية
+              </Link>
+            </li> 
+             <li className="nav-item">
+              <Link to="/about-us" className="nav-link">
+                عن الاكاديمي
               </Link>
             </li>
             <li className="nav-item">
@@ -117,10 +116,10 @@ function Navbar() {
             ) : (
               <>
                 <Link to="/signin">
-                <button class={styles.btn}>تسجيل دخول</button>
+                <button className={styles.btn}>تسجيل دخول</button>
                 </Link>
                 <Link to="/signup">
-                  <button class={`${styles.btn} me-3`} type="button">
+                  <button className={`${styles.btn} me-3`} type="button">
                     تسجيل
                   </button>
                 </Link>

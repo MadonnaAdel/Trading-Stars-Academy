@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { UilEllipsisV } from '@iconscout/react-unicons';
 import { toast } from 'react-toastify';
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { DeleteAccount, GetApprovedUsers, UpdateUserAccountForAdmin } from '../Services/adminApiService';
-
+import HeaderDashboard from '../adminComponents/HeaderDashboard';
+import Pagination from '../sharedComponents/Pagination';
+import { FaEdit, FaEllipsisV } from 'react-icons/fa';
+import ActionBtn from '../adminComponents/ActionBtn';
+import ConfirmModal from '../sharedComponents/modal/comfirmModal';
 
 const ApprovedUsers = () => {
   const [approvedUsers, setApprovedUsers] = useState([]);
@@ -13,6 +16,7 @@ const ApprovedUsers = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [confirmModal, setConfirmModal] = useState({ show: false, userId: null });
   const [selectedUser, setSelectedUser] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const fetchApprovedUsers = async () => {
     try {
@@ -34,10 +38,10 @@ const ApprovedUsers = () => {
     try {
       if (userId) {
         const res = await DeleteAccount(userId);
-        if(res?.data?.isPass){
+        if (res?.data?.isPass) {
           toast.success(res.data.message);
-        }else  toast.info(res.data.message);
-        
+        } else toast.info(res.data.message);
+        setShowDeleteConfirm(false)
         fetchApprovedUsers();
         setConfirmModal({ show: false, userId: null });
       }
@@ -46,7 +50,6 @@ const ApprovedUsers = () => {
       toast.error('حدث خطأ أثناء تنفيذ العملية');
     }
   };
-
 
   const updateUser = async (values) => {
     try {
@@ -116,6 +119,7 @@ const ApprovedUsers = () => {
   return (
     <section style={{ width: "85%" }}>
       <div className="container mt-4">
+        <HeaderDashboard title="ادارةالمستخدمين" />
         <div className="overflow-x-auto">
           <table className="table table-striped table-hover table-responsive">
             <thead>
@@ -155,36 +159,26 @@ const ApprovedUsers = () => {
                   <td>
                     <div className="dropdown">
                       <button
-                        className="btn btn-outline-secondary dropdown-toggle"
+                        className="btn text-white dropdown-toggle p-1"
                         type="button"
                         id={`dropdownMenuButton${index}`}
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
-                        <UilEllipsisV size="20" />
+                        <FaEllipsisV size="15" />
                       </button>
                       <ul
                         className="dropdown-menu"
                         aria-labelledby={`dropdownMenuButton${index}`}
                       >
-                        <li>
-                          <button
-                            className="btn w-100"
-                            onClick={() =>{ setConfirmModal({ show: true, userId: user.id})} }
-                          >
-                            حذف
-                          </button>
+                        <li className='w-100 px-4'>
+                          <ActionBtn onClick={() => {
+                            setConfirmModal({ show: true, userId: user.id })
+                            setShowDeleteConfirm(true);
+                          }} />
                         </li>
-
-                        <li>
-                          <button
-                            className="btn w-100"
-                            onClick={() => setSelectedUser(user)}
-                            data-bs-toggle="modal"
-                            data-bs-target="#userDetailsModal"
-                          >
-                            تعديل
-                          </button>
+                        <li className='w-100 px-4'>
+                          <ActionBtn onClick={() => setSelectedUser(user)} btnClass='btn-outline-light mt-3' title='تعديل' icon={ <FaEdit />}/>
                         </li>
                       </ul>
                     </div>
@@ -194,42 +188,7 @@ const ApprovedUsers = () => {
             </tbody>
           </table>
         </div>
-        {totalPages > 1 &&
-          <nav aria-label="Page navigation example">
-            <ul className="pagination d-flex justify-content-center">
-              <li className="page-item">
-                <button
-                  className="page-link"
-                  onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-                  disabled={currentPage === 1}
-                >
-                  &laquo;
-                </button>
-              </li>
-              {Array.from({ length: totalPages }).map((_, index) => (
-                <li
-                  key={index}
-                  className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
-                >
-                  <button className="page-link" onClick={() => setCurrentPage(index + 1)}>
-                    {index + 1}
-                  </button>
-                </li>
-              ))}
-              <li className="page-item">
-                <button
-                  className="page-link"
-                  onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
-                  disabled={currentPage === totalPages}
-                >
-                  &raquo;
-                </button>
-              </li>
-            </ul>
-          </nav>
-        }
-
-
+        <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
         {selectedUser && (
           <div
             className="modal fade"
@@ -366,50 +325,14 @@ const ApprovedUsers = () => {
           </div>
         )}
 
-{confirmModal.show && (
-  <div
-    className="modal fade show"
-    tabIndex="-1"
-    style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-    aria-labelledby="confirmModalLabel"
-    aria-modal="true"
-    role="dialog"
-  >
-    <div className="modal-dialog modal-dialog-centered">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h5 className="modal-title" id="confirmModalLabel">
-            حذف بيانات المستخدم
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            onClick={() => setConfirmModal({ show: false, userId: null })}
-          ></button>
-        </div>
-        <div className="modal-body">
-          هل أنت متأكد من حذف بيانات المستخدم؟
-        </div>
-        <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={() => setConfirmModal({ show: false, userId: null })}
-          >
-            إغلاق
-          </button>
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={handleAction}
-          >
-            حذف
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
+       
+        <ConfirmModal
+          show={showDeleteConfirm}
+          onHide={() => setShowDeleteConfirm(false)}
+          onConfirm={handleAction}
+          title="تأكيد الحذف"
+          message="هل أنت متأكد أنك تريد حذف هذا المستخدم؟"
+        />
       </div>
     </section>
   );
