@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Nav, Navbar, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from "./style.module.css";
 import {
   FaUserPlus,
@@ -13,12 +12,15 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import { useAuth } from "../../context/authContext";
+import ConfirmModal from "../../sharedComponents/modal/comfirmModal";
 
-const SideBar = ({ activee }) => {
+const SideBar = ({ active }) => {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeItem, setActiveItem] = useState(activee);
+  const [activeItem, setActiveItem] = useState(active);
+  const [showLogoutComfirm, setShowLogoutComfirm] = useState(false);
+
   useEffect(() => {
     const pathSegments = location.pathname.split("/");
     const lastSegment = pathSegments[pathSegments.length - 1];
@@ -34,6 +36,7 @@ const SideBar = ({ activee }) => {
     setActiveItem(item);
     navigate(path);
   };
+
 
   return (
       <Navbar className={`${styles.sidebar} col-md-3 col-sm-2 col-2 col-lg-3 `}>
@@ -125,7 +128,7 @@ const SideBar = ({ activee }) => {
           <OverlayTrigger placement="right" overlay={<Tooltip>تسجيل الخروج</Tooltip>}>
             <div
               className={`d-flex align-items-center ${styles.element}`}
-              onClick={() => Logout()}
+              onClick={() => setShowLogoutComfirm(true)}
             >
               <span className={`${styles.icon}`}>
                 <FaSignOutAlt />
@@ -134,6 +137,15 @@ const SideBar = ({ activee }) => {
             </div>
           </OverlayTrigger>
         </Nav>
+        <ConfirmModal
+  show={showLogoutComfirm}
+  onHide={() => setShowLogoutComfirm(false)}
+  onConfirm={logout}
+  title="تأكيد تسجيل الخروج"
+  message="هل أنت متأكد أنك تريد  تسجيل خروج؟"
+>
+  <img src="/Logout.svg" alt="" />
+  </ConfirmModal>
       </Navbar>
   );
 };

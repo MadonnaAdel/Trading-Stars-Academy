@@ -6,7 +6,7 @@ export default function ContentCatd( { imgSrc, number, backgroundColor, imgSize,
             <div
                 className="payCard rounded-3 overflow-hidden border border-1 border-light p-3 mx-auto"
                 style={{
-                    backgroundColor: backgroundColor,
+                    background: backgroundColor,
                     width: "100%",
                 }}
             >

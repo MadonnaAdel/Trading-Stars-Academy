@@ -14,13 +14,16 @@ const Footer = () => {
             <p className="text-justify">Trading.com   هو مبادرة تهدف إلى مساعدة الأفراد على فهم أساسيات التسوق الإلكتروني والتداول بشكل بسيط وفعال. يركز الموقع على تقديم نصائح وأدوات عملية تساعد المستخدمين على اتخاذ قرارات ذكية، سواء كانوا يبحثون عن أفضل الصفقات في التسوق أو يسعون لدخول عالم التداول بمهارات مبنية على أسس صحيحة. نسعى لتوفير محتوى مميز يغطي مجالات متعددة مثل إدارة الأموال، تحليل السوق، استخدام منصات التداول، وأسرار الشراء الذكي.</p>
           </div>
 
-          <div className="col-xs-6 col-md-3">
+          <div className="col-xs-6 col-md-3 px-5 ">
             <h6>روابط سريعة </h6>
             <ul className={styles.footerLinks}>
-              <li><Link to="/about">عن الاكاديمي</Link ></li>
+              <li><Link to="/about-us">عن الاكاديمي</Link ></li>
               <li><Link to="/customer-service">تواصل معنا</Link ></li>
               <li><Link to="/courses">الدورات التدريبية</Link ></li>
             </ul>
+          </div>
+          <div className="col-sm-12 col-md-2 w-25">
+           <img src="/public/logo.svg" alt="" width="100%" />
           </div>
         </div>
         <hr />

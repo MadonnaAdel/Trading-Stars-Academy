@@ -8,14 +8,14 @@ const ConfirmModal = ({ show, onHide, onConfirm, title, message, children }) => 
       isOpen={show}
       onRequestClose={onHide}
       contentLabel="Confirm Modal"
-      className={style.modalContent}
+      className={`${style.modalContent} `}
       overlayClassName={style.modalOverlay}
     >
       <div className="modal-header">
         <h5 className="modal-title">{title}</h5>
         <button type="button" className="btn-close" onClick={onHide}></button>
       </div>
-      <div className="modal-body">
+      <div className="modal-body text-center m-5">
         <p>{message}</p>
         {children}
       </div>

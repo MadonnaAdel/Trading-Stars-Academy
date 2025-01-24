@@ -8,7 +8,10 @@ import ActionBtn from '../../adminComponents/ActionBtn';
 import ConfirmModal from '../../sharedComponents/modal/comfirmModal';
 import Modal from 'react-modal';
 import style from './joinRequestStyle.module.css';
+import Table from '../../adminComponents/table/table';
 Modal.setAppElement('#root');
+
+
 
 const JoinRequests = () => {
   const [joinRequests, setJoinRequests] = useState([]);
@@ -68,97 +71,73 @@ const JoinRequests = () => {
     }
   };
 
+  const columns = [
+    { header: '#', field: 'index' },
+    { header: 'اسم المستخدم', field: 'username' },
+    { header: 'البريد الإلكتروني', field: 'email' },
+    { header: 'صورة البطاقة الأمامية', field: 'identityImageFront', type: 'image' },
+    { header: 'صورة البطاقة الخلفية', field: 'identityImageBack', type: 'image' },
+    { header: 'رقم الهاتف', field: 'phoneNumber' },
+    { header: 'العمليات', field: 'actions' },
+  ];
+  const data = joinRequests.map((user, index) => ({
+    index: index + 1,
+    username: `${user.fname} ${user.lname}`,
+    email: user.email,
+    identityImageFront: user.identityImageFrontUrl,
+    identityImageBack: user.identityImageBackUrl,
+    phoneNumber: user.phoneNumber,
+    actions: (
+      <div className="dropdown">
+        <button
+          className="btn text-white dropdown-toggle p-1"
+          type="button"
+          id={`dropdownMenuButton${index}`}
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <FaEllipsisV size="15" />
+        </button>
+        <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton${index}`}>
+          <li className="w-100 px-4">
+            <ActionBtn
+              btnClass="btn-outline-success mb-3"
+              onClick={() => setConfirmModal({ show: true, userId: user.id, action: 'approve' })}
+              title="قبول"
+              icon={<FaCheck />}
+            />
+          </li>
+          <li className="w-100 px-4">
+            <ActionBtn
+              icon={<FaTimes />}
+              title="رفض"
+              onClick={() => setConfirmModal({ show: true, userId: user.id, action: 'reject', reason: '' })}
+            />
+          </li>
+          <li className="w-100 px-4">
+            <ActionBtn
+              icon={<FaInfoCircle />}
+              title="تفاصيل"
+              onClick={() => openUserDetails(user)}
+              btnClass="btn-outline-light mt-3"
+            />
+          </li>
+        </ul>
+      </div>
+    ),
+  }));
   return (
     <section style={{ width: "85%" }}>
       <div className="container mt-4">
         <HeaderDashboard title="ادارة طلبات الانضمام" />
-
-        <div className="overflow-x-auto">
-          <table className="table table-striped table-hover table-responsive">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th className='text-nowrap'>اسم المستخدم</th>
-                <th className='text-nowrap'>البريد الإلكتروني</th>
-                <th className='text-nowrap'>صورة البطاقة الأمامية</th>
-                <th className='text-nowrap'>صورة البطاقة الخلفية</th>
-                <th className='text-nowrap'>رقم الهاتف</th>
-                <th className='text-nowrap'>العمليات</th>
-              </tr>
-            </thead>
-            <tbody>
-              {joinRequests.map((user, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{`${user.fname} ${user.lname}`}</td>
-                  <td>{user.email}</td>
-                  <td>
-                    <img
-                      src={user?.identityImageFrontUrl}
-                      alt="Card"
-                      className="img-fluid"
-                      width={50}
-                    />
-                  </td>
-                  <td>
-                    <img
-                      src={user?.identityImageBackUrl}
-                      alt="Card"
-                      className="img-fluid"
-                      width={50}
-                    />
-                  </td>
-                  <td>{user.phoneNumber}</td>
-                  <td>
-                    <div className="dropdown">
-                      <button
-                        className="btn text-white dropdown-toggle p-1"
-                        type="button"
-                        id={`dropdownMenuButton${index}`}
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        <FaEllipsisV size="15" />
-                      </button>
-                      <ul
-                        className="dropdown-menu"
-                        aria-labelledby={`dropdownMenuButton${index}`}
-                      >
-                        <li className='w-100 px-4'>
-                          <ActionBtn
-                            btnClass='btn-outline-success mb-3'
-                            onClick={() =>
-                              setConfirmModal({ show: true, userId: user.id, action: 'approve' })
-                            }
-                            title='قبول' icon={<FaCheck />} />
-                        </li>
-                        <li className='w-100 px-4'>
-                          <ActionBtn icon={<FaTimes />} title='رفض' onClick={() =>
-                            setConfirmModal({ show: true, userId: user.id, action: 'reject', reason: "" })
-                          }
-                          />
-                        </li>
-                        <li className='w-100 px-4'>
-                          <ActionBtn icon={<FaInfoCircle />} title='تفاصيل'
-                            onClick={() => openUserDetails(user)}
-                            btnClass='btn-outline-light mt-3 '
-                          />
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Table columns={columns} data={data}/>
         <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
 
         <Modal
           isOpen={!!selectedUser}
           onRequestClose={closeModal}
           contentLabel="تفاصيل المستخدم"
-          className={style.modalContent}  // استخدم الكلاس من ملف CSS Module
+          className={style.modalContent}  
           overlayClassName={`${style.modalBackdrop} fade show`}
         >
           {selectedUser && (
@@ -229,7 +208,8 @@ const JoinRequests = () => {
               />
             </div>
           )}
-        />
+        > <img src={ confirmModal.action === 'approve'?"/approve user.svg":"/delete user.svg"} alt="" />
+                </ConfirmModal>
       </div>
     </section>
   );

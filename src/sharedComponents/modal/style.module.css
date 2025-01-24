@@ -11,9 +11,13 @@
   }
   
   .modalContent {
+    position: fixed; /* اجعل العنصر في وضع ثابت ليتجاوز التدفق العادي للصفحة */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* لتوسيط العنصر أفقياً وعمودياً */
     background: rgb(57, 57, 57);
     padding: 20px;
-
+    z-index: 10001; /* قيمة أعلى من النيف بار */
     border-radius: 8px;
     max-width: 500px;
     width: 100%;

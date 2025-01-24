@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaTrashAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ConfirmModal from './modal/comfirmModal';
+import defaultCover from '/Untitled design.jpg';
 
 
 const CourseCard = ({ course, role = 'User', onDelete }) => {
@@ -18,6 +19,7 @@ const CourseCard = ({ course, role = 'User', onDelete }) => {
           src={course?.imageUrl}
           className="img-fluid w-100 h-100 object-fit-contain"
           alt="Course Image"
+          onError={(e) => { e.target.src = defaultCover }}ؤ
         />
       </div>
       <div className="card-body">

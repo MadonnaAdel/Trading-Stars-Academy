@@ -113,9 +113,9 @@ export default function ManageCategories() {
                 <h3 className='fs-2 '>إدارة الفئات</h3>
                 <AddBtn onClick={() => setShowModal(true)} label='اضافة فئة' />
             </div>
-            <div className="row ">
+            <div className="row ms-auto">
                 {categories?.map((category, index) => (
-                    <div className="col-12 col-md-6 col-lg-3 my-4 ms-auto" key={category.id}>
+                    <div className="col-12 col-md-6 col-lg-3 my-4 " key={category.id}>
                         <div className={style.card}>
                             <div className={style.cardDetails}>
                                 <div className="d-flex justify-content-between align-content-center">

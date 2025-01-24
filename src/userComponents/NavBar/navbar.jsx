@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import { Image, NavDropdown } from 'react-bootstrap';
@@ -7,8 +7,10 @@ import { faReceipt } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRightFromBracket, faCog } from '@fortawesome/free-solid-svg-icons';
 import defualteUser from '/DefulteUser.svg'
 import styles from './style.module.css'
+import ConfirmModal from '../../sharedComponents/modal/comfirmModal';
 function Navbar() {
   const { logout, isLoggedIn, user } = useAuth();
+  const [showLogoutComfirm, setShowLogoutComfirm] = useState(false);
   return (
     <nav
       className="navbar navbar-expand-lg bg-transparent navbar-light text-white"
@@ -21,7 +23,7 @@ function Navbar() {
         border: '1px solid rgba(0, 123, 255, 0.5)',
         borderRadius: '8px',
         boxShadow: '0 0px 40px 0 rgba(0, 123, 255, 0.4)',
-        zIndex: '1000',
+       zIndex: "1000"
       }}
     >
       <div className="container-fluid">
@@ -46,13 +48,13 @@ function Navbar() {
                 الصفحة الرئيسية
               </Link>
             </li>
-          
+
             <li className="nav-item">
               <Link to="/courses" className="nav-link">
                 الخدمات التعليمية
               </Link>
-            </li> 
-             <li className="nav-item">
+            </li>
+            <li className="nav-item">
               <Link to="/about-us" className="nav-link">
                 عن الاكاديمي
               </Link>
@@ -106,7 +108,7 @@ function Navbar() {
                 }
 
                 <button
-                  onClick={logout}
+                  onClick={() => setShowLogoutComfirm(true)}
                   className="btn "
                 >
                   تسجيل خروج
@@ -116,7 +118,7 @@ function Navbar() {
             ) : (
               <>
                 <Link to="/signin">
-                <button className={styles.btn}>تسجيل دخول</button>
+                  <button className={styles.btn}>تسجيل دخول</button>
                 </Link>
                 <Link to="/signup">
                   <button className={`${styles.btn} me-3`} type="button">
@@ -128,6 +130,15 @@ function Navbar() {
           </div>
         </div>
       </div>
+      <ConfirmModal
+        show={showLogoutComfirm}
+        onHide={() => setShowLogoutComfirm(false)}
+        onConfirm={logout}
+        title="تأكيد تسجيل الخروج"
+        message="هل أنت متأكد أنك تريد  تسجيل خروج؟"
+      >
+        <img src="/Logout.svg" alt="" height="260vh" />
+      </ConfirmModal>
     </nav>
   );
 }

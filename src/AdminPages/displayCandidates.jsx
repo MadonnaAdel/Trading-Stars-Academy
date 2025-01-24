@@ -5,6 +5,7 @@ import HeaderDashboard from '../adminComponents/HeaderDashboard';
 import Pagination from '../sharedComponents/Pagination';
 import ActionBtn from '../adminComponents/ActionBtn';
 import ConfirmModal from '../sharedComponents/modal/comfirmModal';
+import Table from '../adminComponents/table/table';
 export default function DisplayCandidates() {
     const [candidates, setCandidates] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -39,55 +40,47 @@ export default function DisplayCandidates() {
     useEffect(() => {
         fetchcandidates();
     }, [currentPage]);
-
+    const columns = [
+        { header: '#', field: 'index' },
+        { header: 'اسم المرشح', field: 'fullName' },
+        { header: 'العمر', field: 'age' },
+        { header: 'رقم الهاتف', field: 'mobileNumber' },
+        { header: 'رقم الواتساب', field: 'whatsAppNumber' },
+        { header: 'المحافظة', field: 'governomate' },
+        { header: 'حالة الدراسة', field: 'studyStatus' },
+        { header: 'هل سمعت عن التداول من قبل؟', field: 'isHearedAboutTradingBefore' },
+        { header: 'هل سمعت عن الأكاديمية من قبل؟', field: 'isHearedAboutAcademyBefore' },
+        { header: 'عدد الساعات التي يمكن العمل بها', field: 'numOfHoursCanWork' },
+        { header: 'ما الذي ستفعله بعد النجاح؟', field: 'thingsWillDoAfterSuccess' },
+        { header: 'العمليات', field: 'actions' },
+      ];
+    
+      const data = candidates.map((candidate, index) => ({
+        index: index + 1,
+        fullName: candidate.fullName,
+        age: candidate.age,
+        mobileNumber: candidate.mobileNumber,
+        whatsAppNumber: candidate.whatsAppNumber,
+        governomate: candidate.governomate,
+        studyStatus: candidate.studyStatus === 1 ? 'خريج' : 'طالب',
+        isHearedAboutTradingBefore: candidate.isHearedAboutTradingBefore ? 'نعم' : 'لا',
+        isHearedAboutAcademyBefore: candidate.isHearedAboutAcademyBefore ? 'نعم' : 'لا',
+        numOfHoursCanWork: candidate.numOfHoursCanWork,
+        thingsWillDoAfterSuccess: candidate.thingsWillDoAfterSuccess,
+        actions: (
+          <ActionBtn
+            onClick={() => {
+              setShowDeleteConfirm(true);
+              setCandidateDeletedId(candidate.id);
+            }}
+          />
+        ),
+      }));
     return (
         <section style={{ width: "85%" }}>
             <div className="container mt-4">
                 <HeaderDashboard title="ادارة المرشحسن" />
-                <div className="table-responsive">
-                    <table className="table table-striped table-hover w-100">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th className="text-nowrap">اسم المرشح</th>
-                                <th className="text-nowrap">العمر</th>
-                                <th className="text-nowrap">رقم الهاتف</th>
-                                <th className="text-nowrap">رقم الواتساب</th>
-                                <th className="text-nowrap">المحافظة</th>
-                                <th className="text-nowrap">حالة الدراسة</th>
-                                <th className="text-nowrap">هل سمعت عن التداول من قبل؟</th>
-                                <th className="text-nowrap">هل سمعت عن الأكاديمية من قبل؟</th>
-                                <th className="text-nowrap">عدد الساعات التي يمكن العمل بها</th>
-                                <th className="text-nowrap ">ما الذي ستفعله بعد النجاح؟</th>
-                                <th>العمليات</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {candidates.map((candidate, index) => (
-                                <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td className="text-nowrap">{`${candidate?.fullName}`}</td>
-                                    <td className="text-nowrap">{candidate.age}</td>
-                                    <td className="text-nowrap">{candidate.mobileNumber}</td>
-                                    <td className="text-nowrap">{candidate.whatsAppNumber}</td>
-                                    <td className="text-nowrap">{candidate.governomate}</td>
-                                    <td className="text-nowrap">{candidate.studyStatus === 1 ? "خريج" : "طالب"}</td>
-                                    <td className="text-nowrap">{candidate.isHearedAboutTradingBefore ? "نعم" : "لا"}</td>
-                                    <td className="text-nowrap">{candidate.isHearedAboutAcademyBefore ? "نعم" : "لا"}</td>
-                                    <td className="text-nowrap">{candidate.numOfHoursCanWork}</td>
-                                    <td className="text-wrap ">{candidate.thingsWillDoAfterSuccess}</td>
-                                    <td className="text-nowrap">
-                                        <ActionBtn onClick={() => {
-                                            setShowDeleteConfirm(true);
-                                            setCandidateDeletedId(candidate?.id)
-                                        }}
-                                         />
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                <Table columns={columns} data={data}/>
                 <Pagination totalPages={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
                 <ConfirmModal
                     show={showDeleteConfirm}
@@ -95,7 +88,9 @@ export default function DisplayCandidates() {
                     onConfirm={deleteCandidates}
                     title="تأكيد الحذف"
                     message="هل أنت متأكد أنك تريد حذف هذه الفئة؟"
-                />
+                >
+                    <img src="/delete user.svg" alt="" />
+                </ConfirmModal>
             </div>
         </section>
     )

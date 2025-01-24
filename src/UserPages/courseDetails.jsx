@@ -10,6 +10,7 @@ import { DeleteVideo, UploadNewVideo } from "../Services/adminApiService";
 import AddBtn from "../adminComponents/addBtn/AddBtn";
 import ActionBtn from "../adminComponents/ActionBtn";
 import ConfirmModal from "../sharedComponents/modal/comfirmModal";
+import defaultCover from '/Untitled design.jpg';
 
 const CourseDetails = () => {
     const { id } = useParams();
@@ -191,7 +192,7 @@ const CourseDetails = () => {
                                     src={course?.imageUrl}
                                     alt="cover image course"
                                     width="100%"
-                                    onError={(e) => (e.target.src = "/Untitled design.png")}
+                                    onError={(e) => (e.target.src = defaultCover)}
                                     height="80%"
                                 />
                             )}

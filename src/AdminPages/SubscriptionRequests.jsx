@@ -6,6 +6,7 @@ import HeaderDashboard from '../adminComponents/HeaderDashboard';
 import Pagination from '../sharedComponents/Pagination';
 import ActionBtn from '../adminComponents/ActionBtn';
 import { FaCheck, FaEllipsisV, FaTimes } from 'react-icons/fa';
+import Table from '../adminComponents/table/table';
 
 export default function SubscriptionRequests() {
   const [subscriptionRequests, setSubscriptionRequests] = useState([]);
@@ -63,79 +64,76 @@ export default function SubscriptionRequests() {
     }
   };
 
+  const columns = [
+    { header: '#', field: 'index' },
+    { header: 'اسم الدورة التدريبية', field: 'courseName' },
+    { header: 'سعر الدورة', field: 'coursePrice' },
+    { header: 'البريد الالكتروني', field: 'userEmail' },
+    { header: 'اسم المشترك', field: 'userFullName' },
+    { header: 'اسم المستخدم', field: 'userName' },
+    { header: 'العمليات', field: 'actions' },
+  ];
+
+  const data = subscriptionRequests?.map((user, index) => ({
+    index: index + 1,
+    courseName: user.courseName,
+    coursePrice: user.coursePrice,
+    userEmail: user.userEmail,
+    userFullName: `${user.userFirstName} ${user.userLastName}`,
+    userName: user.userName,
+    actions: (
+      <div className="dropdown">
+        <button
+          className="btn text-white dropdown-toggle p-1"
+          type="button"
+          id={`dropdownMenuButton${index}`}
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <FaEllipsisV size="15" />
+        </button>
+        <ul
+          className="dropdown-menu"
+          aria-labelledby={`dropdownMenuButton${index}`}
+        >
+          <li className="w-100 px-4">
+            <ActionBtn
+              btnClass="btn-outline-success mb-3"
+              onClick={() =>
+                setConfirmModal({
+                  show: true,
+                  reqId: user.id,
+                  action: 'approve',
+                })
+              }
+              title="قبول"
+              icon={<FaCheck />}
+            />
+          </li>
+          <li className="w-100 px-4">
+            <ActionBtn
+              icon={<FaTimes />}
+              title="رفض"
+              onClick={() =>
+                setConfirmModal({
+                  show: true,
+                  reqId: user.id,
+                  action: 'reject',
+                })
+              }
+            />
+          </li>
+        </ul>
+      </div>
+    ),
+  }));
 
   return (
     <section style={{ width: "85%" }}>
       <div className="container mt-4">
         <HeaderDashboard title="ادارة طلبات الاشتراك" />
-        <div className="table-responsive">
-          <table className="table table-striped table-hover">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th className="text-nowrap">اسم الدورة التدريبية</th>
-                <th className="text-nowrap">سعر الدورة</th>
-                <th className="text-nowrap">البريد الالكتروني</th>
-                <th className="text-nowrap">اسم المشترك</th>
-                <th className="text-nowrap">اسم المستخدم</th>
-                <th>العمليات</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.isArray(subscriptionRequests) && subscriptionRequests?.map((user, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td className="text-nowrap">{user.courseName}</td>
-                  <td className="text-nowrap">{user.coursePrice}</td>
-                  <td className="text-nowrap">{user.userEmail}</td>
-                  <td className="text-nowrap">{`${user.userFirstName} ${user.userLastName}`}</td>
-                  <td className="text-nowrap">{user.userName}</td>
-                  <td>
-                    
-                    <div className="dropdown">
-                      <button
-                        className="btn text-white dropdown-toggle p-1"
-                        type="button"
-                        id={`dropdownMenuButton${index}`}
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        <FaEllipsisV size="15" />
-                      </button>
-                      <ul
-                        className="dropdown-menu"
-                        aria-labelledby={`dropdownMenuButton${index}`}
-                      >
-                        <li className='w-100 px-4'>
-                          <ActionBtn
-                          btnClass='btn-outline-success mb-3'
-                           onClick={() =>
-                            setConfirmModal({
-                              show: true,
-                              reqId: user.id,
-                              action: "approve",
-                            })
-                          } title='قبول' icon={<FaCheck />} />
-                        </li>
-                        <li className='w-100 px-4'>
-                          <ActionBtn icon={<FaTimes />} title='رفض' onClick={() =>
-                            setConfirmModal({
-                              show: true,
-                              reqId: user.id,
-                              action: "reject",
-                            })
-                          } />                                  
-                                                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Table columns={columns} data={data}/>
         <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
-
         <ConfirmModal
           show={confirmModal.show}
           onHide={() => setConfirmModal({ show: false, reqId: null, action: null })}
@@ -146,7 +144,8 @@ export default function SubscriptionRequests() {
               ? 'هل أنت متأكد من قبول طلب الاشتراك؟'
               : 'هل أنت متأكد من رفض طلب الاشتراك؟'
           }
-        />
+        >  <img src={ confirmModal.action === 'approve'?"/approve user.svg":"/delete user.svg"} alt="" />
+                </ConfirmModal>
       </div>
     </section>
   );

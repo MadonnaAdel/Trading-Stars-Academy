@@ -35,7 +35,7 @@ export default function ContactUs() {
                         <a href={`https://wa.me/2${nums?.whatsAppNum}?text=مرحبا%20أريد%20التواصل`} target="_blank" className='text-decoration-none text-white'>
                             <ContentCatd
                                 imgSrc={whatsapp}
-                                backgroundColor="rgb(11 166 66)"
+                                backgroundColor="linear-gradient(1deg, #045522, #4fd858)"
                                 number={nums?.whatsAppNum}
                                 imgSize="86px"
                                 title="Whatsapp Number"
