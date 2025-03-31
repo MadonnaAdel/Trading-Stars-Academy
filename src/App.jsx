@@ -29,6 +29,7 @@ import DisplayCandidates from './AdminPages/displayCandidates'
 import ContactUs from './UserPages/contactUs'
 import AdminGuards from './AdminPages/AdminGurds'
 import AboutUsPage from './UserPages/About/abouts'
+import NotFoundComponent from './sharedComponents/notFound/notFound'
 
 function App() {
   return (
