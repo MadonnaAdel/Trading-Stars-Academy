@@ -25,9 +25,7 @@ export default function SubscriptionRequests() {
       if (response?.data?.isPass) {
         setSubscriptionRequests(response?.data?.data?.paginatedData);
         setTotalPages(response.data.data.numberOfPages)
-      } else toast.info(response?.data?.message)
-
-
+      } 
     } catch (error) {
       console.error('Error fetching join requests:', error);
       toast.error('حدث خطأ أثناء جلب البيانات');

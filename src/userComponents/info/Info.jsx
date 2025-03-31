@@ -4,16 +4,16 @@ import style from './style.module.css'
 function Info() {
   return (
     <section className={`py-5 ${style.heroSection}`}>
-      <div className="container p-4 z-2">
+      <div className="container p-4 ">
 
         <div className="text-center ">
 
-          <div className="mb-5 ">
+          <div className="mb-5 text-black  ">
             <h1
               className="display-4 fw-bold mb-4"
               data-aos="fade-up"
             >
-              TRADING STARS ACADEMY
+              LEARNNOVA ACADEMY
             </h1>
             <p className='fw-bold '>نقدّم لك مجموعة متنوّعة من الكورسات المصممة بعناية لتناسب جميع اهتماماتك ومستوياتك. سواء كنت تسعى لتطوير مهاراتك المهنية، تعلم هواية جديدة، أو الاستعداد لمستقبلك الأكاديمي، لدينا ما يناسبك!
 
@@ -28,7 +28,7 @@ function Info() {
             >
               <Link
                 to="/courses"
-                className="text-white text-decoration-none me-3 fw-bold"
+                className="text-black text-decoration-none me-3 fw-bold"
                 style={{
                   display: 'inline-block',
                   padding: '10px 20px',

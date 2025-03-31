@@ -53,9 +53,9 @@ export default function DisplayCandidates() {
         { header: 'عدد الساعات التي يمكن العمل بها', field: 'numOfHoursCanWork' },
         { header: 'ما الذي ستفعله بعد النجاح؟', field: 'thingsWillDoAfterSuccess' },
         { header: 'العمليات', field: 'actions' },
-      ];
-    
-      const data = candidates.map((candidate, index) => ({
+    ];
+
+    const data = candidates.map((candidate, index) => ({
         index: index + 1,
         fullName: candidate.fullName,
         age: candidate.age,
@@ -68,19 +68,19 @@ export default function DisplayCandidates() {
         numOfHoursCanWork: candidate.numOfHoursCanWork,
         thingsWillDoAfterSuccess: candidate.thingsWillDoAfterSuccess,
         actions: (
-          <ActionBtn
-            onClick={() => {
-              setShowDeleteConfirm(true);
-              setCandidateDeletedId(candidate.id);
-            }}
-          />
+            <ActionBtn
+                onClick={() => {
+                    setShowDeleteConfirm(true);
+                    setCandidateDeletedId(candidate.id);
+                }}
+            />
         ),
-      }));
+    }));
     return (
         <section style={{ width: "85%" }}>
             <div className="container mt-4">
-                <HeaderDashboard title="ادارة المرشحسن" />
-                <Table columns={columns} data={data}/>
+                <HeaderDashboard title="ادارة المرشحين" />
+                <Table columns={columns} data={data} />
                 <Pagination totalPages={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
                 <ConfirmModal
                     show={showDeleteConfirm}

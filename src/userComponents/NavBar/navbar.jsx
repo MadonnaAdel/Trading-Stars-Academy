@@ -11,6 +11,7 @@ import ConfirmModal from '../../sharedComponents/modal/comfirmModal';
 function Navbar() {
   const { logout, isLoggedIn, user } = useAuth();
   const [showLogoutComfirm, setShowLogoutComfirm] = useState(false);
+  
   return (
     <nav
       className="navbar navbar-expand-lg bg-transparent navbar-light text-white"
@@ -23,7 +24,7 @@ function Navbar() {
         border: '1px solid rgba(0, 123, 255, 0.5)',
         borderRadius: '8px',
         boxShadow: '0 0px 40px 0 rgba(0, 123, 255, 0.4)',
-       zIndex: "1000"
+        zIndex: 100
       }}
     >
       <div className="container-fluid">
@@ -56,12 +57,17 @@ function Navbar() {
             </li>
             <li className="nav-item">
               <Link to="/about-us" className="nav-link">
-                عن الاكاديمي
+                عن الاكاديمية
               </Link>
             </li>
             <li className="nav-item">
               <Link to="/customer-service" className="nav-link">
                 تواصل معنا
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/founder" className="nav-link">
+                مؤسس الاكاديمية
               </Link>
             </li>
           </ul>
@@ -133,7 +139,7 @@ function Navbar() {
       <ConfirmModal
         show={showLogoutComfirm}
         onHide={() => setShowLogoutComfirm(false)}
-        onConfirm={logout}
+        onConfirm={()=>{ logout(); setShowLogoutComfirm(false) }}
         title="تأكيد تسجيل الخروج"
         message="هل أنت متأكد أنك تريد  تسجيل خروج؟"
       >

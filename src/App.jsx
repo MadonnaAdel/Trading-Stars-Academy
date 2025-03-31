@@ -51,6 +51,8 @@ function App() {
             <Route path="/settings" element={<PrivateRoute element={<Settings />} />} />
             <Route path="/my-courses" element={<PrivateRoute element={<UserCourses />} />} />
             <Route path="/course-details/:id" element={<PrivateRoute element={<CourseDetails />} />} />
+            <Route path="*" element={<NotFoundComponent />} />
+
           </Route>
 
           <Route path="/dashboard" element={<AdminGuards element={<DashboardLayout />} />}>
@@ -61,6 +63,8 @@ function App() {
             <Route path="candidates" element={<DisplayCandidates />} />
             <Route path="approved-users" element={<ApprovedUsers />} />
             <Route path="settings" element={<AdminSettings />} />
+            <Route path="*" element={<NotFoundComponent />} />
+
           </Route>
         </Routes>
       </BrowserRouter>

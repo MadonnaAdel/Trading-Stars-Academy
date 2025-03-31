@@ -10,6 +10,7 @@ const ConfirmModal = ({ show, onHide, onConfirm, title, message, children }) => 
       contentLabel="Confirm Modal"
       className={`${style.modalContent} `}
       overlayClassName={style.modalOverlay}
+      style={{ zIndex: "99999999" }}
     >
       <div className="modal-header">
         <h5 className="modal-title">{title}</h5>

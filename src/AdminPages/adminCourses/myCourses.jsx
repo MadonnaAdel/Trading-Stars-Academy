@@ -12,6 +12,7 @@ import BackButton from '../../adminComponents/backBtn';
 import Pagination from '../../sharedComponents/Pagination';
 import CourseCard from '../../sharedComponents/CourseCard';
 import ConfirmModal from '../../sharedComponents/modal/comfirmModal';
+import NotFoundComponent from '../../sharedComponents/notFound/notFound';
 
 
 function MyCourses() {
@@ -89,9 +90,7 @@ function MyCourses() {
               <ClipLoader color="#00BFFF" loading={loading} size={50} />
             </div>
           ) : data.length === 0 ? (
-            <div className="text-center">
-              <img src="/not found.svg" alt="No Results" style={{ width: '60%' }} />
-            </div>
+           <NotFoundComponent/>
           ) : (
             <div className={`row ${style.cardsCourse}`}>
               {data.map((course, index) => (

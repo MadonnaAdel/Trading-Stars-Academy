@@ -4,6 +4,7 @@ import { useAuth } from "../context/authContext";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { Link } from "react-router-dom";
+import NotFoundComponent from "../sharedComponents/notFound/notFound";
 
 export default function UserCourses() {
     const [data, setData] = useState([]);
@@ -54,9 +55,7 @@ export default function UserCourses() {
                             <ClipLoader color="#00BFFF" loading={loading} size={50} />
                         </div>
                     ) : filteredData.length === 0 ? (
-                        <div className="text-center">
-                            <img src="/not found.svg" alt="not found result" width="60%" />
-                        </div>
+                        <NotFoundComponent/>
                     ) : (
                         <div className="row">
                             {filteredData.map((course) => (

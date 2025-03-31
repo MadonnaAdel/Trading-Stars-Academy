@@ -59,7 +59,7 @@ const Home = () => {
 
         </div>
 
-        <style jsx>{`
+        {/* <style jsx>{`
         .carousel-control-prev-icon,
         .carousel-control-next-icon {
           background-color: blue;
@@ -67,7 +67,7 @@ const Home = () => {
           width: 30px;
           height: 30px;
         }
-      `}</style>
+      `}</style> */}
       </section>
       <Info />
 
@@ -91,7 +91,7 @@ const Home = () => {
           </Carousel>
         </div>
 
-        <style jsx>{`
+        {/* <style jsx>{`
         .carousel-control-prev-icon,
         .carousel-control-next-icon {
           background-color: blue;
@@ -99,7 +99,7 @@ const Home = () => {
           width: 30px;
           height: 30px;
         }
-      `}</style>
+      `}</style> */}
       </section>
     </div>
   );

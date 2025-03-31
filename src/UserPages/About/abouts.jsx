@@ -53,20 +53,20 @@ const AboutUsPage = () => {
         <Container className={`${styles.servicesSection} my-5`}>
           <Row>
             <Col md={6} className="mb-4">
-              <div class={styles.card}>
-                <p class={styles.cardTitle}><h4>تدريبات شاملة في مجال التداول</h4></p>
-                <p class={styles.cardDes}>
-                  <p>كورسات عملية تناسب جميع المستويات، من المبتدئين إلى المحترفين.</p>
-                  <p>جروبات توصيات لاتخاذ قرارات تداول مدروسة.</p>
-                  <p>خدمة Copy Trade: استثمر أموالك بسهولة ودع خبراءنا يديرون استثماراتك بنجاح.</p>
+              <div className={styles.card}>
+                <s className={styles.cardTitle}><p>تدريبات شاملة في مجال التداول</p></s>
+                <p className={styles.cardDes}>
+                  <span>كورسات عملية تناسب جميع المستويات، من المبتدئين إلى المحترفين.</span>
+                  <span>جروبات توصيات لاتخاذ قرارات تداول مدروسة.</span>
+                  <span>خدمة Copy Trade: استثمر أموالك بسهولة ودع خبراءنا يديرون استثماراتك بنجاح.</span>
                 </p>
 
               </div>
             </Col>
             <Col md={6} className="mb-4">
-              <div class={styles.card}>
-                <p class={styles.cardTitle}><h4>كورسات إضافية متنوعة</h4></p>
-                <p class={styles.cardDes}>
+              <div className={styles.card}>
+                <h4 className={styles.cardTitle}><p>كورسات إضافية متنوعة</p></h4>
+                <p className={styles.cardDes}>
                   البورصة المصرية: كورسات متخصصة مع خبراء لديهم أكثر من 15 سنة خبرة في المجال.
                   لغات متعددة: دورات تعليمية لتعلم جميع اللغات العالمية لتأهيلك لسوق العمل.
                   تصميم الجرافيك: كورسات متقدمة لتطوير مهاراتك في التصميم باستخدام أحدث الأدوات.
@@ -226,8 +226,8 @@ const AboutUsPage = () => {
           <Row className="justify-content-center mt-4">
             <Col md={12}>
               <Link to="/courses" className='fw-bold text-primary'>
-                <svg class={styles.arrowIcon} stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"></path>
+                <svg className={styles.arrowIcon} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"></path>
                 </svg>
                 انضم إلينا الآن
               </Link>

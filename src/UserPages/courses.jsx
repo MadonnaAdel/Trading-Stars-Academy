@@ -5,6 +5,7 @@ import { ClipLoader } from 'react-spinners';
 import Fuse from 'fuse.js';
 import CourseCard from '../sharedComponents/CourseCard';
 import Pagination from '../sharedComponents/Pagination';
+import NotFoundComponent from '../sharedComponents/notFound/notFound';
 
 function Courses() {
   const [query, setQuery] = useState('');
@@ -13,7 +14,7 @@ function Courses() {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [itemsPerPage] = useState(12);
   const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -32,7 +33,6 @@ function Courses() {
     }
   };
   useEffect(() => {
-
     getCourses();
   }, [currentPage, itemsPerPage, categoryId]);
 
@@ -44,7 +44,6 @@ function Courses() {
       setFilteredData(filtered);
     }
   }, [query, data]);
-
 
 
   return (
@@ -86,9 +85,8 @@ function Courses() {
               <ClipLoader color="#00BFFF" loading={loading} size={50} />
             </div>
           ) : filteredData.length === 0 ? (
-            <div className="text-center">
-              <img src="/not found.svg" alt="not found result" width="60%" />
-            </div>
+            <NotFoundComponent/>
+
           ) : (
             <div className="row">
               {filteredData?.map((course) => (
@@ -101,9 +99,7 @@ function Courses() {
             </div>
           )}
         </div>
-       
           <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
-        
       </div>
     </section>
   );

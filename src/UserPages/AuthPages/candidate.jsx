@@ -293,7 +293,7 @@ export default function Candidate() {
                 shouldCloseOnEsc={false}
             >
                 <h3>تم التسجيل كمترشح بنجاح!</h3>
-                <p>شكرا علي تعاونك مع  Trading Starts Academy</p>
+                <p>شكرا علي تعاونك مع  Trading Stars Academy</p>
             </Modal>
         </section>
     );

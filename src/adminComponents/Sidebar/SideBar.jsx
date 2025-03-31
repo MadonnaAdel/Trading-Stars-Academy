@@ -140,7 +140,7 @@ const SideBar = ({ active }) => {
         <ConfirmModal
   show={showLogoutComfirm}
   onHide={() => setShowLogoutComfirm(false)}
-  onConfirm={logout}
+  onConfirm={Logout}
   title="تأكيد تسجيل الخروج"
   message="هل أنت متأكد أنك تريد  تسجيل خروج؟"
 >

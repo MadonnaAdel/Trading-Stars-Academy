@@ -19,7 +19,7 @@ const CourseCard = ({ course, role = 'User', onDelete }) => {
           src={course?.imageUrl}
           className="img-fluid w-100 h-100 object-fit-contain"
           alt="Course Image"
-          onError={(e) => { e.target.src = defaultCover }}ؤ
+          onError={(e) => { e.target.src = defaultCover }}
         />
       </div>
       <div className="card-body">

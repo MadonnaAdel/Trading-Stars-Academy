@@ -3,7 +3,6 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
   width: 100%;
   display: flex;
   justify-content: center;
@@ -20,6 +19,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 1; 
+  /* background-color: rgba(0, 0, 0, 0.3);
+  z-index: 0.5;  */
 }

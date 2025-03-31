@@ -4,7 +4,7 @@ import style from "./style.module.css";
 export default function HeroHome() {
   return (
     <section className={`py-5 ${style.heroSection}`}>
-      <div className="container z-2">
+      <div className="container ">
         
         <div className="row align-items-center mt-5">
         
@@ -13,7 +13,7 @@ export default function HeroHome() {
               className="display-4 fw-bold mb-2 fs-3 "
               data-aos="fade-up"
             >
-              TRADING STARS ACADEMY
+              LEARNNOVA  ACADEMY
             </h1>
             <p
               className="lead mb-4"
