@@ -30,6 +30,7 @@ import ContactUs from './UserPages/contactUs'
 import AdminGuards from './AdminPages/AdminGurds'
 import AboutUsPage from './UserPages/About/abouts'
 import NotFoundComponent from './sharedComponents/notFound/notFound'
+import FounderAccadmy from './UserPages/FounderAccadmy/founderAccadmy'
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
             <Route path="/forget-password" element={<SetNewPass />} />
             <Route path="/customer-service" element={<ContactUs />} />
             <Route path="/about-us" element={<AboutUsPage />} />
+            <Route path="/founder" element={<FounderAccadmy />} />
             {/* Protected Route */}
             <Route path="/payment-methods" element={<PrivateRoute element={<PaymentsMethods />} />} />
             <Route path="/courses" element={<PrivateRoute element={<Courses />}/>} />
