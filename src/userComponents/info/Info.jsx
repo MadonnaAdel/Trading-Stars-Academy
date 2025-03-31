@@ -13,7 +13,7 @@ function Info() {
               className="display-4 fw-bold mb-4"
               data-aos="fade-up"
             >
-              LEARNNOVA ACADEMY
+              TRADING STARTS ACADEMY
             </h1>
             <p className='fw-bold '>نقدّم لك مجموعة متنوّعة من الكورسات المصممة بعناية لتناسب جميع اهتماماتك ومستوياتك. سواء كنت تسعى لتطوير مهاراتك المهنية، تعلم هواية جديدة، أو الاستعداد لمستقبلك الأكاديمي، لدينا ما يناسبك!
 

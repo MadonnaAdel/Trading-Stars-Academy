@@ -13,7 +13,7 @@ export default function HeroHome() {
               className="display-4 fw-bold mb-2 fs-3 "
               data-aos="fade-up"
             >
-              LEARNNOVA  ACADEMY
+              TRADING STARTS ACADEMY
             </h1>
             <p
               className="lead mb-4"
