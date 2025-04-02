@@ -54,7 +54,7 @@ const AboutUsPage = () => {
           <Row>
             <Col md={6} className="mb-4">
               <div className={styles.card}>
-                <s className={styles.cardTitle}><p>تدريبات شاملة في مجال التداول</p></s>
+                <p className={styles.cardTitle}><p>تدريبات شاملة في مجال التداول</p></p>
                 <p className={styles.cardDes}>
                   <span>كورسات عملية تناسب جميع المستويات، من المبتدئين إلى المحترفين.</span>
                   <span>جروبات توصيات لاتخاذ قرارات تداول مدروسة.</span>

@@ -56,6 +56,7 @@ const JoinRequests = () => {
         await ApproveAccount(userId);
         toast.success('تم قبول المستخدم بنجاح');
       } else if (action === 'reject') {
+
         if (!reason.trim()) {
           toast.error("يجب إدخال سبب الرفض!");
           return;
@@ -185,31 +186,33 @@ const JoinRequests = () => {
         </Modal>
 
         <ConfirmModal
-          show={confirmModal.show}
-          onHide={() => setConfirmModal({ show: false, userId: null, action: null, reason: "" })}
-          onConfirm={handleAction}
-          title="تأكيد العملية"
-          message={
-            confirmModal.action === 'approve'
-              ? 'هل أنت متأكد من قبول هذا المستخدم؟'
-              : 'هل أنت متأكد من رفض هذا المستخدم؟'
-          }
-          children={confirmModal.action === 'reject' && (
-            <div className="mt-3">
-              <label htmlFor="rejectReason" className="form-label">سبب الرفض:</label>
-              <textarea
-                id="rejectReason"
-                rows={6}
-                type="text"
-                className="form-control"
-                value={confirmModal.reason}
-                onChange={(e) => setConfirmModal({ ...confirmModal, reason: e.target.value })}
-                placeholder="يرجى إدخال سبب الرفض"
-              />
-            </div>
-          )}
-        > <img src={ confirmModal.action === 'approve'?"/approve user.svg":"/delete user.svg"} alt="" />
-                </ConfirmModal>
+  show={confirmModal.show}
+  onHide={() => setConfirmModal({ show: false, userId: null, action: null, reason: "" })}
+  onConfirm={handleAction}
+  title="تأكيد العملية"
+  message={
+    confirmModal.action === 'approve'
+      ? 'هل أنت متأكد من قبول هذا المستخدم؟'
+      : 'هل أنت متأكد من رفض هذا المستخدم؟'
+  }
+>
+  <img src={confirmModal.action === 'approve' ? "/approve user.svg" : "/delete user.svg"} alt="" />
+
+  {confirmModal.action === 'reject' && (
+    <div className="mt-3">
+      <label htmlFor="rejectReason" className="form-label">سبب الرفض:</label>
+      <textarea
+        id="rejectReason"
+        rows={2}
+        className="form-control"
+        value={confirmModal.reason}
+        onChange={(e) => setConfirmModal({ ...confirmModal, reason: e.target.value })}
+        placeholder="يرجى إدخال سبب الرفض"
+      />
+    </div>
+  )}
+</ConfirmModal>
+
       </div>
     </section>
   );

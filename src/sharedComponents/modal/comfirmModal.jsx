@@ -7,7 +7,7 @@ const ConfirmModal = ({ show, onHide, onConfirm, title, message, children }) => 
     <Modal
       isOpen={show}
       onRequestClose={onHide}
-      contentLabel="Confirm Modal"
+      contentLabel="Confirm Modal "
       className={`${style.modalContent} `}
       overlayClassName={style.modalOverlay}
       style={{ zIndex: "99999999" }}
